@@ -1,0 +1,11 @@
+name: pytorch-aml-env
+dependencies:
+    - python=3.7.1
+    - pytorch::pytorch=1.7.0
+    - pytorch::torchvision=0.8.1
+    - pip:
+        - azureml-defaults
+        - azureml-sdk
+        - azureml-widgets
+channels:
+    - pytorch
