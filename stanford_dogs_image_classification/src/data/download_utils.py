@@ -122,9 +122,9 @@ def extract_archive(from_path, to_path=None, remove_finished=False):
 
 
 def download_and_extract_dataset(
-    image_archive_url, image_archive_name=None,
-    annotation_archive_url, annotation_archive_name=None,
-    dataset_dir, force_download=False):
+    dataset_dir, force_download=False,
+    image_archive_url=None, image_archive_name=None,
+    annotation_archive_url=None, annotation_archive_name=None):
     """
     Download and extract image and annotation archive files
     :param image_archive_url: URL to download image archive file from
@@ -138,28 +138,25 @@ def download_and_extract_dataset(
     """
 
     # Check whether download is necessary
-    if not os.path.exists(dataset_dir) or not os.listdir(dataset_dir)
-    or force_download:
+    if (not os.path.exists(dataset_dir) or not os.listdir(dataset_dir)
+    or force_download):
 
         # Remove directory if it exists
         if os.path.exists(dataset_dir):
             shutil.rmtree(dataset_dir)
 
-        # Download and extract image archive and rename folders
-        if image_archive_name is not None:
+        # Download and extract image archive
+        if image_archive_name is not None and image_archive_url is not None:
             image_archive_file_path = download_url(image_archive_url,
                                                    dataset_dir,
                                                    image_archive_name)
             extract_archive(image_archive_file_path, remove_finished=True)
-            shutil.move(os.path.join(dataset_dir, "Images"),
-                        os.path.join(dataset_dir, "images"))
 
-        if label_archive_name is not None:
-            label_archive_file_path = download_url(label_archive_url,
-                                                   dataset_dir,
-                                                   label_archive_name)
-            extract_archive(label_archive_file_path, remove_finished=True)
-            shutil.move(os.path.join(dataset_dir, "Annotations"),
-                        os.path.join(dataset_dir, "annotations"))
+        # Download and extract annotation archive
+        if annotation_archive_name is not None and annotation_archive_url is not None:
+            annotation_archive_file_path = download_url(annotation_archive_url,
+                                                        dataset_dir,
+                                                        annotation_archive_name)
+            extract_archive(annotation_archive_file_path, remove_finished=True)
 
         

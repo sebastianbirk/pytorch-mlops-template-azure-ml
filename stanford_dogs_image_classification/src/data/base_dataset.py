@@ -1,7 +1,7 @@
 """Definition of dataset base class"""
 
 from abc import ABC, abstractmethod
-from .download_utils import download_dataset
+from .download_utils import download_and_extract_dataset
 
 
 class Dataset(ABC):
@@ -11,7 +11,7 @@ class Dataset(ABC):
     """
 
     def __init__(self, root_path, image_download_url=None,
-                 label_download_url=None, force_download=False):
+                 annotation_download_url=None, force_download=False):
 
         self.root_path = root_path
 
@@ -21,17 +21,17 @@ class Dataset(ABC):
             image_archive_name = image_download_url[image_download_url.rfind('/')+1:]
             self.image_archive_name = image_archive_name
 
-        if label_download_url is not None:
-            label_archive_name = label_download_url[label_download_url.rfind('/')+1:]
-            self.label_archive_name = label_archive_name
+        if annotation_download_url is not None:
+            annotation_archive_name = annotation_download_url[annotation_download_url.rfind('/')+1:]
+            self.annotation_archive_name = annotation_archive_name
 
-            download_dataset(
-                image_archive_url=image_download_url,
-                image_archive_name=image_archive_name,
-                label_archive_url=label_download_url,
-                label_archive_name=label_archive_name,
+            download_and_extract_dataset(
                 dataset_dir=root_path,
                 force_download=force_download,
+                image_archive_url=image_download_url,
+                image_archive_name=image_archive_name,
+                annotation_archive_url=annotation_download_url,
+                annotation_archive_name=annotation_archive_name
             )
   
 
