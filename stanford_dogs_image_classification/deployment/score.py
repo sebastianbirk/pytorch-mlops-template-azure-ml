@@ -29,7 +29,7 @@ def init():
     global net
     global classes
 
-    model_filename = 'cifar_net.pth'
+    model_filename = "cifar_net.pt"
     model_path = os.path.join(os.environ['AZUREML_MODEL_DIR'], model_filename)
     net = Net()
     net.load_state_dict(torch.load(model_path))
