@@ -1,0 +1,20 @@
+# Log in to Azure CLI
+az login --tenant 461e2020-109b-4c43-ad3f-eb9944f5dc44
+
+# Log in to ACR (this does not work in default azureml_py36 conda environment; run it from a different conda environment)
+az acr login --name eafc0c3ef9714c74a4fa655ee90531ba (AML workspace default ACR)
+az acr login --name sbirkacr (Standalone ACR)
+
+# Pull MCR base image
+docker pull mcr.microsoft.com/azureml/intelmpi2018.3-ubuntu16.04:20201113.v1
+
+# List all images to verify
+docker images
+
+# Tag the image
+docker tag mcr.microsoft.com/azureml/intelmpi2018.3-ubuntu16.04:20201113.v1 eafc0c3ef9714c74a4fa655ee90531ba.azurecr.io/base/pytorch (AML workspace default ACR)
+docker tag mcr.microsoft.com/azureml/intelmpi2018.3-ubuntu16.04:20201113.v1 sbirkacr.azurecr.io/base/pytorch (Standalone ACR)
+
+# Push the image
+docker push eafc0c3ef9714c74a4fa655ee90531ba.azurecr.io/base/pytorch (AML workspace default ACR)
+docker push sbirkacr.azurecr.io/base/pytorch (standalone ACR)
