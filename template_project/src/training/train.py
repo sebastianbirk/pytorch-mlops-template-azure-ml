@@ -56,8 +56,11 @@ if __name__ == "__main__":
         num_workers=2
     )
 
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    
     # define convolutional network
     net = Net()
+    net.to(device)
 
     # set up pytorch loss /  optimizer
     criterion = torch.nn.CrossEntropyLoss()
@@ -73,7 +76,7 @@ if __name__ == "__main__":
         running_loss = 0.0
         for i, data in enumerate(trainloader, 0):
             # unpack the data
-            inputs, labels = data
+            inputs, labels = data[0].to(device), data[1].to(device)
 
             # zero the parameter gradients
             optimizer.zero_grad()
