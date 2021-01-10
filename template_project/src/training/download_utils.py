@@ -1,5 +1,6 @@
 import os
 import pickle
+import shutil
 import urllib
 import tarfile
 import tqdm
@@ -97,21 +98,22 @@ def extract_archive(from_path, to_path=None, remove_finished=False):
         os.remove(from_path)
 
 
-def download_and_extract_archive(download_url, file_dir, archive_file_name, force_download=False):
+def download_and_extract_archive(download_url, file_dir, archive_file_name, skip_if_dir_exists=False, force_dir_deletion=False):
     """
     Download and extract a given archive
     :param download_url: url from where to download
     :param file_dir: root directory to which to download
     :param archive_file_name: name of the archive
-    :param force_download: if set to True, always download dataset
+    :param skip_if_dir_exists: if set to True, skip the download if the directory already exists
+    :param force_dir_deletion: if set to True, delete the existing directory before the download
     """
     
+    # Remove file directory if it exists
+    if force_dir_deletion:
+        shutil.rmtree(file_dir)
+    
     # Check if download should be triggered
-    if not os.path.exists(file_dir) or force_download:
-        
-        # Remove file directory if it exists
-        if os.path.exists(file_dir):
-            shutil.rmtree(file_dir)
+    if not os.path.exists(file_dir) or not skip_if_dir_exists:
     
         # Create file directory if it does not exist
         os.makedirs(file_dir, exist_ok=True)
@@ -125,7 +127,7 @@ def download_and_extract_archive(download_url, file_dir, archive_file_name, forc
         extract_archive(from_path=file_path, remove_finished=True)
         
         
-def unpickle_file(file_path):
+def unpickle_file(file_path, encoding="bytes"):
     with open(file_path, "rb") as file:
-        dict = pickle.load(file, encoding="bytes")
-    return dict
+        unpickled_object = pickle.load(file, encoding=encoding)
+    return unpickled_object
