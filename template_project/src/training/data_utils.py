@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
+import os
+import torch
 import torchvision.transforms as transforms
 
 from torchvision import datasets
@@ -10,7 +12,7 @@ def load_data(data_dir: str) -> Tuple[dict, dict, list]:
     Load the train, val and test data.
     :param data_dir: path where the images are stored
     :return (image_dataloaders, dataset_sizes, class_names)
-        image_dataloaders: dictionary of train, val, and test Pytorch dataloaders
+        dataloaders: dictionary of train, val, and test Pytorch dataloaders
         dataset_sizes: dictionary of train, val and test Pytorch dataset lengths
         class_names: list of all classes
     """
@@ -44,7 +46,7 @@ def load_data(data_dir: str) -> Tuple[dict, dict, list]:
                       for x in ["train", "val", "test"]}
     
     # Dictionary of image dataloaders
-    image_dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=4,
+    dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=4,
                                                         shuffle=True, num_workers=2) 
                          for x in ["train", "val", "test"]}
     
@@ -54,7 +56,7 @@ def load_data(data_dir: str) -> Tuple[dict, dict, list]:
     # List of class names
     class_names = image_datasets["train"].classes
     
-    return image_dataloaders, dataset_sizes, class_names
+    return dataloaders, dataset_sizes, class_names
 
 
 def show_image(image_path: str) -> None:
