@@ -1,11 +1,113 @@
 import os
-import pickle
+import scipy.io
 import shutil
 import urllib
 import tarfile
 import tqdm
 
 
+def download_file(download_url: str,
+                  file_dir_path: str,
+                  file_name: str,
+                  skip_if_dir_exists: bool = False,
+                  force_dir_deletion: bool = False) -> None:
+    """
+    Download a file
+    :param download_url: url from where to download
+    :param file_dir_path: directory to which to download
+    :param file_name: name of the file
+    :param skip_if_dir_exists: flag that indicates whether to skip the download if the directory already exists
+    :param force_dir_deletion: flag that indicates whether to delete the existing directory before the download
+    """
+    
+    # Remove file directory if it exists
+    if force_dir_deletion:
+        shutil.rmtree(file_dir_path)
+    
+    # Check if download should be triggered
+    if not os.path.exists(file_dir_path) or not skip_if_dir_exists:
+    
+        # Create file directory if it does not exist
+        os.makedirs(file_dir_path, exist_ok=True)
+    
+        # Download the file
+        file_path = os.path.join(file_dir_path, file_name)
+        print("Downloading " + download_url + " to " + file_path)
+        urllib.request.urlretrieve(download_url, filename=file_path, reporthook=generate_bar_updater())
+        
+
+def extract_stanford_dogs_archive(archive_dir_path: str = "../data",
+                                  target_dir_path: str = "../data",
+                                  remove_archives: bool = True) -> None:
+    """
+    Extract the stanford dogs image archive and separate the images into training,
+    validation and test set
+    :param archive_dir_path: path of the "image.tar" and "lists.tar" files to be extracted
+    :param target_dir_path: path of the target directory where the file should be extracted to
+    :param remove_archives: flag that indicates whether the archives are removed after extraction
+    """
+ 
+    # Specify directory paths
+    training_dir = os.path.join(target_dir_path, "train")
+    validation_dir = os.path.join(target_dir_path, "val")
+    test_dir = os.path.join(target_dir_path, "test")                            
+
+    # Extract lists.tar archive
+    with tarfile.open(os.path.join(archive_dir_path, "lists.tar"), "r") as lists_tar:
+        lists_tar.extractall(path=archive_dir_path)
+                             
+    print("Lists.tar archive has been extracted successfully.")
+    
+    # Load list.mat files
+    train_list_mat = scipy.io.loadmat(os.path.join(archive_dir_path, "train_list.mat"))
+    test_list_mat = scipy.io.loadmat(os.path.join(archive_dir_path, "test_list.mat"))
+    
+    training_files = []
+    test_and_val_files = []
+    
+    # Extract training data file names
+    for array in train_list_mat["file_list"]:
+        training_files.append(array[0][0])
+
+    # Extract test data file names
+    for array in test_list_mat["file_list"]:
+        test_and_val_files.append(array[0][0])
+                             
+    print("File lists have been read successfully.")
+    print("Extracting images.tar archive...")
+                             
+    # Extract images.tar archive
+    with tarfile.open(os.path.join(archive_dir_path, "images.tar"), "r") as images_tar:
+        test_val_idx = 0
+        for member in tqdm.tqdm(images_tar.getmembers()):
+            if member.isreg(): # Skip if TarInfo is not files
+                member.name = member.name.split("/", 1)[1] # Retrieve only relevant part of file name
+                
+                # Extract files to corresponding directories
+                if member.name in training_files:
+                    images_tar.extract(member, training_dir)
+                    
+                elif member.name in test_and_val_files: # Every 2nd file goes to the validation data
+                    test_val_idx+=1
+                    if test_val_idx % 2 != 0:
+                        images_tar.extract(member, validation_dir)
+                    else:
+                        images_tar.extract(member, test_dir)
+                             
+    print("Images.tar archive has been extracted successfully.")
+
+    # Remove list.mat files
+    os.remove(os.path.join(archive_dir_path, "file_list.mat"))
+    os.remove(os.path.join(archive_dir_path, "test_list.mat"))
+    os.remove(os.path.join(archive_dir_path, "train_list.mat"))
+    
+    # Remove archive files if flag is set to true
+    if remove_archives:
+        print("Removing archive files.")
+        os.remove(os.path.join(archive_dir_path, "lists.tar"))
+        os.remove(os.path.join(archive_dir_path, "images.tar"))
+
+                             
 def generate_bar_updater():
     """
     Create a tqdm reporthook function for urlretrieve
@@ -23,111 +125,3 @@ def generate_bar_updater():
         pbar.update(progress_bytes - pbar.n)
 
     return bar_update
-
-
-def _is_tarxz(file_name):
-    return file_name.endswith(".tar.xz")
-
-
-def _is_tar(file_name):
-    return file_name.endswith(".tar")
-
-
-def _is_targz(file_name):
-    return file_name.endswith(".tar.gz")
-
-
-def _is_tgz(file_name):
-    return file_name.endswith(".tgz")
-
-
-def _is_gzip(file_name):
-    return file_name.endswith(".gz") and not file_name.endswith(".tar.gz")
-
-
-def _is_zip(file_name):
-    return file_name.endswith(".zip")
-
-
-def extract_archive(from_path, to_path=None, remove_finished=False):
-    """
-    Extract a given archive
-    :param from_path: path to archive which should be extracted
-    :param to_path: path to which archive should be extracted
-        default: parent directory of from_path
-    :param remove_finished: if set to True, delete archive after extraction
-    """
-
-    # If archive does not exist, do nothing
-    if not os.path.exists(from_path):
-        print(f"There is no archive {from_path}")
-        return
-
-    # If no to_path is indicated, use parent directory of from_path as to_path
-    if to_path is None:
-        to_path = os.path.dirname(from_path)
-        
-    print(f"Extracting archive {from_path} to {to_path}")
-
-    # Check for file extension and extract the archive
-    if _is_tar(from_path):
-        with tarfile.open(from_path, 'r') as tar:
-            tar.extractall(path=to_path)
-    elif _is_targz(from_path) or _is_tgz(from_path):
-        with tarfile.open(from_path, 'r:gz') as tar:
-            tar.extractall(path=to_path)
-    elif _is_tarxz(from_path):
-        with tarfile.open(from_path, 'r:xz') as tar:
-            tar.extractall(path=to_path)
-    elif _is_gzip(from_path):
-        to_path = os.path.join(
-            to_path,
-            os.path.splitext(os.path.basename(from_path))[0]
-        )
-        with open(to_path, "wb") as out_f, gzip.GzipFile(from_path) as zip_f:
-            out_f.write(zip_f.read())
-    elif _is_zip(from_path):
-        with zipfile.ZipFile(from_path, 'r') as zip_:
-            zip_.extractall(to_path)
-    else:
-        raise ValueError(f"Extraction of {from_path} not supported")
-
-    # Remove archive if flag is True
-    if remove_finished:
-        print(f"Removing archive file {from_path}")
-        os.remove(from_path)
-
-
-def download_and_extract_archive(download_url, file_dir, archive_file_name, skip_if_dir_exists=False, force_dir_deletion=False):
-    """
-    Download and extract a given archive
-    :param download_url: url from where to download
-    :param file_dir: root directory to which to download
-    :param archive_file_name: name of the archive
-    :param skip_if_dir_exists: if set to True, skip the download if the directory already exists
-    :param force_dir_deletion: if set to True, delete the existing directory before the download
-    """
-    
-    # Remove file directory if it exists
-    if force_dir_deletion:
-        shutil.rmtree(file_dir)
-    
-    # Check if download should be triggered
-    if not os.path.exists(file_dir) or not skip_if_dir_exists:
-    
-        # Create file directory if it does not exist
-        os.makedirs(file_dir, exist_ok=True)
-    
-        # Download the archive
-        file_path = os.path.join(file_dir, archive_file_name)
-        print("Downloading " + download_url + " to " + file_path)
-        urllib.request.urlretrieve(download_url, filename=file_path, reporthook=generate_bar_updater())
-    
-        # Extract the archive
-        extract_archive(from_path=file_path, remove_finished=True)
-        
-        
-def unpickle_file(file_path, encoding="bytes"):
-    with open(file_path, "rb") as file:
-        unpickled_object = pickle.load(file, encoding=encoding)
-    return unpickled_object
