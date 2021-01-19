@@ -7,13 +7,14 @@ import torchvision.transforms as transforms
 from torchvision import datasets
 from typing import Tuple
 
+
 def load_data(data_dir: str) -> Tuple[dict, dict, list]:
     """
     Load the train, val and test data.
     :param data_dir: path where the images are stored
-    :return (image_dataloaders, dataset_sizes, class_names)
-        dataloaders: dictionary of train, val, and test Pytorch dataloaders
-        dataset_sizes: dictionary of train, val and test Pytorch dataset lengths
+    :return (dataloaders, dataset_sizes, class_names)
+        dataloaders: dictionary of train, val, and test torch dataloaders
+        dataset_sizes: dictionary of train, val and test torch dataset lengths
         class_names: list of all classes
     """
 
@@ -47,7 +48,7 @@ def load_data(data_dir: str) -> Tuple[dict, dict, list]:
     
     # Dictionary of image dataloaders
     dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=4,
-                                                        shuffle=True, num_workers=2) 
+                                                  shuffle=True, num_workers=2) 
                          for x in ["train", "val", "test"]}
     
     # Dictionary of dataset sizes

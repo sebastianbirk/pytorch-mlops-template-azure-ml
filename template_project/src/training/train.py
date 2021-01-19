@@ -96,7 +96,7 @@ def train_model(model: torchvision.models,
 
             # Average loss and accuracy over examples
             epoch_loss = running_loss / dataset_sizes[phase]
-            epoch_acc = running_correct_predictions.double() / dataset_sizes[phase]
+            epoch_acc = running_correct_preds.double() / dataset_sizes[phase]
 
             print(f"{phase.capitalize()} Loss: {epoch_loss:.4f} Acc: {epoch_acc:.4f}")
 

@@ -1,38 +1,39 @@
 import os
 import scipy.io
 import shutil
-import urllib
 import tarfile
 import tqdm
+import urllib
 
 
 def download_file(download_url: str,
-                  file_dir_path: str,
+                  file_dir: str,
                   file_name: str,
                   skip_if_dir_exists: bool = False,
                   force_dir_deletion: bool = False) -> None:
     """
     Download a file
     :param download_url: url from where to download
-    :param file_dir_path: directory to which to download
+    :param file_dir: directory to which to download
     :param file_name: name of the file
     :param skip_if_dir_exists: flag that indicates whether to skip the download if the directory already exists
     :param force_dir_deletion: flag that indicates whether to delete the existing directory before the download
     """
     
     # Remove file directory if it exists
-    if force_dir_deletion:
-        shutil.rmtree(file_dir_path)
+    if force_dir_deletion and os.path.exists(file_dir):
+        shutil.rmtree(file_dir)
+        print(f"Directory {file_dir} has been removed.")
     
     # Check if download should be triggered
-    if not os.path.exists(file_dir_path) or not skip_if_dir_exists:
+    if not os.path.exists(file_dir) or not skip_if_dir_exists:
     
         # Create file directory if it does not exist
-        os.makedirs(file_dir_path, exist_ok=True)
+        os.makedirs(file_dir, exist_ok=True)
     
         # Download the file
-        file_path = os.path.join(file_dir_path, file_name)
-        print("Downloading " + download_url + " to " + file_path)
+        file_path = os.path.join(file_dir, file_name)
+        print("Downloading " + download_url + " to " + file_path + ".")
         urllib.request.urlretrieve(download_url, filename=file_path, reporthook=generate_bar_updater())
         
 
@@ -43,14 +44,20 @@ def extract_stanford_dogs_archive(archive_dir_path: str = "../data",
     Extract the stanford dogs image archive and separate the images into training,
     validation and test set
     :param archive_dir_path: path of the "image.tar" and "lists.tar" files to be extracted
-    :param target_dir_path: path of the target directory where the file should be extracted to
+    :param target_dir_path: path of the target directory where the files should be extracted to
     :param remove_archives: flag that indicates whether the archives are removed after extraction
     """
  
     # Specify directory paths
     training_dir = os.path.join(target_dir_path, "train")
     validation_dir = os.path.join(target_dir_path, "val")
-    test_dir = os.path.join(target_dir_path, "test")                            
+    test_dir = os.path.join(target_dir_path, "test")    
+    
+    # Remove directories if they exist
+    for directory in [training_dir, validation_dir, test_dir]:
+        if os.path.exists(directory):
+            shutil.rmtree(directory)
+            print(f"Directory {directory} has been removed.")
 
     # Extract lists.tar archive
     with tarfile.open(os.path.join(archive_dir_path, "lists.tar"), "r") as lists_tar:
