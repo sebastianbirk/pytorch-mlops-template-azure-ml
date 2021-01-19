@@ -29,7 +29,10 @@ def init():
     global net
     global classes
 
-    model_filename = 'cifar_net.pth'
+    # AZUREML_MODEL_DIR is an environment variable created during deployment.
+    # It is the path to the model folder (./azureml-models/$MODEL_NAME/$VERSION)
+    # For multiple models, it points to the folder containing all deployed models (./azureml-models)
+    model_filename = "cifar_net.pt"
     model_path = os.path.join(os.environ['AZUREML_MODEL_DIR'], model_filename)
     net = Net()
     net.load_state_dict(torch.load(model_path))
