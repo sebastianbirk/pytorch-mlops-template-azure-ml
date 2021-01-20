@@ -1,37 +1,62 @@
-# Azure Machine Learning Tutorials
-
-Azure Machine Learning, a cloud-based environment you can use to train, deploy, automate, manage, and track ML models.
-
-Azure Machine Learning can be used for any kind of machine learning, from classical ML to supervised, unsupervised, and deep learning.
-
-This folder contains a collection of Jupyter Notebooks with the code used in accompanying step-by-step tutorials.
-
-## Set up your environment.
-
-If you are using an Azure Machine Learning Notebook VM, everything is already set up for you. Otherwise, see the [get started creating your first ML experiment with the Python SDK tutorial](https://docs.microsoft.com/en-us/azure/machine-learning/tutorial-1st-experiment-sdk-setup).
-
-## Introductory Samples
-
-The following tutorials are intended to provide an introductory overview of Azure Machine Learning.
-
-| Tutorial | Description | Notebook | Task | Framework | 
-| --- | --- | --- | --- | --- |
-| Azure Machine Learning in 10 minutes | Learn how to create and attach compute instances to notebooks, run an image classification model, track model metrics, and deploy a model| [quickstart](quickstart/azureml-quickstart.ipynb) | Learn Azure Machine Learning Concepts | PyTorch
-| [Get Started (day1)](https://docs.microsoft.com/azure/machine-learning/tutorial-1st-experiment-sdk-setup-local) | Learn the fundamental concepts of Azure Machine Learning to help onboard your existing code to Azure Machine Learning. This tutorial focuses heavily on submitting machine learning jobs to scalable cloud-based compute clusters. | [get-started-day1](get-started-day1/day1-part1-setup.ipynb) | Learn Azure Machine Learning Concepts | PyTorch
-| [Train your first ML Model](https://docs.microsoft.com/azure/machine-learning/tutorial-1st-experiment-sdk-train) | Learn the foundational design patterns in Azure Machine Learning and train a scikit-learn model based on a diabetes data set. | [tutorial-quickstart-train-model.ipynb](create-first-ml-experiment/tutorial-1st-experiment-sdk-train.ipynb) | Regression | Scikit-Learn
-| [Train an image classification model](https://docs.microsoft.com/azure/machine-learning/tutorial-train-models-with-aml) | Train a scikit-learn image classification model. | [img-classification-part1-training.ipynb](image-classification-mnist-data/img-classification-part1-training.ipynb) | Image Classification | Scikit-Learn
-| [Deploy an image classification model](https://docs.microsoft.com/azure/machine-learning/tutorial-deploy-models-with-aml) | Deploy a scikit-learn image classification model to Azure Container Instances. | [img-classification-part2-deploy.ipynb](image-classification-mnist-data/img-classification-part2-deploy.ipynb) | Image Classification | Scikit-Learn
-| [Deploy an encrypted inferencing service](https://docs.microsoft.com/azure/machine-learning/tutorial-deploy-models-with-aml) |Deploy an image classification model for encrypted inferencing in Azure Container Instances | [img-classification-part3-deploy-encrypted.ipynb](image-classification-mnist-data/img-classification-part3-deploy-encrypted.ipynb) | Image Classification | Scikit-Learn
-| [Use automated machine learning to predict taxi fares](https://docs.microsoft.com/azure/machine-learning/tutorial-auto-train-models) | Train a regression model to predict taxi fares using Automated Machine Learning. | [regression-part2-automated-ml.ipynb](regression-automl-nyc-taxi-data/regression-automated-ml.ipynb) | Regression | Automated ML 
-
-## Advanced Samples
-
-The following tutorials are intended to provide examples of more advanced feature in Azure Machine Learning.
-
-| Tutorial | Description | Notebook | Task | Framework | 
-| --- | --- | --- | --- | --- |
-| [Build an Azure Machine Learning pipeline for batch scoring](https://docs.microsoft.com/azure/machine-learning/tutorial-pipeline-batch-scoring-classification) | Create an Azure Machine Learning pipeline to run batch scoring image classification jobs | [tutorial-pipeline-batch-scoring-classification.ipynb](machine-learning-pipelines-advanced/tutorial-pipeline-batch-scoring-classification.ipynb) | Image Classification | TensorFlow
-
-For additional documentation and resources, see the [official documentation site for Azure Machine Learning](https://docs.microsoft.com/azure/machine-learning/).
-
-![Impressions](https://PixelServer20190423114238.azurewebsites.net/api/impressions/MachineLearningNotebooks/tutorials/README.png)
+├── .gitignore               <- Files that should be ignored by git. Add seperate .gitignore files in sub folders if 
+│                               needed
+├── conda_env.yml            <- Conda environment definition for ensuring consistent setup across environments
+├── LICENSE
+├── README.md                <- The top-level README for developers using this project.
+├── requirements.txt         <- The requirements file for reproducing the analysis environment, e.g.
+│                               generated with `pip freeze > requirements.txt`. Might not be needed if using conda.
+├── setup.py                 <- Metadata about your project for easy distribution.
+│
+├── data
+│   ├── interim_[desc]       <- Interim files - give these folders whatever name makes sense.
+│   ├── processed            <- The final, canonical data sets for modeling.
+│   ├── raw                  <- The original, immutable data dump.
+│   ├── temp                 <- Temporary files.
+│   └── training             <- Files relating to the training process
+│
+├── docs                     <- Documentation
+│   ├── data_science_code_of_conduct.md  <- Code of conduct.
+│   ├── process_documentation.md         <- Standard template for documenting process and decisions.
+│   └── writeup              <- Sphinx project for project writeup including auto generated API.
+│      ├── conf.py           <- Sphinx configurtation file.
+│      ├── index.rst         <- Start page.
+│      ├── make.bat          <- For generating documentation (Windows)
+│      └── Makefikle         <- For generating documentation (make)
+│
+├── examples                 <- Add folders as needed e.g. examples, eda, use case
+│
+├── extras                   <- Miscellaneous extras.
+│   └── add_explorer_context_shortcuts.reg    <- Adds additional Windows Explorer context menus for starting jupyter.
+│
+├── notebooks                <- Notebooks for analysis and testing
+│   ├── eda                  <- Notebooks for EDA
+│   │   └── example.ipynb    <- Example python notebook
+│   ├── features             <- Notebooks for generating and analysing features (1 per feature)
+│   ├── modelling            <- Notebooks for modelling
+│   └── preprocessing        <- Notebooks for Preprocessing 
+│
+├── scripts                  <- Standalone scripts
+│   ├── deploy               <- MLOps scripts for deployment (WIP)
+│   │   └── score.py         <- Scoring script
+│   ├── train                <- MLOps scripts for training
+│   │   ├── submit-train.py  <- Script for submitting a training run to Azure ML Service
+│   │   ├── submit-train-local.py <- Script for local training using Azure ML
+│   │   └── train.py         <- Example training script using the iris dataset
+│   ├── example.py           <- Example sctipt
+│   └── MLOps.ipynb          <- End to end MLOps example (To be refactored into the above)
+│
+├── src                      <- Code for use in this project.
+│   └── examplepackage       <- Example python package - place shared code in such a package
+│       ├── __init__.py      <- Python package initialisation
+│       ├── examplemodule.py <- Example module with functions and naming / commenting best practices
+│       ├── features.py      <- Feature engineering functionality
+│       ├── io.py            <- IO functionality
+│       └── pipeline.py      <- Pipeline functionality
+│
+└── tests                    <- Test cases (named after module)
+    ├── test_notebook.py     <- Example testing that Jupyter notebooks run without errors
+    ├── examplepackage       <- examplepackage tests
+        ├── examplemodule    <- examplemodule tests (1 file per method tested)
+        ├── features         <- features tests
+        ├── io               <- io tests
+        └── pipeline         <- pipeline tests
