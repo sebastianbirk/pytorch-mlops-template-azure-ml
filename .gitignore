@@ -1,4 +1,5 @@
-**/data
-**/dataset
-**/.ipynb_checkpoints
-**/__pycache__
+data
+dataset
+.ipynb_checkpoints
+__pycache__
+misc

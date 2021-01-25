@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cifar10-torch-image-classifier
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cifar10-torch-image-classifier
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5 
+  template:
+    metadata:
+      labels:
+        app: cifar10-torch-image-classifier
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+      - name: cifar10-torch-image-classifier
+        image: 3d5545b15c4c49548d3823156fa90536.azurecr.io/cifar10-pytorch:1.0
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 250m
+          limits:
+            cpu: 500m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cifar10-torch-image-classifier
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: cifar10-torch-image-classifier
