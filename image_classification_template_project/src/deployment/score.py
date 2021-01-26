@@ -1,54 +1,32 @@
+# Import libraries
+import json
 import os
 import torch
-import json
 import torch.nn as nn
-import torch.nn.functional as F
-
-
-class Net(nn.Module):
-    def __init__(self):
-        super(Net, self).__init__()
-        self.conv1 = nn.Conv2d(3, 6, 5)
-        self.pool = nn.MaxPool2d(2, 2)
-        self.conv2 = nn.Conv2d(6, 16, 5)
-        self.fc1 = nn.Linear(16 * 5 * 5, 120)
-        self.fc2 = nn.Linear(120, 84)
-        self.fc3 = nn.Linear(84, 10)
-
-    def forward(self, x):
-        x = self.pool(F.relu(self.conv1(x)))
-        x = self.pool(F.relu(self.conv2(x)))
-        x = x.view(-1, 16 * 5 * 5)
-        x = F.relu(self.fc1(x))
-        x = F.relu(self.fc2(x))
-        x = self.fc3(x)
-        return x
+from azureml.core.model import Model
+from torchvision import transforms
 
 
 def init():
-    global net
-    global classes
-
+    global model
     # AZUREML_MODEL_DIR is an environment variable created during deployment.
     # It is the path to the model folder (./azureml-models/$MODEL_NAME/$VERSION)
     # For multiple models, it points to the folder containing all deployed models (./azureml-models)
-    model_filename = "cifar_net.pt"
-    model_path = os.path.join(os.environ['AZUREML_MODEL_DIR'], model_filename)
-    net = Net()
-    net.load_state_dict(torch.load(model_path))
-    classes = ('plane', 'car', 'bird', 'cat',
-               'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
+    model_path = os.path.join(os.getenv("AZUREML_MODEL_DIR"), "model.pt")
+    model = torch.load(model_path, map_location=lambda storage, loc: storage)
+    model.eval()
 
 
-def run(data):
-    data = json.loads(data)
-    images = torch.FloatTensor(data['data'])
-    outputs = net(images)
+def run(input_data):
+    input_data = torch.tensor(json.loads(input_data)["data"])
 
-    _, predicted = torch.max(outputs, 1)
+    # get prediction
+    with torch.no_grad():
+        output = model(input_data)
+        classes = ["chicken", "turkey"]
+        softmax = nn.Softmax(dim=1)
+        pred_probs = softmax(output).numpy()[0]
+        index = torch.argmax(output, 1)
 
-    result = [classes[predicted[j]] for j in range(4)]
-    result_json = json.dumps({"predictions": result})
-
-    # You can return any JSON-serializable object.
-    return result_json
+    result = {"label": classes[index], "probability": str(pred_probs[index])}
+    return result

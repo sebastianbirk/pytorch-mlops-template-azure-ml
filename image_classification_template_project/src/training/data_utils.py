@@ -5,6 +5,7 @@ import os
 import torch
 import urllib
 
+from PIL import Image
 from torchvision import datasets, transforms
 from zipfile import ZipFile
 
@@ -70,3 +71,25 @@ def imshow(img):
     npimg = img.numpy()
     plt.imshow(np.transpose(npimg, (1, 2, 0))) # transpose dimensions from Pytorch format to default numpy format
     plt.show()
+    
+    
+def preprocess_image(image_file):
+    """
+    Preprocess an input image.
+    :param image_file: Path to the input image
+    :return image.numpy(): preprocessed image as numpy array
+    """
+    
+    data_transforms = transforms.Compose([
+        transforms.Resize(256),
+        transforms.CenterCrop(224),
+        transforms.ToTensor(),
+        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+    ])
+
+    image = Image.open(image_file)
+    image = data_transforms(image).float()
+    image = image.clone().detach()
+    image = image.unsqueeze(0)
+    
+    return image.numpy()
