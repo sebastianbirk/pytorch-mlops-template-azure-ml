@@ -1,0 +1,24 @@
+ARG FUNCTIONS_IMAGE=mcr.microsoft.com/azure-functions/python@sha256:dffa7cc4528e4b2f22a1bc7558248bc2ca5580e98d10633ebc8f464c60af453c
+FROM ${FUNCTIONS_IMAGE} AS functions-runtime-image
+FROM 3d5545b15c4c49548d3823156fa90536.azurecr.io/azureml/azureml_6415e7fceea7533681ce1f1bbe0e2d20
+ENV AZUREML_MODEL_DIR=azureml-models/fowl-model/1
+COPY azureml-app /var/azureml-app
+RUN mkdir -p '/var/azureml-app' && echo eyJhY2NvdW50Q29udGV4dCI6eyJzdWJzY3JpcHRpb25JZCI6ImJmMDg4ZjU5LWYwMTUtNDMzMi1iZDM2LTU0Yjk4OGJlN2M5MCIsInJlc291cmNlR3JvdXBOYW1lIjoiYW1sYnJpa3NlcmciLCJhY2NvdW50TmFtZSI6ImFtbGJyaWtzZXdzIiwid29ya3NwYWNlSWQiOiIzZDU1NDViMS01YzRjLTQ5NTQtOGQzOC0yMzE1NmZhOTA1MzYifSwibW9kZWxzIjp7ImZvd2wtbW9kZWwiOnsidmVyc2lvbiI6MSwiaWQiOiJmb3dsLW1vZGVsOjEiLCJpbnRlcm5hbElkIjoiNTQxYzQzOTcwYjA5NDJjNDliNjIxNDA4YTU3NjFjM2MifX0sIm1vZGVsc0luZm8iOnsiZm93bC1tb2RlbCI6eyIxIjp7InZlcnNpb24iOjEsImlkIjoiZm93bC1tb2RlbDoxIiwiaW50ZXJuYWxJZCI6IjU0MWM0Mzk3MGIwOTQyYzQ5YjYyMTQwOGE1NzYxYzNjIiwiZGF0YUNvbGxlY3RvclN0b3JhZ2VQYXRoIjoiL21vZGVsZGF0YS9iZjA4OGY1OS1mMDE1LTQzMzItYmQzNi01NGI5ODhiZTdjOTAvYW1sYnJpa3NlcmcvYW1sYnJpa3Nld3Mve3dlYnNlcnZpY2VfbmFtZX0vZm93bC1tb2RlbC8xLyJ9fX19 | base64 --decode > /var/azureml-app/model_config_map.json
+RUN mkdir -p '/home/site/wwwroot/azureml-service' && echo ewogICJiaW5kaW5ncyI6IFsKICAgIHsKICAgICAgIm5hbWUiOiAiYmxvYmluIiwKICAgICAgInR5cGUiOiAiYmxvYlRyaWdnZXIiLAogICAgICAiZGlyZWN0aW9uIjogImluIiwKICAgICAgImNvbm5lY3Rpb24iOiAiVHJpZ2dlckNvbm5lY3Rpb25TdHJpbmciLAogICAgICAicGF0aCI6ICJpbnB1dC97bmFtZX0uanNvbiIKICAgIH0sCiAgICB7CiAgICAgICJuYW1lIjogImJsb2JvdXQiLAogICAgICAidHlwZSI6ICJibG9iIiwKICAgICAgImRpcmVjdGlvbiI6ICJvdXQiLAogICAgICAiY29ubmVjdGlvbiI6ICJUcmlnZ2VyQ29ubmVjdGlvblN0cmluZyIsCiAgICAgICJwYXRoIjogIm91dHB1dC97bmFtZX1fb3V0Lmpzb24iCiAgICB9CiAgXSwKICAic2NyaXB0RmlsZSI6ICJibG9iX2Z1bmN0aW9uLnB5Igp9 | base64 --decode > /home/site/wwwroot/azureml-service/function.json
+RUN mv '/var/azureml-app/tmpi1pxh5k6.py' /var/azureml-app/main.py
+COPY --from=functions-runtime-image /azure-functions-host /azure-functions-host
+COPY --from=functions-runtime-image /FuncExtensionBundles /FuncExtensionBundles
+RUN chmod +x /azure-functions-host/workers/python/start.sh
+RUN /var/requirements/install_functions_requirements.sh
+RUN mkdir -p /home/site/wwwroot/azureml-service
+RUN mv -t /home/site/wwwroot /var/azureml-functions/host.json
+RUN mv -t /home/site/wwwroot/azureml-service /var/azureml-functions/http_function.py /var/azureml-functions/blob_function.py /var/azureml-functions/service_bus.py
+ENV PYTHONPATH=/var/azureml-server/:/var/azureml-app/:/var/azureml-functions/
+ENV AzureWebJobsScriptRoot=/home/site/wwwroot
+ENV HOME=/home
+ENV FUNCTIONS_WORKER_RUNTIME=python
+ENV ASPNETCORE_URLS=http://+:5001
+ENV DOTNET_RUNNING_IN_CONTAINER=true
+ENV AML_APP_ROOT=${AML_APP_ROOT:-/var/azureml-app}
+ENV LD_LIBRARY_PATH=
+CMD ["/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost"]

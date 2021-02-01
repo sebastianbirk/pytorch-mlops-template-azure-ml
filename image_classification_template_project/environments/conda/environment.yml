@@ -8,6 +8,7 @@ dependencies:
 - tqdm=4.38.0
 - pip:
     - azure-cli
+    - azureml-contrib-functions
     - azureml-defaults
     - azureml-sdk
     - azureml-widgets

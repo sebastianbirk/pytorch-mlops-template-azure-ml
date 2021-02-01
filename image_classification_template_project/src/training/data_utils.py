@@ -11,7 +11,10 @@ from zipfile import ZipFile
 
 
 def download_data():
-    """Download and extract the training data."""
+    """
+    Download and extract the data needed for model training.
+    :return data_dir: directory where the data is stored
+    """
     
     # download data
     print("Downloading archive file...")
@@ -32,7 +35,13 @@ def download_data():
 
 
 def load_data(data_dir):
-    """Load the train/val data."""
+    """
+    Load the train/val data.
+    :return (dataloaders, dataset_sizes, class_names):
+        dataloaders: dictionary containing pytorch train and validation dataloaders
+        dataset_sizes: dictionary containing the size of the training and validation datasets
+        class_names: list containing all class names
+    """
 
     # Data augmentation and normalization for training
     # Just normalization for validation
@@ -67,6 +76,10 @@ def load_data(data_dir):
 
 
 def imshow(img):
+    """
+    Unnormalize an image batch retrieved from a dataloader and plot the batch
+    """
+    
     img = img / 2 + 0.5 # unnormalize
     npimg = img.numpy()
     plt.imshow(np.transpose(npimg, (1, 2, 0))) # transpose dimensions from Pytorch format to default numpy format
