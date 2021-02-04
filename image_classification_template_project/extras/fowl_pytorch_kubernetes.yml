@@ -15,8 +15,6 @@ spec:
       containers:
       - image: 3d5545b15c4c49548d3823156fa90536.azurecr.io/inference/fowl-pytorch:1.0
         name: fowl-pytorch
-        ports:
-        - containerPort: 5001
 ---
 apiVersion: v1
 kind: Service
@@ -28,7 +26,6 @@ spec:
   ports:
   - port: 5001
     protocol: TCP
-    targetPort: 5001
   selector:
     app: fowl-pytorch
   type: LoadBalancer
