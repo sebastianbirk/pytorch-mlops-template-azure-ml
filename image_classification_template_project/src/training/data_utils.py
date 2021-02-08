@@ -84,8 +84,8 @@ def imshow(img):
     npimg = img.numpy()
     plt.imshow(np.transpose(npimg, (1, 2, 0))) # transpose dimensions from Pytorch format to default numpy format
     plt.show()
-
-
+    
+    
 def preprocess_image(image_file):
     """
     Preprocess an input image.

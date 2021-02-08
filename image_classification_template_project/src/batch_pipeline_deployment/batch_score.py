@@ -21,8 +21,8 @@ def init():
     model_path = Model.get_model_path(args.model_name)
     model = torch.load(model_path, map_location=lambda storage, loc: storage)
     model.eval()
-    
-    
+
+
 def run(mini_batch):
     
     result_list = []

@@ -8,18 +8,19 @@ from dotenv import load_dotenv
 from typing import Optional
 
 
-@dataclass(frozen=True)
-class Env:
+@dataclass(frozen=True) # emulate immutability by passing frozen=True
+class EnvVariables:
     """
     Loads all environment variables into a predefined set of properties
     """
-
-    # to load .env file into environment variables for local execution
+    
+    # load variables defined in .env file into environment variables for local execution
     load_dotenv()
-    workspace_name: Optional[str] = os.environ.get("WORKSPACE_NAME")
-    resource_group: Optional[str] = os.environ.get("RESOURCE_GROUP")
-    subscription_id: Optional[str] = os.environ.get("SUBSCRIPTION_ID")
+
     tenant_id: Optional[str] = os.environ.get("TENANT_ID")
+    subscription_id: Optional[str] = os.environ.get("SUBSCRIPTION_ID")
+    resource_group: Optional[str] = os.environ.get("RESOURCE_GROUP")
+    workspace_name: Optional[str] = os.environ.get("WORKSPACE_NAME")
     app_id: Optional[str] = os.environ.get("SP_APP_ID")
     app_secret: Optional[str] = os.environ.get("SP_APP_SECRET")
     vm_size: Optional[str] = os.environ.get("AML_COMPUTE_CLUSTER_CPU_SKU")
@@ -31,6 +32,7 @@ class Env:
     max_nodes: int = int(os.environ.get("AML_CLUSTER_MAX_NODES", 4))
     build_id: Optional[str] = os.environ.get("BUILD_BUILDID")
     pipeline_name: Optional[str] = os.environ.get("TRAINING_PIPELINE_NAME")
+    conda_env_directory: Optional[str] = os.environ.get("CONDA_ENV_DIR")
     sources_directory_train: Optional[str] = os.environ.get(
         "SOURCES_DIR_TRAIN"
     )  # NOQA: E501

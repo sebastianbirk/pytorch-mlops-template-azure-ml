@@ -6,21 +6,23 @@ from torchvision import datasets, transforms
 from zipfile import ZipFile
 
 
-def download_data():
+def download_data(
+    archive_file: str = "../data/fowl_data.zip",
+    zip_dir: str = "../data"
+) -> str:
     """Download and extract the training data."""
     
     # download data
     print("Downloading archive file...")
-    archive_file = "../data/fowl_data.zip"
     download_url = "https://azureopendatastorage.blob.core.windows.net/testpublic/temp/fowl_data.zip"
     urllib.request.urlretrieve(download_url, filename=archive_file)
 
     # extract files
     with ZipFile(archive_file, "r") as zip:
         print("Extracting files...")
-        zip.extractall("../data")
+        zip.extractall(zip_dir)
         print("Finished extracting!")
-        data_dir = os.path.join("../data", zip.namelist()[0])
+        data_dir = os.path.join(zip_dir, zip.namelist()[0])
 
     # delete zip file
     os.remove(archive_file)
