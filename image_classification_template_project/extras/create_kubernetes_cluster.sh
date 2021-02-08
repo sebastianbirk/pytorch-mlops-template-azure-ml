@@ -9,7 +9,7 @@ az group create \
   --name $resourceGroupName\
   --location $region
 
-# Create an AKS cluster
+# Option 1: Create an AKS cluster
 az aks create \
     --resource-group $resourceGroupName \
     --name $aksClusterName \
@@ -17,8 +17,14 @@ az aks create \
     --generate-ssh-keys \
     --attach-acr $acrName
 
+# Option 2: Or use existing one instead
+# az aks update \
+#    --resource-group $resourceGroupName
+#    --name $aksClusterName \
+#    --attach-acr $acrName
+
 # Install kubectl
-az aks install-cli
+sudo az aks install-cli
 
 # Configure kubectl to connect to the AKS cluster
 az aks get-credentials \
