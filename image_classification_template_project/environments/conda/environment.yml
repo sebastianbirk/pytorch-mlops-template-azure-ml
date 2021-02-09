@@ -1,5 +1,6 @@
 name: pytorch-aml-env
 dependencies:
+- joblib=0.13.2
 - matplotlib=3.3.3
 - mlflow=1.13.1
 - python=3.7.1

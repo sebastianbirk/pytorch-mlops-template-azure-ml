@@ -1,4 +1,10 @@
+# Add root directory to sys path to be able to import all modules
+import sys
 import os
+from pathlib import Path
+sys.path.append(str(Path(__file__).parents[2]))
+
+# Import libraries
 from aml.utils import get_compute, get_environment
 from aml.utils import EnvVariables
 from azureml.core import Dataset, Datastore, Workspace
@@ -18,38 +24,37 @@ def main():
         name=env_variables.workspace_name,
         subscription_id=env_variables.subscription_id,
         resource_group=env_variables.resource_group)
-
     print("Retrieved workspace:")
     print(ws)
 
-    # Retrieve compute cluster
+    # Retrieve or create compute cluster
     aml_compute = get_compute(
         ws,
         env_variables.compute_name,
         env_variables.vm_size)
-
     if aml_compute is not None:
-        print("Retrieved AML compute cluster:")
+        print("Retrieved compute cluster:")
         print(aml_compute)
 
-    # Create a reusable Azure ML environment
+    # Retrieve or create environment
     environment = get_environment(
         ws,
         env_variables.aml_env_name,
         conda_dependencies_file=env_variables.aml_env_train_conda_dep_file,
         create_new=env_variables.rebuild_env)  
+    print("Retrieved environment:")
+    print(environment)
 
     # Create a run configuration
     run_config = RunConfiguration()
     run_config.environment = environment
-    # Pass datastore as environment variable. Use default datastore if nothing else specified
+    # Pass datastore as environment variable to the run configuration
+    # Use default datastore if nothing else specified
     if env_variables.datastore_name:
         datastore_name = env_variables.datastore_name
     else:
         datastore_name = ws.get_default_datastore().name
-    run_config.environment.environment_variables[
-        "DATASTORE_NAME"
-    ] = datastore_name  # NOQA: E501
+    run_config.environment.environment_variables["DATASTORE_NAME"] = datastore_name  # NOQA: E501
 
     # Configure pipeline parameters
     model_name_param = PipelineParameter(name="model_name", default_value=env_variables.model_name)  # NOQA: E501
@@ -74,8 +79,8 @@ def main():
         # have already bootstrapped your project, you can comment this line
         # out and use your own CSV.
         download_data(
-            archive_file: str = "./data/fowl_data.zip",
-            zip_dir: str = "./data")
+            archive_file = "./data/fowl_data.zip",
+            zip_dir = "./data")
 
         # Use a CSV to read in the data set.
         file_name = zip_dir + "/fowl_data/train"

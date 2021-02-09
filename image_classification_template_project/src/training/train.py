@@ -203,15 +203,9 @@ def main():
     parser.add_argument("--learning_rate", type=float, default=0.001, help="Learning rate")
     parser.add_argument("--momentum", type=float, default=0.9, help="Momentum")
     args = parser.parse_args()
-         
-    print("=" * 20)
-    print("LOAD DATA")      
-    print("=" * 20)
           
     # Load training and validation data
     dataloaders, dataset_sizes, class_names = load_data(args.data_path)
-          
-    print("Data has been loaded successfully.")
         
     # Train the model
     model = fine_tune_model(num_epochs=args.num_epochs,

@@ -3,8 +3,8 @@ from azureml.core import Dataset, Datastore, Workspace
 def get_dataset(
     workspace: Workspace,
     dataset_name: str,
-    target_path: str = "fowl-classification-example",
-    download: bool = False
+    download: bool = False,
+    target_path: str = "fowl-classification-example"
 ) -> Dataset:
     """
     Retrieve dataset from Azure ML workspace
