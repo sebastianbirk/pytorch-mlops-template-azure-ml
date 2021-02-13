@@ -1,8 +1,8 @@
 # Add root directory to sys path to be able to import all modules
-import sys
 import os
+import sys
 from pathlib import Path
-sys.path.append(str(Path(__file__).parents[2]))
+sys.path.append(str(Path(__file__).resolve().parents[2]))
 
 # Import libraries
 from aml.utils import get_compute, get_environment
@@ -16,6 +16,7 @@ from src.utils import download_data
 
 
 def main():
+    
     # Load environment variables
     env_variables = EnvVariables()
 
@@ -29,18 +30,20 @@ def main():
 
     # Retrieve or create compute cluster
     aml_compute = get_compute(
-        ws,
-        env_variables.compute_name,
-        env_variables.vm_size)
+        workspace=ws,
+        compute_name=env_variables.compute_name,
+        vm_size=env_variables.vm_size)
     if aml_compute is not None:
         print("Retrieved compute cluster:")
         print(aml_compute)
 
     # Retrieve or create environment
     environment = get_environment(
-        ws,
-        env_variables.aml_env_name,
-        conda_dependencies_file=env_variables.aml_env_train_conda_dep_file,
+        workspace=ws,
+        environment_name=env_variables.aml_env_name,
+        conda_dependencies_file=os.path.join(Path(__file__).parents[2], 
+                                env_variables.conda_env_directory,
+                                env_variables.aml_env_train_conda_dep_file),
         create_new=env_variables.rebuild_env)  
     print("Retrieved environment:")
     print(environment)
@@ -57,7 +60,10 @@ def main():
     run_config.environment.environment_variables["DATASTORE_NAME"] = datastore_name  # NOQA: E501
 
     # Configure pipeline parameters
-    model_name_param = PipelineParameter(name="model_name", default_value=env_variables.model_name)  # NOQA: E501
+    model_name_param = PipelineParameter(
+        name="model_name",
+         default_value=env_variables.model_name)  # NOQA: E501
+    
     dataset_version_param = PipelineParameter(
         name="dataset_version",
         default_value=env_variables.dataset_version)
@@ -78,34 +84,31 @@ def main():
         # This call creates an example CSV from sklearn sample data. If you
         # have already bootstrapped your project, you can comment this line
         # out and use your own CSV.
-        download_data(
+        data_dir = download_data(
             archive_file = "./data/fowl_data.zip",
             zip_dir = "./data")
 
-        # Use a CSV to read in the data set.
-        file_name = zip_dir + "/fowl_data/train"
-
-        if not os.path.exists(file_name):
+        if not os.path.exists(data_dir):
             raise Exception("Could not find example image")
 
         # Upload file to default datastore in workspace
         datatstore = Datastore.get(ws, datastore_name)
-        target_path = "training-data/"
+        target_path = "data/"
         datatstore.upload_files(
-            files=[file_name],
+            files=[data_dir],
             target_path=target_path,
             overwrite=True,
             show_progress=False,
         )
 
         # Register dataset
-        path_on_datastore = os.path.join(target_path, file_name)
+        path_on_datastore = os.path.join(target_path, data_dir)
         dataset = Dataset.Tabular.from_delimited_files(
             path=(datatstore, path_on_datastore))
         dataset = dataset.register(
             workspace=ws,
             name=dataset_name,
-            description="fowl image classification training data",
+            description="fowl image classification data",
             tags={"format": "png"},
             create_new_version=True)
 

@@ -32,7 +32,7 @@ def get_environment(
         if restored_environment is None or create_new:
             new_env = Environment.from_conda_specification(
                 environment_name,
-                os.path.join(env_variables.conda_env_directory, conda_dependencies_file) # NOQA: E501
+                conda_dependencies_file # NOQA: E501
             ) # NOQA: E501
             restored_environment = new_env
 

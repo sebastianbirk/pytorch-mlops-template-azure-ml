@@ -5,6 +5,7 @@ Env dataclass to load and hold all environment variables
 import os
 from dataclasses import dataclass
 from dotenv import load_dotenv
+from pathlib import Path
 from typing import Optional
 
 
@@ -14,8 +15,8 @@ class EnvVariables:
     Loads all environment variables into a predefined set of properties
     """
     
-    # load variables defined in .env file into environment variables for local execution
-    load_dotenv()
+    # load variables defined in <PROJECT_ROOT>/config/.env file into environment variables for local execution
+    load_dotenv(dotenv_path=Path(__file__).parents[2] / "config/.env")
 
     tenant_id: Optional[str] = os.environ.get("TENANT_ID")
     subscription_id: Optional[str] = os.environ.get("SUBSCRIPTION_ID")

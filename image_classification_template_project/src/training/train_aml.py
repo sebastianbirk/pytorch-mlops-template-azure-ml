@@ -1,52 +1,102 @@
 # Add root directory to sys path to be able to import all modules
-import sys
 import os
+import sys
 from pathlib import Path
-sys.path.append(str(Path(__file__).parents[2]))
+sys.path.append(str(Path(__file__).resolve().parents[2]))
 
 # Import other libraries
 import argparse
 import joblib
 import json
 from aml.utils import register_dataset
+from azureml.core.authentication import ServicePrincipalAuthentication
 from azureml.core import Dataset, Datastore, Workspace
 from azureml.core.run import Run
 from src.utils import eval_model, fine_tune_model, load_data
 
 
 def main():
+
     print("Running train_aml.py")
+
+    # Get the run context
+    run = Run.get_context()
+
+    if (run.id.startswith("OfflineRun")):
+        print("Run is an offline run")
+        from dotenv import load_dotenv
+        # For local development, set values in this section
+        load_dotenv(dotenv_path=Path(__file__).parents[2] / "config/.env")
+        tenant_id = os.environ.get("TENANT_ID")
+        subscription_id = os.environ.get("SUBSCRIPTION_ID")
+        resource_group = os.environ.get("RESOURCE_GROUP")
+        workspace_name = os.environ.get("WORKSPACE_NAME")
+        experiment_name = os.environ.get("EXPERIMENT_NAME")
+        # app_id = os.environ.get("SP_APP_ID")
+        # app_secret = os.environ.get("SP_APP_SECRET")
+
+        # run_id useful to query previous runs
+        run_id = "57fee47f-5ae8-441c-bc0c-d4c371f32d70"
+
+        # print("Service principal authentication")
+        # scc_pr_auth = ServicePrincipalAuthentication(
+        #     tenant_id=tenant_id,
+        #     service_principal_id=app_id,
+        #     service_principal_password=app_secret)
+
+        print("Connect to workspace")
+
+        ws = Workspace.get(
+            name=workspace_name,
+            subscription_id=subscription_id,
+            resource_group=resource_group,
+            # auth=svc_pr_auth
+        )
+
+        exp = Experiment(ws, experiment_name)
+
+    else:
+        ws = run.experiment.workspace
+        exp = run.experiment
+        run_id = "amlcompute"
 
     # Parse script input parameters
     parser = argparse.ArgumentParser("train")
+
     parser.add_argument(
         "--model_file_name",
         type=str,
         help="Name of the model file",
         default="fowl_model.pt")
+
     parser.add_argument(
         "--step_output_path",
         type=str,
         help=("Output for passing data to next step"))
+
     parser.add_argument(
         "--dataset_name",
         type=str,
         help=("Dataset name. Dataset must be passed by name \
               to always get the desired dataset version \
               rather than the one used during pipeline creation"))
+
     parser.add_argument(
         "--dataset_version",
         type=str,
         help=("Dataset version"))
+
     parser.add_argument(
         "--data_file_path",
         type=str,
         help=("Data file path. If specified,\
                a new version of the dataset will be registered"))
+
     parser.add_argument(
         "--caller_run_id",
         type=str,
         help=("Caller run id, for example ADF pipeline run id"))
+
     args = parser.parse_args()
 
     print(f"Argument [model_file_name]: {args.model_file_name}")
@@ -62,12 +112,10 @@ def main():
     dataset_version = args.dataset_version
     data_file_path = args.data_file_path
 
-    run = Run.get_context()
-
     print("Getting training parameters")
 
     # Load the training parameters from the parameters file
-    with open(Path(__file__).parents[2] / "config/parameters.json") as f:
+    with open(Path(__file__).resolve().parents[2] / "config/parameters.json") as f:
         pars = json.load(f)
     try:
         train_args = pars["training"]
@@ -84,12 +132,14 @@ def main():
     # Get the dataset
     if (dataset_name):
         if (data_file_path == "none"):
+            print("Retrieving dataset")
             target_path = "data"
-            dataset = Dataset.get_by_name(run.experiment.workspace, dataset_name, dataset_version)  # NOQA: E402, E501
+            dataset = Dataset.get_by_name(ws, dataset_name, dataset_version)  # NOQA: E402, E501
             dataset.download(target_path=target_path)
         else:
+            print("Registering dataset")
             target_path = data_file_path
-            dataset = register_dataset(run.experiment.workspace,
+            dataset = register_dataset(ws,
                                        dataset_name,
                                        os.environ.get("DATASTORE_NAME"),
                                        data_file_path)
@@ -99,9 +149,10 @@ def main():
         print(e)
         raise Exception(e)
 
-    # Link dataset to the step run so it is trackable in the UI
-    run.input_datasets["training_data"] = dataset
-    run.parent.tag("dataset_id", value=dataset.id)
+    if not run.id.startswith("OfflineRun"):
+        # Link dataset to the step run so it is trackable in the UI
+        run.input_datasets["training_data"] = dataset
+        run.parent.tag("dataset_id", value=dataset.id)
 
     dataloaders, dataset_sizes, class_names = load_data(target_path)
 
@@ -114,24 +165,26 @@ def main():
                             momentum=train_args["momentum"])
 
 
-    # Evaluate and log the metrics returned from the train function
-    metrics = get_model_metrics(model, data)
-    for (k, v) in metrics.items():
-        run.log(k, v)
-        run.parent.log(k, v)
+    # # Evaluate and log the metrics returned from the train function
+    # metrics = get_model_metrics(model, data)
+    # for (k, v) in metrics.items():
+    #     run.log(k, v)
+    #     run.parent.log(k, v)
 
     # Pass model file to next step
     os.makedirs(step_output_path, exist_ok=True)
     model_output_path = os.path.join(step_output_path, model_file_name)
-    joblib.dump(value=model, filename=model_output_path)
+    torch.save(model, model_output_path)
+    print("=" * 20)
+    print(f"Model saved in {model_output_path}.")
 
     # Also upload model file to run outputs for history
     os.makedirs("outputs", exist_ok=True)
     output_path = os.path.join("outputs", model_file_name)
-    joblib.dump(value=model, filename=output_path)
+    torch.save(model, output_path)
 
     run.tag("run_type", value="train")
-    print(f"tags now present for run: {run.tags}")
+    print(f"Tags now present for run: {run.tags}")
 
     run.complete()
 
