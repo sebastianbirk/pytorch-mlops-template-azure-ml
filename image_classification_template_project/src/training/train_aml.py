@@ -1,5 +1,4 @@
 # Add root directory to sys path to be able to import all modules
-import os
 import sys
 from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parents[2]))
@@ -8,59 +7,68 @@ sys.path.append(str(Path(__file__).resolve().parents[2]))
 import argparse
 import joblib
 import json
+import os
+import torch
 from aml.utils import register_dataset
 from azureml.core.authentication import ServicePrincipalAuthentication
-from azureml.core import Dataset, Datastore, Workspace
+from azureml.core import Dataset, Datastore, Experiment, Workspace
 from azureml.core.run import Run
 from src.utils import eval_model, fine_tune_model, load_data
 
 
 def main():
 
-    print("Running train_aml.py")
+    print("=" * 20)
+    print("RUNNING PIPELINE TRAIN SCRIPT")
+    print("=" * 20)
 
     # Get the run context
     run = Run.get_context()
 
     if (run.id.startswith("OfflineRun")):
         print("Run is an offline run")
+        print("-" * 20)
         from dotenv import load_dotenv
         # For local development, set values in this section
+        print("Load environment variables...")
         load_dotenv(dotenv_path=Path(__file__).parents[2] / "config/.env")
         tenant_id = os.environ.get("TENANT_ID")
         subscription_id = os.environ.get("SUBSCRIPTION_ID")
         resource_group = os.environ.get("RESOURCE_GROUP")
         workspace_name = os.environ.get("WORKSPACE_NAME")
         experiment_name = os.environ.get("EXPERIMENT_NAME")
-        # app_id = os.environ.get("SP_APP_ID")
-        # app_secret = os.environ.get("SP_APP_SECRET")
+        app_id = os.environ.get("SP_APP_ID")
+        app_secret = os.environ.get("SP_APP_SECRET")
 
         # run_id useful to query previous runs
         run_id = "57fee47f-5ae8-441c-bc0c-d4c371f32d70"
 
-        # print("Service principal authentication")
-        # scc_pr_auth = ServicePrincipalAuthentication(
-        #     tenant_id=tenant_id,
-        #     service_principal_id=app_id,
-        #     service_principal_password=app_secret)
+        print("Set up service principal authentication...")
+        svc_pr_auth = ServicePrincipalAuthentication(
+            tenant_id=tenant_id,
+            service_principal_id=app_id,
+            service_principal_password=app_secret)
 
-        print("Connect to workspace")
-
+        print("Connect to workspace...")
         ws = Workspace.get(
             name=workspace_name,
             subscription_id=subscription_id,
             resource_group=resource_group,
-            # auth=svc_pr_auth
-        )
+            auth=svc_pr_auth)
 
+        print("Retrieve experiment...")
         exp = Experiment(ws, experiment_name)
 
     else:
+        print("Run is an online run")
+        print("-" * 20)
+        print("Connect to workspace...")
         ws = run.experiment.workspace
+        print("Retrieve experiment...")
         exp = run.experiment
         run_id = "amlcompute"
 
-    # Parse script input parameters
+    print("Parse script input parameters...")
     parser = argparse.ArgumentParser("train")
 
     parser.add_argument(
@@ -99,6 +107,7 @@ def main():
 
     args = parser.parse_args()
 
+    print("Script input parameters are:")
     print(f"Argument [model_file_name]: {args.model_file_name}")
     print(f"Argument [step_output_path]: {args.step_output_path}")
     print(f"Argument [dataset_name]: {args.dataset_name}")
@@ -112,7 +121,7 @@ def main():
     dataset_version = args.dataset_version
     data_file_path = args.data_file_path
 
-    print("Getting training parameters")
+    print("Retrieving training parameters from config...")
 
     # Load the training parameters from the parameters file
     with open(Path(__file__).resolve().parents[2] / "config/parameters.json") as f:
@@ -120,9 +129,10 @@ def main():
     try:
         train_args = pars["training"]
     except KeyError:
-        print("Could not load training values from file")
+        print("Could not load training hyperparameters from config")
         train_args = {}
 
+    print("Config training hyperparameters are:")
     # Log the training parameters
     print(f"Parameters: {train_args}")
     for (k, v) in train_args.items():
@@ -132,12 +142,12 @@ def main():
     # Get the dataset
     if (dataset_name):
         if (data_file_path == "none"):
-            print("Retrieving dataset")
+            print("Retrieving dataset...")
             target_path = "data"
             dataset = Dataset.get_by_name(ws, dataset_name, dataset_version)  # NOQA: E402, E501
-            dataset.download(target_path=target_path)
+            dataset.download(target_path=target_path, overwrite=True)
         else:
-            print("Registering dataset")
+            print("Registering dataset...")
             target_path = data_file_path
             dataset = register_dataset(ws,
                                        dataset_name,
@@ -150,12 +160,15 @@ def main():
         raise Exception(e)
 
     if not run.id.startswith("OfflineRun"):
+        print("Link dataset to run...")
         # Link dataset to the step run so it is trackable in the UI
         run.input_datasets["training_data"] = dataset
         run.parent.tag("dataset_id", value=dataset.id)
 
+    print("Load data into dataloader...")
     dataloaders, dataset_sizes, class_names = load_data(target_path)
 
+    print("Run model training function...")
     # Train the model
     model = fine_tune_model(num_epochs=train_args["num_epochs"],
                             num_classes=len(class_names),
@@ -182,6 +195,7 @@ def main():
     os.makedirs("outputs", exist_ok=True)
     output_path = os.path.join("outputs", model_file_name)
     torch.save(model, output_path)
+    print(f"Model uploaded to run outputs.")
 
     run.tag("run_type", value="train")
     print(f"Tags now present for run: {run.tags}")

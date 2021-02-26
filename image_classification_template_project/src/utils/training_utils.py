@@ -5,6 +5,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import torchvision
+from azureml.core.run import Run
 from torch.optim import lr_scheduler
 from torchvision import datasets, models, transforms
 
@@ -38,6 +39,9 @@ def train_model(
     :return model: pretrained model with tuned final fully connected layer
     """
     
+    # Get the run context
+    run = Run.get_context()
+
     # Leverage GPU if available
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -152,6 +156,9 @@ def fine_tune_model(
     print("START TRAINING")
     print("=" * 20)
     
+    # Get the run context
+    run = Run.get_context()
+
     # Log the hyperparameter metrics to the AML run
     run.log("lr", learning_rate)
     run.log("momentum", momentum)
