@@ -1,1 +1,2 @@
 from .data_utils import download_stanford_dogs_archives, extract_stanford_dogs_archives, load_data, show_image, show_batch_of_images
+from .env_variables import EnvVariables

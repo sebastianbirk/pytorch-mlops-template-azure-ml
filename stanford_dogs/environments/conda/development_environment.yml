@@ -9,6 +9,7 @@ dependencies:
 - tqdm=4.38.0
 - pip:
     - azure-cli
+    - azure-cognitiveservices-vision-customvision
     - azureml-core==1.20.0
     - azureml-defaults
     - azureml-sdk
