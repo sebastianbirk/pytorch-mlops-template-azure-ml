@@ -11,6 +11,7 @@ import torchvision.transforms as transforms
 import tqdm
 import urllib
 from pathlib import Path
+from PIL import Image
 from torchvision import datasets
 from typing import Tuple
 
@@ -144,7 +145,7 @@ def extract_stanford_dogs_archives(archive_dir: str = os.path.join(Path(__file__
         os.remove(os.path.join(list_dir, "lists.tar"))
         os.remove(os.path.join(images_dir, "images.tar"))
 
-                             
+
 def generate_bar_updater():
     """
     Create a tqdm reporthook function for urlretrieve
@@ -214,6 +215,28 @@ def load_data(data_dir: str) -> Tuple[dict, dict, list]:
     class_names = image_datasets["train"].classes
     
     return dataloaders, dataset_sizes, class_names
+
+
+def preprocess_image(image_file):
+    """
+    Preprocess an input image.
+    :param image_file: Path to the input image
+    :return image.numpy(): preprocessed image as numpy array
+    """
+    
+    data_transforms = transforms.Compose([
+        transforms.Resize(256),
+        transforms.CenterCrop(224),
+        transforms.ToTensor(),
+        transforms.Normalize([0.5, 0.5, 0.5], [0.5, 0.5, 0.5])
+    ])
+
+    image = Image.open(image_file)
+    image = data_transforms(image).float()
+    image = image.clone().detach()
+    image = image.unsqueeze(0)
+    
+    return image.numpy()
 
 
 def show_image(image_path: str) -> None:
