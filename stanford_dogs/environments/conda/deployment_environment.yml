@@ -1,4 +1,4 @@
-name: stanford-dogs-deployment-env
+name: stanford-dogs-deploy-env
 dependencies:
 - joblib=0.13.2
 - matplotlib=3.3.3
