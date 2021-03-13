@@ -3,7 +3,11 @@
     {
         "num_epochs": 30,
         "learning_rate": 0.1,
-        "momentum": 0.9
+        "momentum": 0.9,
+        "num_frozen_layers": 7,
+        "num_neurons_fc_layer": 512,
+        "dropout_prob_fc_layer": 0.0,
+        "lr_scheduler_step_size": 7
     },
     "evaluation":
     {
@@ -11,7 +15,7 @@
     },
     "registration":
     {
-        "tags": ["val_accuracy"]
+        "tags": ["test_acc"]
     },
     "scoring":
     {

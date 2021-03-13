@@ -82,7 +82,7 @@ def main():
         run_id = run.parent.id
     
     model_name = args.model_name
-    metric_eval = "val_accuracy"
+    metric_eval = "test_acc"
     
     allow_run_cancel = args.allow_run_cancel
     # Parameterize the matrices on which the models should be compared
@@ -105,7 +105,7 @@ def main():
             if (production_model_accuracy is None or new_model_accuracy is None):
                 print("Unable to find", metric_eval, "metrics, "
                       "exiting evaluation")
-                if((allow_run_cancel).lower() == 'true'):
+                if((allow_run_cancel).lower() == "true"):
                     run.parent.cancel()
             else:
                 print(

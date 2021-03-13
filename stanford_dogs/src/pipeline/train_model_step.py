@@ -17,7 +17,7 @@ from azureml.core.run import Run
 
 # Import created modules
 from utils import EnvVariables, get_model_metrics, load_data, register_dataset
-from training.train import fine_tune_model
+from training.train import train_model
 
 
 def main():
@@ -128,7 +128,7 @@ def main():
         raise Exception(e)
 
     # Link dataset to the step run so it is trackable in the UI
-    run.input_datasets["training_data"] = dataset
+    run.input_datasets["input_data"] = dataset
 
     # Tag dataset_id to the pipeline run
     run.parent.tag("dataset_id", value=dataset.id)
@@ -137,16 +137,23 @@ def main():
     dataset.download(target_path="./data", overwrite=True)
 
     # Load training and validation data
-    dataloaders, dataset_sizes, class_names = load_data("./data")
+    dataloaders, dataset_sizes, class_names = load_data("./data",
+                                                        train_args["batch_size"])
 
     # Train the model
-    model = fine_tune_model(
-        num_epochs=train_args["num_epochs"],
-        num_classes=len(class_names),
+    model = train_model(
         dataloaders=dataloaders,
         dataset_sizes=dataset_sizes,
+        num_classes=len(class_names),
+        num_epochs=train_args["num_epochs"],
+        batch_size=train_args["batch_size"],
         learning_rate=train_args["learning_rate"],
-        momentum=train_args["momentum"])
+        momentum=train_args["momentum"],
+        num_frozen_layers=train_args["num_frozen_layers"],
+        num_neurons_fc_layer=train_args["num_neurons_fc_layer"],
+        dropout_prob_fc_layer=train_args["dropout_prob_fc_layer"],
+        lr_scheduler_step_size=train_args["lr_scheduler_step_size"]
+        )
 
     # Evaluate and log the model metrics to the step run and the pipeline run
     metrics = get_model_metrics(model, dataloaders, dataset_sizes)
@@ -164,7 +171,7 @@ def main():
     output_path = os.path.join("outputs", model_file)
     torch.save(model, output_path) # Replace saving method according to used framework (e.g. joblib for sklearn)
 
-    run.tag("run_type", value="train")
+    run.tag("trigger", value="pipeline")
     print(f"The following tags are now present: {run.tags}.")
 
     run.complete()

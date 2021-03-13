@@ -78,7 +78,12 @@ def get_model(
 
 def get_model_metrics(model, dataloaders, dataset_sizes):
     """
-    Evaluate the metrics for the model
+    Calculate the model metrics for the trained (tuned) model.
+    In this case, the test accuracy will be calculated and returned.
+    :param model: the final trained (tuned) model
+    :param dataloaders: a dictionary of torch dataloaders containing the test dataloader
+    :param dataset_sizes: a dictionary of dataset sizes containing the test dataset size
+    :return metrics: a dictionary containing all model metrics (here test acc)
     """
 
     # Leverage GPU if available
@@ -86,7 +91,7 @@ def get_model_metrics(model, dataloaders, dataset_sizes):
 
     running_correct_preds = 0
 
-    for inputs, labels in dataloaders["val"]: # this should be test data?
+    for inputs, labels in dataloaders["test"]: # this should be test data?
         inputs = inputs.to(device)
         labels = labels.to(device)
 
@@ -96,9 +101,9 @@ def get_model_metrics(model, dataloaders, dataset_sizes):
 
         running_correct_preds += torch.sum(preds == labels.data)
 
-    val_accuracy = running_correct_preds.double() / dataset_sizes["val"]
+    test_acc = running_correct_preds.double() / dataset_sizes["test"]
 
-    metrics = {"val_accuracy": val_accuracy.item()}
+    metrics = {"test_acc": test_acc.item()}
 
     return metrics
 
