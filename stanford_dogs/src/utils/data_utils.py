@@ -165,7 +165,8 @@ def generate_bar_updater():
     return bar_update
 
 
-def load_data(data_dir: str) -> Tuple[dict, dict, list]:
+def load_data(data_dir: str,
+              batch_size: int = 4) -> Tuple[dict, dict, list]:
     """
     Load the train, val and test data.
     :param data_dir: path where the images are stored
@@ -179,22 +180,26 @@ def load_data(data_dir: str) -> Tuple[dict, dict, list]:
     # Just normalization for validation and test set
     data_transforms = {
         "train": transforms.Compose([
+            transforms.Resize(256),
             transforms.RandomResizedCrop(224, scale=(0.5, 1)),
             transforms.RandomHorizontalFlip(),
             transforms.ToTensor(),
-            transforms.Normalize([0.5, 0.5, 0.5], [0.5, 0.5, 0.5])
+            transforms.Normalize([0.4777, 0.4451, 0.3876],
+                                 [0.2597, 0.2527, 0.2549])
         ]),
         "val": transforms.Compose([
             transforms.Resize(256),
             transforms.CenterCrop(224),
             transforms.ToTensor(),
-            transforms.Normalize([0.5, 0.5, 0.5], [0.5, 0.5, 0.5])
+            transforms.Normalize([0.4777, 0.4451, 0.3876],
+                                 [0.2597, 0.2527, 0.2549])
         ]),
         "test": transforms.Compose([
             transforms.Resize(256),
             transforms.CenterCrop(224),
             transforms.ToTensor(),
-            transforms.Normalize([0.5, 0.5, 0.5], [0.5, 0.5, 0.5])
+            transforms.Normalize([0.4777, 0.4451, 0.3876],
+                                 [0.2597, 0.2527, 0.2549])
         ]),
     }
     
@@ -217,6 +222,45 @@ def load_data(data_dir: str) -> Tuple[dict, dict, list]:
     return dataloaders, dataset_sizes, class_names
 
 
+def load_unnormalized_train_data(data_dir: str,
+                                 batch_size: int = 64) -> Tuple[torch.utils.data.DataLoader,
+                                                                int,
+                                                                list]:
+    """
+    Load the training data without normalization.
+    :param data_dir: path where the images are stored
+    :return (dataloader, dataset_size, class_names)
+        dataloader: dataloader to retrieve unnormalized training data
+        dataset_size: train dataset length
+        class_names: list of all classes
+    """
+
+    # Only apply resizing, cropping and transformation to tensor
+    # Data will be normalized to (0, 1) by ToTensor()
+    data_transform = transforms.Compose([
+            transforms.Resize(256),
+            transforms.CenterCrop(224),
+            transforms.ToTensor()])
+    
+    # Create image dataset with above "plain" transformations
+    image_dataset = datasets.ImageFolder(os.path.join(data_dir, "train"),
+                                         data_transform)
+    
+    # Create dataloader using above image dataset
+    dataloader = torch.utils.data.DataLoader(image_dataset,
+                                             batch_size=4,
+                                             shuffle=True,
+                                             num_workers=2)
+    
+    # Dataset size of training dataset
+    dataset_size = len(image_dataset)
+    
+    # List of class names
+    class_names = image_dataset.classes
+    
+    return dataloader, dataset_size, class_names
+
+
 def preprocess_image(image_file):
     """
     Preprocess an input image.
@@ -228,7 +272,8 @@ def preprocess_image(image_file):
         transforms.Resize(256),
         transforms.CenterCrop(224),
         transforms.ToTensor(),
-        transforms.Normalize([0.5, 0.5, 0.5], [0.5, 0.5, 0.5])
+        transforms.Normalize([0.4777, 0.4451, 0.3876],
+                             [0.2597, 0.2527, 0.2549])
     ])
 
     image = Image.open(image_file)
@@ -260,3 +305,21 @@ def show_batch_of_images(img):
     npimg = img.numpy()
     plt.imshow(np.transpose(npimg, (1, 2, 0))) # transpose dimensions from Pytorch format to default numpy format
     plt.show()
+
+
+def get_mean_std(loader):
+    channels_sum, channels_squared_sum, num_batches = 0, 0, 0
+
+    for data, _ in loader:
+        channels_sum += torch.mean(data, dim=[0,2,3]) # calculate mean accross training samples, height and width
+        channels_squared_sum += torch.mean(data**2, dim=[0,2,3])
+        num_batches += 1
+
+    print("Calculating mean...")
+    mean = channels_sum/num_batches
+
+    print("Calculating std...")
+    # VAR[X] = E[X**2] - E[X]**2
+    std = (channels_squared_sum/num_batches - mean**2)**0.5
+
+    return mean, std
