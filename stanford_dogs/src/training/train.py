@@ -172,7 +172,6 @@ def fine_tune_model(model: torchvision.models,
 
             running_loss = 0.0
             running_correct_preds = 0
-            iteration = 0
 
             # Iterate over data batches
             for inputs, labels in dataloaders[phase]:
@@ -189,12 +188,9 @@ def fine_tune_model(model: torchvision.models,
                     _, preds = torch.max(outputs, 1)
                     loss = criterion(outputs, labels)
 
-                    iteration += 1
-                    if iteration % 100 == 0:
-                        print(f"Iteration {iteration}")
-                        print(f"Preds: {preds}")
-                        print(f"Labels: {labels}")
-                        print(f"Cross Entropy: {nn.functional.cross_entropy(outputs, labels)}")
+                    # print(f"Preds: {preds}")
+                    # print(f"Labels: {labels}")
+                    # print(f"Cross Entropy: {nn.functional.cross_entropy(outputs, labels)}")
 
                     # Backward pass and gradient optimization only if in training phase
                     if phase == "train":
@@ -208,8 +204,6 @@ def fine_tune_model(model: torchvision.models,
             # Average loss and accuracy over examples
             epoch_loss = running_loss / dataset_sizes[phase]
             epoch_acc = running_correct_preds.double() / dataset_sizes[phase]
-
-            print(f"Epoch loss: {epoch_loss}")
 
             print(f"{phase.capitalize()} Loss: {epoch_loss:.4f} {phase.capitalize()} Acc: {epoch_acc:.4f}")
             
@@ -241,8 +235,8 @@ def fine_tune_model(model: torchvision.models,
     # Log the training duration to AML run
     run.log("training_duration_min", time_elapsed // 60)
     
-    print(f"Training completed in {time_elapsed // 60:.0f}m {time_elapsed % 60:.0f}s.")
-    print(f"Best Val Acc: {best_acc:4f}")
+    print(f"Training completed in {time_elapsed // 60:.0f}m {time_elapsed % 60:.0f}s")
+    print(f"Best validation accuracy: {best_acc:4f}")
           
     # Load best model weights into model
     model.load_state_dict(best_model_weights)

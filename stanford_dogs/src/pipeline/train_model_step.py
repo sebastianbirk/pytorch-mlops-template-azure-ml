@@ -57,7 +57,7 @@ def main():
     parser = argparse.ArgumentParser("train")
     parser.add_argument("--caller_run_id",
                         type=str,
-                        help="Pipeline caller run id, for example ADF pipeline run id"
+                        help="Pipeline caller run id, for example ADF pipeline run id",
                         default="local")
     parser.add_argument("--dataset_name",
                         type=str,
