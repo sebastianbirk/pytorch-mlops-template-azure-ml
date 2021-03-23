@@ -17,56 +17,58 @@ class EnvVariables:
     """
     
     # load variables defined in <PROJECT_ROOT>/config/.env file into environment variables for local execution
-    load_dotenv(dotenv_path=Path(__file__).parents[2] / "config/.env")
+    load_dotenv(dotenv_path=Path(__file__).parents[2] / ".env")
 
     tenant_id: Optional[str] = os.environ.get("TENANT_ID")
     subscription_id: Optional[str] = os.environ.get("SUBSCRIPTION_ID")
     resource_group: Optional[str] = os.environ.get("RESOURCE_GROUP")
     workspace_name: Optional[str] = os.environ.get("WORKSPACE_NAME")
     experiment_name: Optional[str] = os.environ.get("EXPERIMENT_NAME")
-    # src_dir: Optional[str] = os.environ.get("SRC_DIR")
-    # app_id: Optional[str] = os.environ.get("SP_APP_ID")
-    # app_secret: Optional[str] = os.environ.get("SP_APP_SECRET")
-    # vm_size: Optional[str] = os.environ.get("AML_COMPUTE_CLUSTER_CPU_SKU")
-    # compute_name: Optional[str] = os.environ.get("AML_COMPUTE_CLUSTER_NAME")
+    data_dir: Optional[str] = os.environ.get("DATA_DIR")
+    datastore_target_dir: Optional[str] = os.environ.get("DATASTORE_TARGET_DIR")
+    src_dir: Optional[str] = os.environ.get("SRC_DIR")
+    sp_app_id: Optional[str] = os.environ.get("SP_APP_ID")
+    sp_app_secret: Optional[str] = os.environ.get("SP_APP_SECRET")
+    vm_size: Optional[str] = os.environ.get("AML_COMPUTE_CLUSTER_GPU_SKU")
+    compute_name: Optional[str] = os.environ.get("AML_COMPUTE_CLUSTER_NAME")
     # vm_priority: Optional[str] = os.environ.get(
     #     "AML_CLUSTER_PRIORITY", "lowpriority"
     # )  # NOQA: E501
     # min_nodes: int = int(os.environ.get("AML_CLUSTER_MIN_NODES", 0))
     # max_nodes: int = int(os.environ.get("AML_CLUSTER_MAX_NODES", 4))
-    # build_id: Optional[str] = os.environ.get("BUILD_BUILDID")
-    # pipeline_name: Optional[str] = os.environ.get("TRAINING_PIPELINE_NAME")
+    build_id: Optional[str] = os.environ.get("BUILD_ID")
+    pipeline_name: Optional[str] = os.environ.get("TRAINING_PIPELINE_NAME")
     # conda_env_directory: Optional[str] = os.environ.get("CONDA_ENV_DIR")
     # sources_directory_train: Optional[str] = os.environ.get(
     #     "SOURCES_DIR_TRAIN"
     # )  # NOQA: E501
-    # train_script_path: Optional[str] = os.environ.get("TRAIN_SCRIPT_PATH")
-    # evaluate_script_path: Optional[str] = os.environ.get(
-    #     "EVALUATE_SCRIPT_PATH"
-    # )  # NOQA: E501
-    # register_script_path: Optional[str] = os.environ.get(
-    #     "REGISTER_SCRIPT_PATH"
-    # )  # NOQA: E501
-    # model_name: Optional[str] = os.environ.get("MODEL_NAME"))
+    pipeline_train_script_path: Optional[str] = os.environ.get("PIPELINE_TRAIN_SCRIPT_PATH")
+    pipeline_evaluate_script_path: Optional[str] = os.environ.get(
+        "PIPELINE_EVALUATE_SCRIPT_PATH"
+    )  # NOQA: E501
+    pipeline_register_script_path: Optional[str] = os.environ.get(
+        "PIPELINE_REGISTER_SCRIPT_PATH"
+    )  # NOQA: E501
+    model_name: Optional[str] = os.environ.get("MODEL_NAME")
     # model_version: Optional[str] = os.environ.get("MODEL_VERSION")
     # image_name: Optional[str] = os.environ.get("IMAGE_NAME")
     # db_cluster_id: Optional[str] = os.environ.get("DB_CLUSTER_ID")
     # score_script: Optional[str] = os.environ.get("SCORE_SCRIPT")
-    # build_uri: Optional[str] = os.environ.get("BUILD_URI")
-    # dataset_name: Optional[str] = os.environ.get("DATASET_NAME")
-    # datastore_name: Optional[str] = os.environ.get("DATASTORE_NAME")
-    # dataset_version: Optional[str] = os.environ.get("DATASET_VERSION")
-    # run_evaluation: Optional[str] = os.environ.get("RUN_EVALUATION", "true")
-    # allow_run_cancel: Optional[str] = os.environ.get(
-    #     "ALLOW_RUN_CANCEL", "true"
-    # )  # NOQA: E501
-    # aml_env_name: Optional[str] = os.environ.get("AML_ENV_NAME")
-    # aml_env_train_conda_dep_file: Optional[str] = os.environ.get(
-    #     "AML_ENV_TRAIN_CONDA_DEP_FILE", "conda_dependencies.yml"
-    # )
-    # rebuild_env: Optional[bool] = os.environ.get(
-    #     "AML_REBUILD_ENVIRONMENT", "false"
-    # ).lower().strip() == "true"
+    build_uri: Optional[str] = os.environ.get("BUILD_URI")
+    dataset_name: Optional[str] = os.environ.get("DATASET_NAME")
+    datastore_name: Optional[str] = os.environ.get("DATASTORE_NAME")
+    dataset_version: Optional[str] = os.environ.get("DATASET_VERSION")
+    pipeline_run_evaluation: Optional[str] = os.environ.get("PIPELINE_RUN_EVALUATION", "true")
+    pipeline_allow_run_cancel: Optional[str] = os.environ.get(
+        "PIPELINE_ALLOW_RUN_CANCEL", "true"
+    ) # NOQA: E501
+    aml_train_env_name: Optional[str] = os.environ.get("AML_TRAIN_ENV_NAME")
+    aml_train_env_conda_file_path: Optional[str] = os.environ.get(
+        "AML_TRAIN_ENV_CONDA_FILE_PATH", "environments/conda/training_environment.yml"
+    )
+    aml_train_env_rebuild: Optional[bool] = os.environ.get(
+        "AML_TRAIN_ENV_REBUILD", "false"
+    ).lower().strip() == "true"
 
     # use_gpu_for_scoring: Optional[bool] = os.environ.get(
     #     "USE_GPU_FOR_SCORING", "false"

@@ -172,7 +172,7 @@ def fine_tune_model(model: torchvision.models,
 
             running_loss = 0.0
             running_correct_preds = 0
-            cross_entropy_running = 0
+            # cross_entropy_running = 0
 
             # Iterate over data batches
             for inputs, labels in dataloaders[phase]:
@@ -189,8 +189,8 @@ def fine_tune_model(model: torchvision.models,
                     _, preds = torch.max(outputs, 1)
                     loss = criterion(outputs, labels)
                     
-                    cross_entropy_current_batch = nn.functional.cross_entropy(outputs, labels)
-                    cross_entropy_running += cross_entropy_current_batch
+                    # cross_entropy_current_batch = nn.functional.cross_entropy(outputs, labels)
+                    # cross_entropy_running += cross_entropy_current_batch
                     # print(f"Preds: {preds}")
                     # print(f"Labels: {labels}")
                     # print(f"Cross Entropy: {cross_entropy_current_batch}")
@@ -209,7 +209,7 @@ def fine_tune_model(model: torchvision.models,
             epoch_acc = running_correct_preds.double() / dataset_sizes[phase]
 
             print(f"{phase.capitalize()} Loss: {epoch_loss:.4f} {phase.capitalize()} Acc: {epoch_acc:.4f}")
-            print(f"Cross Entropy: {cross_entropy_running}")
+            # print(f"Cross Entropy: {cross_entropy_running}")
             
             if phase == "train":
                 # Track train loss and acc

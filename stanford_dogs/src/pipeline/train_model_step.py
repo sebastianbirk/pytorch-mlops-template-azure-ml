@@ -2,7 +2,7 @@
 This script is based on the pipeline scripts in https://github.com/microsoft/MLOpsPython. 
 """
 
-# Append src folder to sys.path to be able to import all necessary modules
+# Append src (root) folder to sys.path to be able to import all necessary modules
 import sys
 from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parents[1]))
@@ -12,12 +12,12 @@ import argparse
 import json
 import os
 import torch
-from azureml.core import Dataset, Datastore, Workspace
+from azureml.core import Dataset, Datastore, Experiment, Run, Workspace
 from azureml.core.run import Run
 
 # Import created modules
-from utils import EnvVariables, get_model_metrics, load_data, register_dataset
 from training.train import train_model
+from utils import EnvVariables, get_model_metrics, load_data, register_dataset
 
 
 def main():
@@ -40,7 +40,7 @@ def main():
         resource_group = env_variables.resource_group
         experiment_name = env_variables.experiment_name
     
-        # Retrieve workspace and experiment using specified env_variables
+        # Retrieve workspace and create experiment using specified env_variables
         ws = Workspace.get(name=workspace_name,
                            subscription_id=subscription_id,
                            resource_group=resource_group)
@@ -75,7 +75,7 @@ def main():
     parser.add_argument("--model_name",
                         type=str,
                         help="Name of the Model",
-                        default="dog-clf-model")
+                        default="dog_clf_model")
     parser.add_argument("--step_output",
                         type=str,
                         help="Pipeline output for passing data to the next step")
@@ -87,6 +87,7 @@ def main():
     print(f"Argument [data_file_path]: {args.data_file_path}")
     print(f"Argument [model_name]: {args.model_name}")
     print(f"Argument [step_output]: {args.step_output}")
+    print("")
 
     dataset_name = args.dataset_name
     dataset_version = args.dataset_version
