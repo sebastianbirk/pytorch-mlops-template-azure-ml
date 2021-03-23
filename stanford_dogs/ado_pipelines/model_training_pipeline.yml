@@ -23,7 +23,7 @@ pool:
 
 stages:
 - stage: 'Model_CI'
-  displayName: 'Model CI'
+  displayName: 'Build and publish AML pipeline'
   jobs:
   - job: "Model_CI_Pipeline"
     displayName: "Model CI Pipeline"
@@ -44,7 +44,7 @@ stages:
       displayName: 'Publish Azure Machine Learning Pipeline'
 
 - stage: 'Trigger_AML_Pipeline'
-  displayName: 'Train, evaluate and register model'
+  displayName: 'Run AML pipeline'
   condition: succeeded()
   variables:
     BUILD_URI: '$(SYSTEM.COLLECTIONURI)$(SYSTEM.TEAMPROJECT)/_build/results?buildId=$(BUILD.BUILDID)'

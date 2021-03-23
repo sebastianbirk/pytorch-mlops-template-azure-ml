@@ -16,7 +16,8 @@
     },
     "registration":
     {
-        "tags": ["test_acc"]
+        "model_tags": {"type": "multiclass classification"},
+        "model_properties": ["test_acc"]
     },
     "scoring":
     {
