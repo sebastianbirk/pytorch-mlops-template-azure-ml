@@ -94,9 +94,9 @@ def main():
         if (model is not None):
             # Initialize production model accuracy
             production_model_accuracy = 50
-            # Get production model accuracy from model tags
-            if (metric_eval in model.tags):
-                production_model_accuracy = float(model.tags[metric_eval])
+            # Get production model accuracy from model properties
+            if (metric_eval in model.properties):
+                production_model_accuracy = float(model.properties[metric_eval])
                 print(run.parent.get_metrics().get(metric_eval))
             # Get new model accuracy
             new_model_accuracy = float(run.parent.get_metrics().get(metric_eval))

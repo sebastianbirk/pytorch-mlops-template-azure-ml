@@ -76,14 +76,16 @@ def main():
         print("Could not load registration values from file.")
         register_args = {"tags": []}
 
-    model_tags = {}
-    for tag in register_args["tags"]:
+    model_properties = {}
+    for property in register_args["model_properties"]:
         try:
             # Get evaluation metrics from parent run and tag them to model
-            mtag = run.parent.get_metrics()[tag]
-            model_tags[tag] = mtag
+            mproperty = run.parent.get_metrics()[property]
+            model_properties[property] = mproperty
         except KeyError:
-            print(f"Could not find {tag} metric on parent run.")
+            print(f"Could not find {property} metric on parent run.")
+
+    model_tags = register_args["model_tags"]
 
     # Load the model
     print("Loading model from " + model_path)
@@ -108,7 +110,7 @@ def main():
                        description="test",
                        model_path=model_file,
                        tags=model_tags,
-                       properties={"val_acc": 50},
+                       properties=model_properties,
                        model_framework=Model.Framework.PYTORCH,
                        model_framework_version=torch.__version__)
 
