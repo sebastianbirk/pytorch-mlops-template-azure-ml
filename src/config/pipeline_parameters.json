@@ -1,0 +1,26 @@
+{
+    "training":
+    {
+        "num_epochs": 1,
+        "batch_size": 8,
+        "learning_rate": 0.1,
+        "momentum": 0.9,
+        "num_frozen_layers": 7,
+        "num_neurons_fc_layer": 512,
+        "dropout_prob_fc_layer": 0.0,
+        "lr_scheduler_step_size": 7
+    },
+    "evaluation":
+    {
+        "metric_eval": "test_acc"
+    },
+    "registration":
+    {
+        "model_tags": {"type": "multiclass classification"},
+        "model_properties": ["test_acc"]
+    },
+    "scoring":
+    {
+        
+    }
+}
