@@ -14,7 +14,7 @@ import os
 import sys
 import torch
 from azureml.core import Run, Experiment, Workspace, Dataset
-from azureml.core.model import Model as AMLModel
+from azureml.core.model import Model
 from pathlib import Path
 
 # Import created modules
@@ -104,35 +104,43 @@ def main():
         print("BuildUri tag not found on parent run.")
         print(f"Tags present: {parent_tags}")
 
-    if (model is not None):
-        dataset_id = parent_tags["dataset_id"]
-        if (build_id is None):
-            register_aml_model(model_file,
-                               model_name,
-                               model_tags,
-                               exp,
-                               run_id,
-                               dataset_id)
-        elif (build_uri is None):
-            register_aml_model(model_file,
-                               model_name,
-                               model_tags,
-                               exp,
-                               run_id,
-                               dataset_id,
-                               build_id)
-        else:
-            register_aml_model(model_file,
-                               model_name,
-                               model_tags,
-                               exp,
-                               run_id,
-                               dataset_id,
-                               build_id,
-                               build_uri)
-    else:
-        print("Model not found. Skipping model registration.")
-        sys.exit(0)
+    run.register_model(model_name=model_name,
+                       description="test",
+                       model_path=model_file,
+                       tags=model_tags,
+                       properties={"val_acc": 50},
+                       model_framework=Model.Framework.PYTORCH,
+                       model_framework_version=torch.__version__)
+
+    # if (model is not None):
+    #     dataset_id = parent_tags["dataset_id"]
+    #     if (build_id is None):
+    #         register_aml_model(model_file,
+    #                            model_name,
+    #                            model_tags,
+    #                            exp,
+    #                            run_id,
+    #                            dataset_id)
+    #     elif (build_uri is None):
+    #         register_aml_model(model_file,
+    #                            model_name,
+    #                            model_tags,
+    #                            exp,
+    #                            run_id,
+    #                            dataset_id,
+    #                            build_id)
+    #     else:
+    #         register_aml_model(model_file,
+    #                            model_name,
+    #                            model_tags,
+    #                            exp,
+    #                            run_id,
+    #                            dataset_id,
+    #                            build_id,
+    #                            build_uri)
+    # else:
+    #     print("Model not found. Skipping model registration.")
+    #     sys.exit(0)
 
 
 if __name__ == "__main__":

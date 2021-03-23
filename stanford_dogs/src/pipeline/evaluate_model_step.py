@@ -75,10 +75,10 @@ def main():
         evaluation_args = pars["evaluation"]
     except KeyError:
         print("Could not load evaluation parameters from file.")
-        evaluation_args = {"eval_metric": "none"}
+        evaluation_args = {"metric_eval": "none"}
 
     # Retrieve evaluation metric
-    metric_eval =  evaluation_args["eval_metric"]
+    metric_eval =  evaluation_args["metric_eval"]
     
     # Parameterize the matrices on which the models should be compared
     # Add golden data set on which all the model performance can be evaluated
