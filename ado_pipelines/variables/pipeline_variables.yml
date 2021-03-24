@@ -1,5 +1,11 @@
 # Pipeline template that defines common runtime environment variables.
 variables:
+
+  - name: paramCondaTrainEnvFilePath
+    value: environments/conda/training_environment.yml
+  - name: paramCondaTrainEnvName
+    value: stanford-dogs-dev-env
+
   # Source Config
   # The directory containing the scripts for training, evaluating, and registering the model
   - name: SOURCES_DIR_TRAIN

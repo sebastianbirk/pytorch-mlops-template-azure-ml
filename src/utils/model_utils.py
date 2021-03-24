@@ -146,6 +146,8 @@ def register_aml_model(
             model_path=model_path,
             tags=tagsValue,
             properties=model_properties,
+            model_framework=AMLModel.Framework.PYTORCH,
+            model_framework_version=torch.__version__,
             datasets=[("training data",
                        Dataset.get_by_id(exp.workspace, dataset_id))])
         os.chdir("..")
