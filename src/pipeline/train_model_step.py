@@ -157,7 +157,9 @@ def main():
         )
 
     # Evaluate and log the model metrics to the step run and the pipeline run
+    print("Logging model metrics")
     metrics = get_model_metrics(model, dataloaders, dataset_sizes)
+    print("Metrics", metrics) # debug
     for (k, v) in metrics.items():
         run.log(k, v) # step run
         run.parent.log(k, v) # pipeline run
