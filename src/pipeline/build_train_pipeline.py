@@ -119,7 +119,7 @@ def main():
                                              "--caller_run_id", caller_run_id_param,
                                              "--dataset_name", dataset_name],
                                   runconfig=run_config,
-                                  allow_reuse=True)
+                                  allow_reuse=False)
     print("Training step has been created.")
 
     # Create evaluate step using PythonScriptStep
