@@ -37,10 +37,11 @@ stages:
         scriptLocation: inlineScript
         workingDirectory: $(Build.SourcesDirectory)
         inlineScript: |
+          echo SOURCES_DIRECTORY=$(Build.SourcesDirectory)
           set -e # fail on error
           export SUBSCRIPTION_ID=$(az account show --query id -o tsv)
           # Invoke the Python building and publishing a training pipeline
-          python -m src.pipeline.build_train_pipeline.py
+          python src/pipeline/build_train_pipeline.py
       displayName: 'Publish Azure Machine Learning Pipeline'
 
 - stage: 'Trigger_AML_Pipeline'
