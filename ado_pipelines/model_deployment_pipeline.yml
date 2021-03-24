@@ -24,7 +24,7 @@ resources:
   #       - master
 
 variables:
-- template: diabetes_regression-variables-template.yml
+- template: variables/pipeline_variables.yml
 - group: devopsforai-aml-vg
 
 stages:
@@ -120,42 +120,3 @@ stages:
           set -e # fail on error
           export SUBSCRIPTION_ID=$(az account show --query id -o tsv)
           python -m ml_service.util.smoke_test_scoring_service --type AKS --service "$(AKS_DEPLOYMENT_NAME)"
-
-- stage: 'Deploy_Webapp'
-  displayName: 'Deploy to Webapp'
-  condition: variables['WEBAPP_DEPLOYMENT_NAME']
-  jobs:
-  - job: "Deploy_Webapp"
-    displayName: "Package and deploy model"
-    container: mlops
-    timeoutInMinutes: 0
-    steps:
-    - template: diabetes_regression-get-model-id-artifact-template.yml
-      parameters:
-        projectId: '$(resources.pipeline.model-train-ci.projectID)'
-        pipelineId: '$(resources.pipeline.model-train-ci.pipelineID)'
-        artifactBuildId: ${{ parameters.artifactBuildId }}
-    - template: diabetes_regression-package-model-template.yml
-      parameters:
-        modelId: $(MODEL_NAME):$(get_model.MODEL_VERSION)
-        scoringScriptPath: '$(Build.SourcesDirectory)/$(SOURCES_DIR_TRAIN)/scoring/score.py'
-        condaFilePath: '$(Build.SourcesDirectory)/$(SOURCES_DIR_TRAIN)/conda_dependencies.yml'
-    - script: echo $(IMAGE_LOCATION) >image_location.txt
-      displayName: "Write image location file"
-    - task: AzureWebAppContainer@1
-      name: WebAppDeploy
-      displayName: 'Azure Web App on Container Deploy'
-      inputs:
-        azureSubscription: '$(AZURE_RM_SVC_CONNECTION)'
-        appName: '$(WEBAPP_DEPLOYMENT_NAME)'
-        resourceGroupName: '$(RESOURCE_GROUP)'
-        imageName: '$(IMAGE_LOCATION)'
-    - task: AzureCLI@1
-      displayName: 'Smoke test'
-      inputs:
-        azureSubscription: '$(WORKSPACE_SVC_CONNECTION)'
-        scriptLocation: inlineScript
-        inlineScript: |
-          set -e # fail on error
-          export SUBSCRIPTION_ID=$(az account show --query id -o tsv)
-          python -m ml_service.util.smoke_test_scoring_service --type Webapp --service "$(WebAppDeploy.AppServiceApplicationUrl)/score"

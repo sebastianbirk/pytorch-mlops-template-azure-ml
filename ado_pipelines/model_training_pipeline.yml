@@ -5,14 +5,14 @@ resources:
   - container: mlops
     image: mcr.microsoft.com/mlops/python:latest
 
-# pr: none
-# trigger:
-#   branches:
-#     include:
-#     - master
-#   paths:
-#     include:
-#     - src/pipeline/build_train_pipeline.py
+pr: none
+trigger:
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - src/pipeline/build_train_pipeline.py
 
 variables:
 - template: variables/pipeline_variables.yml

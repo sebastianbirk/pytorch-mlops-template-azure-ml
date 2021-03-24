@@ -123,6 +123,7 @@ def register_aml_model(
     model_path,
     model_name,
     model_tags,
+    model_properties,
     exp,
     run_id,
     dataset_id,
@@ -130,8 +131,7 @@ def register_aml_model(
     build_uri=None
 ):
     try:
-        tagsValue = {"area": "fowl classification",
-                     "run_id": run_id,
+        tagsValue = {"run_id": run_id,
                      "experiment_name": exp.name}
         tagsValue.update(model_tags)
         if (build_id != "none"):
@@ -145,6 +145,7 @@ def register_aml_model(
             model_name=model_name,
             model_path=model_path,
             tags=tagsValue,
+            properties=model_properties,
             datasets=[("training data",
                        Dataset.get_by_id(exp.workspace, dataset_id))])
         os.chdir("..")
