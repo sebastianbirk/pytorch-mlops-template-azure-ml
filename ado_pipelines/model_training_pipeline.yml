@@ -31,6 +31,19 @@ stages:
     timeoutInMinutes: 0
     steps:
     # - template: templates/code_quality_template.yml
+    - bash: |
+        echo "##vso[task.prependpath]$CONDA/bin"
+      displayName: Add conda to PATH
+      enabled: true
+      condition: succeededOrFailed()
+    - bash: |
+        conda init bash
+        conda env create --file $(paramCondaTrainEnvFilePath)
+        
+        source activate $(paramCondaTrainEnvName)
+        conda deactivate
+      displayName: Create Anaconda environment with all dependencies
+      condition: succeededOrFailed()
     - task: AzureCLI@1
       inputs:
         azureSubscription: '$(WORKSPACE_SVC_CONNECTION)'
@@ -40,6 +53,7 @@ stages:
           echo SOURCES_DIRECTORY=$(Build.SourcesDirectory)
           set -e # fail on error
           export SUBSCRIPTION_ID=$(az account show --query id -o tsv)
+          source activate $(paramCondaTrainEnvName)
           # Invoke the Python building and publishing a training pipeline
           python -m src.pipeline.build_train_pipeline.py
       displayName: 'Publish Azure Machine Learning Pipeline'
