@@ -29,7 +29,6 @@ resources:
 
 variables:
 - template: variables/pipeline_variables.yml
-- group: devopsforai-aml-vg
 
 stages:
 - stage: 'Deploy_ACI'
