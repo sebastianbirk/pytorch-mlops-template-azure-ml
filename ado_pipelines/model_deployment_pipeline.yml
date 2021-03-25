@@ -56,7 +56,7 @@ stages:
         inlineScript: |
           set -e # fail on error
           
-          az ml model deploy --name $(paramACIDeploymentName) --model '$(paramModelName):$(paramModelVersion)' \
+          az ml model deploy --name $(paramACIDeploymentName) --model '${{ parameters.paramModelName }}:${{ parameters.paramModelVersion }}' \
           --ic inference_config.yml \
           --dc deployment_config_aci.yml \
           -g $(paramResourceGroupName) --workspace-name $(paramWorkspaceName) \
