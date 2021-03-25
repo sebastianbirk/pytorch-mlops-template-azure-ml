@@ -52,13 +52,13 @@ stages:
       inputs:
         azureSubscription: '$(paramWorkspaceServiceConnectionName)'
         scriptLocation: inlineScript
-        workingDirectory: $(Build.SourcesDirectory)/$(paramSourceDirectory)/deployment
+        workingDirectory: $(Build.SourcesDirectory)/$(paramSourceDirectory)
         inlineScript: |
           set -e # fail on error
           
           az ml model deploy --name $(paramACIDeploymentName) --model '${{ parameters.paramModelName }}:${{ parameters.paramModelVersion }}' \
-          --ic inference_config.yml \
-          --dc deployment_config_aci.yml \
+          --ic config/inference_config.yml \
+          --dc config/deployment_config_aci.yml \
           -g $(paramResourceGroupName) --workspace-name $(paramWorkspaceName) \
           --overwrite -v
     # - task: AzureCLI@1

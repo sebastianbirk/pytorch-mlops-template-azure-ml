@@ -44,6 +44,7 @@ def get_model(
         print("No workspace defined - using current experiment workspace.")
         aml_workspace = get_current_workspace()
 
+    # fix the tags section
     tags = None
     if tag_name is not None or tag_value is not None:
         # Both a name and value must be specified to use tags.
@@ -63,11 +64,10 @@ def get_model(
         model = AMLModel(
             aml_workspace,
             name=model_name,
-            version=model_version,
-            tags=tags)
+            version=model_version)
     else:
         models = AMLModel.list(
-            aml_workspace, name=model_name, tags=tags, latest=True)
+            aml_workspace, name=model_name, latest=True)
         if len(models) == 1:
             model = models[0]
         elif len(models) > 1:
