@@ -107,7 +107,7 @@ stages:
         inlineScript: |
           set -e # fail on error
           
-          az ml model deploy --name $(paramAKSDeploymentName)--model '${{ parameters.paramModelName }}:${{ parameters.paramModelVersion }}' \
+          az ml model deploy --name $(paramAKSDeploymentName) --model '${{ parameters.paramModelName }}:${{ parameters.paramModelVersion }}' \
           --compute-target $(paramAKSComputeTarget) \
           --ic config/inference_config.yml \
           --dc config/deployment_config_aks.yml \

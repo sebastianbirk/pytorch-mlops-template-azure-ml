@@ -11,7 +11,7 @@ from werkzeug.utils import secure_filename
 
 ALLOWED_EXTENSIONS = set(["jpg", "jpeg", "png"])
 UPLOAD_FOLDER = 'uploads'
-SCORING_URI = "http://20.73.117.144:80/api/v1/service/dog-classification-service-aks/score"
+SCORING_URI = "http://b55f0891-0e7b-43c2-9a7f-e06446dc4959.westeurope.azurecontainer.io/score"
 
 
 def allowed_file(filename):
@@ -45,9 +45,10 @@ def predict(file):
     input_data = preprocess_image(file)
 
     # Get header and body for POST request
-    api_key = 'IpJZFNxfvQQbRhFbiytcXTZhFFs7nQgN'
+    # api_key = 'IpJZFNxfvQQbRhFbiytcXTZhFFs7nQgN'
     input_data = "{\"data\": " + str(input_data.tolist()) + "}"
-    headers = {"Content-Type": "application/json", "Authorization":("Bearer "+ api_key)} 
+    # headers = {"Content-Type": "application/json", "Authorization":("Bearer "+ api_key)} 
+    headers = {"Content-Type": "application/json"} 
 
     # Make POST request
     resp = requests.post(SCORING_URI, input_data, headers=headers)
