@@ -1,16 +1,5 @@
 # Model deployment pipeline to deploy an AML model to ACI & AKS
 
-# Runtime parameters
-parameters:
-- name : paramModelName
-  displayName: Name of the model to be deployed
-  type: string
-  default: dog_clf_model
-- name : paramModelVersion
-  displayName: Version of the model to be deployed
-  type: string
-  default: 1
-
 pr: none
 
 # Trigger this pipeline on model-train pipeline completion
@@ -30,95 +19,18 @@ resources:
 variables:
 - template: variables/pipeline_variables.yml
 
-stages:
-- stage: 'Deploy_ACI'
-  displayName: 'Deploy to ACI'
-  # condition: variables['ACI_DEPLOYMENT_NAME']
-  jobs:
-  - job: "Deploy_ACI"
-    displayName: "Deploy to ACI"
-    container: mlops
-    timeoutInMinutes: 0
-    steps:
-    - task: AzureCLI@1
-      displayName: 'Install AzureML CLI'
-      inputs:
-        azureSubscription: '$(paramWorkspaceServiceConnectionName)'
-        scriptLocation: inlineScript
-        workingDirectory: $(Build.SourcesDirectory)
-        inlineScript: 'az extension add -n azure-cli-ml'
-    - task: AzureCLI@1
-      displayName: "Deploy to ACI (CLI)"
-      inputs:
-        azureSubscription: '$(paramWorkspaceServiceConnectionName)'
-        scriptLocation: inlineScript
-        workingDirectory: $(Build.SourcesDirectory)/$(paramSourceDirectory)
-        inlineScript: |
-          set -e # fail on error
-          
-          az ml model deploy --name $(paramACIDeploymentName) --model '${{ parameters.paramModelName }}:${{ parameters.paramModelVersion }}' \
-          --ic config/inference_config.yml \
-          --dc config/deployment_config_aci.yml \
-          -g $(paramResourceGroupName) --workspace-name $(paramWorkspaceName) \
-          --overwrite -v
-    # - task: AzureCLI@1
-    #   displayName: 'Smoke test'
-    #   inputs:
-    #     azureSubscription: '$(paramWorkspaceServiceConnectionName)'
-    #     scriptLocation: inlineScript
-    #     inlineScript: |
-    #       set -e # fail on error
-    #       export SUBSCRIPTION_ID=$(az account show --query id -o tsv)
-    #       python -m testing.smoke.test_model_endpoint --type ACI --service "$(paramACIDeploymentName)"
-
-- stage: 'Deploy_AKS'
-  displayName: 'Deploy to AKS'
-  dependsOn: Deploy_ACI
-  # condition: and(succeeded(), variables['AKS_DEPLOYMENT_NAME'])
-  jobs:
-  - job: 'Wait_For_Validation'
-    displayName: 'Wait for Validation'
-    pool: server    
-    timeoutInMinutes: 4320 # job times out in 3 days
-    steps:   
-    - task: ManualValidation@0
-      timeoutInMinutes: 1440 # task times out in 1 day
-      inputs:
-        notifyUsers: 's.birk@avanade.com'
-        instructions: 'Please validate deployed ACI endpoint and only resume with deployment to AKS if everything works as expected.'
-  - job: "Deploy_AKS"
-    displayName: "Deploy to AKS"
-    container: mlops
-    timeoutInMinutes: 0
-    steps:
-    - task: AzureCLI@1
-      displayName: 'Install AzureML CLI'
-      inputs:
-        azureSubscription: '$(paramWorkspaceServiceConnectionName)'
-        scriptLocation: inlineScript
-        workingDirectory: $(Build.SourcesDirectory)
-        inlineScript: 'az extension add -n azure-cli-ml'
-    - task: AzureCLI@1
-      displayName: "Deploy to AKS (CLI)"
-      inputs:
-        azureSubscription: '$(paramWorkspaceServiceConnectionName)'
-        scriptLocation: inlineScript
-        workingDirectory: $(Build.SourcesDirectory)/$(paramSourceDirectory)
-        inlineScript: |
-          set -e # fail on error
-          
-          az ml model deploy --name $(paramAKSDeploymentName)--model '${{ parameters.paramModelName }}:${{ parameters.paramModelVersion }}' \
-          --compute-target $(paramAKSComputeTarget) \
-          --ic config/inference_config.yml \
-          --dc config/deployment_config_aks.yml \
-          -g $(paramResourceGroupName) --workspace-name $(paramWorkspaceName) \
-          --overwrite -v
-    # - task: AzureCLI@1
-    #   displayName: 'Smoke test'
-    #   inputs:
-    #     azureSubscription: '$(paramWorkspaceServiceConnectionName)'
-    #     scriptLocation: inlineScript
-    #     inlineScript: |
-    #       set -e # fail on error
-    #       export SUBSCRIPTION_ID=$(az account show --query id -o tsv)
-    #       python -m testing.smoke.test_model_endpoint --type AKS --service "$(paramAKSDeploymentName)"
+jobs:
+- job: "Deploy_Flask_WebApp"
+  displayName: "Deploy Flask WebApp"
+  container: mlops
+  timeoutInMinutes: 0
+  steps:
+  - task: Docker@2
+    displayName: "Build Image & Push Image to ACR"
+    inputs:
+      containerRegistry: 'acr-connection'
+      repository: 'dog_clf_model'
+      command: 'buildAndPush'
+      Dockerfile: 'src/flask-app/Dockerfile'
+  
+  
