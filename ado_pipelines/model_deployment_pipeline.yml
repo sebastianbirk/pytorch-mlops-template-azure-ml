@@ -77,15 +77,15 @@ stages:
   # condition: and(succeeded(), variables['AKS_DEPLOYMENT_NAME'])
   jobs:
   - job: 'Wait_For_Validation'
-  displayName: 'Wait for Validation'
-  pool: server    
-  timeoutInMinutes: 4320 # job times out in 3 days
-  steps:   
-  - task: ManualValidation@0
-    timeoutInMinutes: 1440 # task times out in 1 day
-    inputs:
-      notifyUsers: 's.birk@avanade.com'
-      instructions: 'Please validate deployed ACI endpoint and only resume with deployment to AKS if everything works as expected.'
+    displayName: 'Wait for Validation'
+    pool: server    
+    timeoutInMinutes: 4320 # job times out in 3 days
+    steps:   
+    - task: ManualValidation@0
+      timeoutInMinutes: 1440 # task times out in 1 day
+      inputs:
+        notifyUsers: 's.birk@avanade.com'
+        instructions: 'Please validate deployed ACI endpoint and only resume with deployment to AKS if everything works as expected.'
   - job: "Deploy_AKS"
     displayName: "Deploy to AKS"
     container: mlops
