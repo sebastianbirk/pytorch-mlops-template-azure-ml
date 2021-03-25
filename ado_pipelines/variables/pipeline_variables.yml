@@ -13,6 +13,10 @@ variables:
     value: aml-workspace-connection
   - name: paramACIDeploymentName
     value: dog-classification-service-aci
+  - name: paramAKSDeploymentName
+    value: dog-classification-service-aks
+  - name: paramAKSComputeTarget
+    value: amlbrikseaks
 
   # Source Config
   # The directory containing the scripts for training, evaluating, and registering the model
