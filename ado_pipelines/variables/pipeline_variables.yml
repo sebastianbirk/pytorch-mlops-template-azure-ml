@@ -5,10 +5,18 @@ variables:
     value: environments/conda/training_environment.yml
   - name: paramCondaTrainEnvName
     value: stanford-dogs-train-env
+  - name: paramWorkspaceName
+    value: amlbriksews
+  - name: paramResourceGroupName
+    value: amlbrikserg
+  - name: paramWorkspaceServiceConnectionName
+    value: aml-workspace-connection
+  - name: paramACIDeploymentName
+    value: dog-classification-service-aci
 
   # Source Config
   # The directory containing the scripts for training, evaluating, and registering the model
-  - name: SOURCES_DIR_TRAIN
+  - name: paramSourceDirectory
     value: src
     # The path to the model training script under SOURCES_DIR_TRAIN
   - name: PIPELINE_TRAIN_SCRIPT_PATH

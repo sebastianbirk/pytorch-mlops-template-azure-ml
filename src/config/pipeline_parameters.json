@@ -3,7 +3,7 @@
     {
         "num_epochs": 1,
         "batch_size": 8,
-        "learning_rate": 0.1,
+        "learning_rate": 0.001,
         "momentum": 0.9,
         "num_frozen_layers": 7,
         "num_neurons_fc_layer": 512,
