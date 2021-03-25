@@ -87,4 +87,5 @@ def uploaded_file(filename):
                                filename)
 
 if __name__ == "__main__":
-    app.run(threaded=False)
+    # app.run(threaded=False)
+    app.run(debug=True, host="0.0.0.0")
