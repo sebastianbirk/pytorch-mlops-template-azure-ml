@@ -20,11 +20,15 @@ variables:
 - template: variables/pipeline_variables.yml
 
 jobs:
-- job: "Deploy_Flask_WebApp"
-  displayName: "Deploy Flask WebApp"
+- job: "Deploy_Flask_Web_App"
+  displayName: "Deploy Flask Web App"
   container: mlops
   timeoutInMinutes: 0
   steps:
+  - task: DockerInstaller@0
+    displayName: "Install Docker CLI"
+    inputs:
+      dockerVersion: '17.09.0-ce'
   - task: Docker@2
     displayName: "Build Image & Push Image to ACR"
     inputs:
@@ -32,5 +36,11 @@ jobs:
       repository: 'dog_clf_model'
       command: 'buildAndPush'
       Dockerfile: 'src/flask-app/Dockerfile'
+  - task: AzureWebAppContainer@1
+    displayName: "Deploy Image to Azure Web App"
+    inputs:
+      azureSubscription: 'azure-resource-connection'
+      appName: 'amlbriksewebapp'
+      containers: '3d5545b15c4c49548d3823156fa90536.azurecr.io/dog_clf_model:latest'
   
   
