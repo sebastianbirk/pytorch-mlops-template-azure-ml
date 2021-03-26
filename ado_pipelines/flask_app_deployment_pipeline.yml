@@ -20,8 +20,8 @@ variables:
 - template: variables/pipeline_variables.yml
 
 jobs:
-- job: "Deploy_Flask_WebApp"
-  displayName: "Deploy Flask WebApp"
+- job: "Deploy_Flask_Web_App"
+  displayName: "Deploy Flask Web App"
   container: mlops
   timeoutInMinutes: 0
   steps:
