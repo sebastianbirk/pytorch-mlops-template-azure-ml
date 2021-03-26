@@ -36,5 +36,11 @@ jobs:
       repository: 'dog_clf_model'
       command: 'buildAndPush'
       Dockerfile: 'src/flask-app/Dockerfile'
+  - task: AzureWebAppContainer@1
+    displayName: "Deploy Image to Azure Web App"
+    inputs:
+      azureSubscription: 'azure-resource-connection'
+      appName: 'amlbriksewebapp'
+      containers: '3d5545b15c4c49548d3823156fa90536.azurecr.io/dog_clf_model:latest'
   
   
