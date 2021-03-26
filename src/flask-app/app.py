@@ -59,7 +59,7 @@ def predict(file):
     # output = {'Negative:': probs[0], 'Positive': probs[1]}
     return resp.text
 
-app = Flask(__name__, template_folder='Templates')  ## To upload files to folder
+app = Flask(__name__, template_folder='templates')  ## To upload files to folder
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
@@ -87,5 +87,4 @@ def uploaded_file(filename):
                                filename)
 
 if __name__ == "__main__":
-    # app.run(threaded=False)
-    app.run(debug=True, host="0.0.0.0")
+    app.run(threaded=False)
