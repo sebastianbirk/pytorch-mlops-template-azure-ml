@@ -87,6 +87,8 @@ stages:
         notifyUsers: 's.birk@avanade.com'
         instructions: 'Please validate deployed ACI endpoint and only resume with deployment to AKS if everything works as expected.'
   - job: "Deploy_AKS"
+    dependsOn: 'Wait_For_Validation'
+    condition: eq(dependencies.Wait_For_Validation.result,'Succeeded')
     displayName: "Deploy to AKS"
     container: mlops
     timeoutInMinutes: 0
