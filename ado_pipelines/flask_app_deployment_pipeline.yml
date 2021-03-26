@@ -4,17 +4,10 @@ pr: none
 
 # Trigger this pipeline on model-train pipeline completion
 trigger: none
-resources:
-  containers:
-  - container: mlops
-    image: mcr.microsoft.com/mlops/python:latest
-  # pipelines:
-  # - pipeline: model-train-ci
-  #   source: Model-Train-Register-CI # Name of the triggering pipeline
-  #   trigger:
-  #     branches:
-  #       include:
-  #       - master
+# resources:
+#   containers:
+#   - container: mlops
+#     image: mcr.microsoft.com/mlops/python:latest
 
 variables:
 - template: variables/pipeline_variables.yml
