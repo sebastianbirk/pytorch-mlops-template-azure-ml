@@ -41,7 +41,7 @@ jobs:
     inputs:
       azureSubscription: 'azure-resource-connection'
       appName: 'amlbriksewebapp'
-      containers: '3d5545b15c4c49548d3823156fa90536.azurecr.io/dog_clf_model:latest'
+      containers: '3d5545b15c4c49548d3823156fa90536.azurecr.io/dog_clf_model:31'
       appSettings: '-Port 5000'
   
   
