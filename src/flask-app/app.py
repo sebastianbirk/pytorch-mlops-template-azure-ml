@@ -11,7 +11,7 @@ from werkzeug.utils import secure_filename
 
 ALLOWED_EXTENSIONS = set(["jpg", "jpeg", "png"])
 UPLOAD_FOLDER = 'uploads'
-SCORING_URI = "http://b55f0891-0e7b-43c2-9a7f-e06446dc4959.westeurope.azurecontainer.io/score"
+SCORING_URI = "http://ffc0812e-ffe7-40d9-bbcf-61e2e309a52b.westeurope.azurecontainer.io/score"
 
 
 def allowed_file(filename):
