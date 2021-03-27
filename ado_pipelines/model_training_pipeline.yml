@@ -1,22 +1,28 @@
 # Model training pipeline that orchestrates the training, evaluation, and registration of the model.
 
+# Runtime parameters
+parameters:
+- name : paramTriggerModelTraining
+  displayName: True if you want to run the training pipeline, false for only build
+  type: string
+  default: true
+
 resources:
   containers:
   - container: mlops
     image: mcr.microsoft.com/mlops/python:latest
 
-pr: none
-trigger:
-  branches:
-    include:
-    - master
-  paths:
-    include:
-    - src/pipeline
+# pr: none
+# trigger:
+#   branches:
+#     include:
+#     - master
+#   paths:
+#     include:
+#     - src/pipeline
 
 variables:
 - template: variables/pipeline_variables.yml
-- group: devopsforai-aml-vg
 
 pool:
   vmImage: ubuntu-latest
@@ -46,7 +52,7 @@ stages:
       condition: succeededOrFailed()
     - task: AzureCLI@1
       inputs:
-        azureSubscription: '$(WORKSPACE_SVC_CONNECTION)'
+        azureSubscription: '$(paramWorkspaceServiceConnectionName)'
         scriptLocation: inlineScript
         workingDirectory: $(Build.SourcesDirectory)
         inlineScript: |
@@ -66,14 +72,14 @@ stages:
     BUILD_URI: '$(SYSTEM.COLLECTIONURI)$(SYSTEM.TEAMPROJECT)/_build/results?buildId=$(BUILD.BUILDID)'
   jobs:
   - job: "Get_Pipeline_ID"
-    condition: and(succeeded(), eq(coalesce(variables['auto-trigger-training'], 'true'), 'true'))
+    condition: and(succeeded(), eq(coalesce(${{ parameters.paramModelName }}, 'true'), 'true'))
     displayName: "Get Published Training Pipeline ID"
     container: mlops
     timeoutInMinutes: 0
     steps:
     - task: AzureCLI@1
       inputs:
-        azureSubscription: '$(WORKSPACE_SVC_CONNECTION)'
+        azureSubscription: '$(paramWorkspaceServiceConnectionName)'
         scriptLocation: inlineScript
         workingDirectory: $(Build.SourcesDirectory)
         inlineScript: |
@@ -96,9 +102,9 @@ stages:
     - task: ms-air-aiagility.vss-services-azureml.azureml-restApi-task.MLPublishedPipelineRestAPITask@0
       displayName: 'Invoke Training Pipeline'
       inputs:
-        azureSubscription: '$(WORKSPACE_SVC_CONNECTION)'
+        azureSubscription: '$(paramWorkspaceServiceConnectionName)'
         PipelineId: '$(AMLPIPELINE_ID)'
-        ExperimentName: '$(EXPERIMENT_NAME)'
+        ExperimentName: '$(paramTrainingPipelineExperimentName)'
         PipelineParameters: '"ParameterAssignments": {"model_name": "$(MODEL_NAME)"}, "tags": {"BuildId": "$(Build.BuildId)", "BuildUri": "$(BUILD_URI)"}, "StepTags": {"BuildId": "$(Build.BuildId)", "BuildUri": "$(BUILD_URI)"}'
   - job: "Publish_Model_Artifact"
     dependsOn: "Run_Published_Training_Pipeline"

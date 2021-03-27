@@ -17,6 +17,8 @@ variables:
     value: dog-classification-service-aks
   - name: paramAKSComputeTarget
     value: amlbrikseaks
+  - name: paramTrainingPipelineExperimentName
+    value: stanford_dogs_classifier_train
 
   # Source Config
   # The directory containing the scripts for training, evaluating, and registering the model
