@@ -4,17 +4,10 @@ pr: none
 
 # Trigger this pipeline on model-train pipeline completion
 trigger: none
-resources:
-  containers:
-  - container: mlops
-    image: mcr.microsoft.com/mlops/python:latest
-  # pipelines:
-  # - pipeline: model-train-ci
-  #   source: Model-Train-Register-CI # Name of the triggering pipeline
-  #   trigger:
-  #     branches:
-  #       include:
-  #       - master
+# resources:
+#   containers:
+#   - container: mlops
+#     image: mcr.microsoft.com/mlops/python:latest
 
 variables:
 - template: variables/pipeline_variables.yml
@@ -22,7 +15,7 @@ variables:
 jobs:
 - job: "Deploy_Flask_Web_App"
   displayName: "Deploy Flask Web App"
-  container: mlops
+  # container: mlops
   timeoutInMinutes: 0
   steps:
   - task: DockerInstaller@0
@@ -33,7 +26,7 @@ jobs:
     displayName: "Build Image & Push Image to ACR"
     inputs:
       containerRegistry: 'acr-connection'
-      repository: 'dog_clf_model'
+      repository: 'dog_clf_flask_app'
       command: 'buildAndPush'
       Dockerfile: 'src/flask-app/Dockerfile'
   - task: AzureWebAppContainer@1
@@ -41,6 +34,6 @@ jobs:
     inputs:
       azureSubscription: 'azure-resource-connection'
       appName: 'amlbriksewebapp'
-      containers: '3d5545b15c4c49548d3823156fa90536.azurecr.io/dog_clf_model:latest'
+      containers: '3d5545b15c4c49548d3823156fa90536.azurecr.io/dog_clf_flask_app:$(Build.BuildId)'
   
   
