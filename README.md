@@ -4,7 +4,7 @@
 
 ## Description
 
-This repository contains an end-to-end implementation of an image classification model built with PyTorch on Azure ML. It can be used as an MLOps template repository to quickly bootstrap similar modeling workloads.
+This repository contains an end-to-end implementation of an image classification model built with PyTorch on Azure ML, leveraging Azure ML's MLOps capabilities. It can be used as a template repository to quickly bootstrap similar modeling workloads (from development to production).
 
 # Building and Running Image Locally
 docker build -t dog_clf_flask_app .
