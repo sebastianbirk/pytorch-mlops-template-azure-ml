@@ -1,7 +1,6 @@
 # PyTorch MLOps Template Azure ML
 
-![pytorch logo](https://github.com/sebastianbirk/pytorch-mlops-template-azure-ml/blob/master/docs/images/pytorch_logo.png)
-![mlops_logo](https://github.com/sebastianbirk/pytorch-mlops-template-azure-ml/blob/master/docs/images/mlops.png)
+![pytorch mlops template aml banner](https://github.com/sebastianbirk/pytorch-mlops-template-azure-ml/blob/master/docs/images/pytorch_mlops_template_aml_banner.png)
 
 ## Description
 
