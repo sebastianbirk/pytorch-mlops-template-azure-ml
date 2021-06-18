@@ -1,5 +1,7 @@
 # PyTorch MLOps Template Azure ML
 
+![pytorch logo](https://github.com/sebastianbirk/pytorch-mlops-template-azure-ml/blob/master/docs/images/pytorch_logo.png)
+
 ## Description
 
 This repository contains an end-to-end implementation of an image classification model built with PyTorch on Azure ML. It can be used as an MLOps template repository to quickly bootstrap similar modeling workloads.
