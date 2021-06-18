@@ -1,5 +1,8 @@
-This repository is work in progress. Soon you will find an overview and table of contents here. 
-WARNING: the code is not finalized yet and certain parts may not run.
+# PyTorch MLOps Template Azure ML
+
+## Description
+
+This repository contains an end-to-end implementation of an image classification model built with PyTorch on Azure ML. It can be used as an MLOps template repository to quickly bootstrap similar modeling workloads.
 
 # Building and Running Image Locally
 docker build -t dog_clf_flask_app .
