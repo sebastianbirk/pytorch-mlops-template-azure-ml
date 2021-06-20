@@ -20,11 +20,13 @@ stages:
         condition: or(eq(variables.paramUnitTestingFlag, true), eq(variables.paramIntegrationTestingFlag, true))
  
         steps:
+
         - bash: |
             echo "##vso[task.prependpath]/home/sys_prd_f1ado/anaconda3/bin"
           displayName: Add Conda to PATH
           condition: succeeded()
           enabled: true
+
         - bash: |          
             conda init bash
             conda env create --file $(paramCondaDevEnvFilePath)
@@ -40,6 +42,7 @@ stages:
           condition: eq(variables.paramUnitTestingFlag, true)
           failOnStderr: 'true'
           displayName: 'Run Unit Tests'
+
         - bash: |
             source activate $(paramDevEnvName)
             python -m pytest --junitxml=junit/integration-results.xml --doctest-modules $(paramIntegrationTestingFolderPath) || true
@@ -47,6 +50,7 @@ stages:
           condition: eq(variables.paramIntegrationTestingFlag, true)
           failOnStderr: 'true'
           displayName: 'Run Integration Tests'
+          
         - task: PublishTestResults@2
           inputs:
             testResultsFiles: 'junit/*-results.xml'
