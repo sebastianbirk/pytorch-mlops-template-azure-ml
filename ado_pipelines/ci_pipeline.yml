@@ -30,27 +30,26 @@ stages:
         - bash: |          
             conda init bash
             conda env create --file $(paramCondaDevEnvFilePath)
-            source activate $(paramDevEnvName)
-            source deactivate
+            source activate $(paramCondaDevEnvName)
+            conda deactivate
           displayName: 'Create Conda Dev Environment'
           condition: succeeded()
         
         - bash: |
-            source activate $(paramDevEnvName)
+            source activate $(paramCondaDevEnvName)
             python -m pytest --junitxml=junit/unit-results.xml --doctest-modules $(paramUnitTestingFolderPath) || true
-            source deactivate
+            conda deactivate
           condition: eq(variables.paramUnitTestingFlag, true)
           failOnStderr: 'true'
           displayName: 'Run Unit Tests'
-
+          
         - bash: |
-            source activate $(paramDevEnvName)
+            source activate $(paramCondaDevEnvName)
             python -m pytest --junitxml=junit/integration-results.xml --doctest-modules $(paramIntegrationTestingFolderPath) || true
-            source deactivate
+            conda deactivate
           condition: eq(variables.paramIntegrationTestingFlag, true)
           failOnStderr: 'true'
           displayName: 'Run Integration Tests'
-
         - task: PublishTestResults@2
           inputs:
             testResultsFiles: 'junit/*-results.xml'
