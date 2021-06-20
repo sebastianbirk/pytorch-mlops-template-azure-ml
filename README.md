@@ -7,7 +7,13 @@ This repository contains an end-to-end implementation of an image classification
 ## Repository Folder Structure
 ```
 ├── ado_pipelines                           <- ADO pipeline .yml files and other artifacts related to ADO pipelines
+│   ├── templates                           <- 
 │   ├── variables                           <- ADO .yml files containing variables for ADO pipelines
+│       ├── pipeline_variables.yml          <- Contains all pipeline variables for all pipelines
+│   ├── ci_pipeline.yml                     <- Continuous integration pipeline with unit and integration tests
+│   ├── flask_app_deployment_pipeline.yml   <- Continuous deployment pipeline for flask web app
+│   ├── model_deployment_pipeline.yml       <- Continuous deployment pipeline for model deployment to ACI/AKS
+│   ├── model_training_pipeline.yml         <- Continuous integration pipeline for model training with an AML pipeline
 ├── data                                    <- Data that has to be stored locally (will be ignored by git)
 ├── docs                                    <- All documentation
 │   ├── getting_started                     <- Documentation that explains how to use this project template
@@ -17,13 +23,13 @@ This repository contains an end-to-end implementation of an image classification
 ├── environments                            <- Environment-related artifacts (for code execution)
 │   ├── conda                               <- Conda .yml files for dev and train/deploy environment
 │   ├── docker                              <- Dockerfiles
-│       ├── base_image                      <- Dockerfile which specifies the base image to build AML environments
+│       ├── inferencing_image               <- Dockerfile and inferencing artifacts to build the inferencing image
 ├── notebooks                               <- Jupyter notebooks end-to-end ML system development walkthrough
 │   ├── 00_environment_setup.ipynb          <- Conda env and jupyter kernel for dev; AML envs for dev, train, deploy 
 │   ├── 01_dataset_setup.ipynb              <- Data download and upload to AML datastore; AML dataset registration
 │   ├── 02_model_training.ipynb             <- Model training in AML; script and hyperdrive run; AML model registration
 │   ├── 03_model_evaluation.ipynb           <- Evaluation of model on test set; addition of accuracy to AML model
-│   ├── 04_model_deployment.ipynb           <-
+│   ├── 04_model_deployment.ipynb           <- Model deployment to different compute targets using the AML Python SDK
 │   ├── 05_model_training_pipeline.ipynb    <-
 │   ├── 06_batch_scoring_pipeline.ipynb     <-
 │   ├── 10_custom_vision_model.ipynb        <-
@@ -53,7 +59,3 @@ az login
 az acr login --name 3d5545b15c4c49548d3823156fa90536
 docker pull 3d5545b15c4c49548d3823156fa90536.azurecr.io/dog_clf_flask_app:31
 docker run -ti -p 5000:5000 3d5545b15c4c49548d3823156fa90536.azurecr.io/dog_clf_flask_app:31
-
-```python
-
-```
