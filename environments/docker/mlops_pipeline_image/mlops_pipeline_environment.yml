@@ -4,11 +4,11 @@ dependencies:
   - python=3.7.*
   - pip=20.0.*
   - pip:
-      - azureml-sdk==1.27.*
+      - azureml-sdk==1.28.*
       - pytest==5.4.*
       - pytest-cov==2.8.*
       - requests==2.23.*
       - python-dotenv==0.12.*
       - flake8==3.7.*
       - flake8_formatter_junit_xml==0.0.*
-      - azure-cli==2.3.*
+      - azure-cli==2.23.*
