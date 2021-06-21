@@ -1,8 +1,8 @@
 # Data (ignore all data except for some example images)
-/data/*
-!/data/test/n02085620-Chihuahua/n02085620_588.jpg
-!/data/train/n02085620-Chihuahua/n02085620_199.jpg
-!/data/val/n02085620-Chihuahua/n02085620_1152.jpg
+!data/test/n02085620-Chihuahua/n02085620_588.jpg
+!data/train/n02085620-Chihuahua/n02085620_199.jpg
+!data/val/n02085620-Chihuahua/n02085620_1152.jpg
+data/*
 
 # Environment variables file
 # .env
