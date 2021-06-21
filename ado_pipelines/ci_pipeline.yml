@@ -4,6 +4,7 @@ trigger:
   branches:
     include:
       - main
+
 pr: 
  branches:
   include: 
@@ -27,7 +28,8 @@ stages:
           condition: succeeded()
           enabled: true
 
-        - bash: |          
+        - bash: |  
+            conda init        
             conda env create --file $(paramCondaDevEnvFilePath)
             source activate $(paramCondaDevEnvName)
           displayName: 'Create Conda Dev Environment'
