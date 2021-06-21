@@ -18,8 +18,12 @@ trigger: none
 resources:
   containers:
   - container: mlops
+<<<<<<< HEAD
     image: mlops/dog_clf
     endpoint: acrconnection
+=======
+    image: mcr.microsoft.com/azure-cli
+>>>>>>> 80a994c1d06f8156296250390974868b5c6d8a56
   # pipelines:
   # - pipeline: model-train-ci
   #   source: Model-Train-Register-CI # Name of the triggering pipeline
