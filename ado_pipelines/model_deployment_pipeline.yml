@@ -19,7 +19,7 @@ resources:
   containers:
   - container: mlops
     image: mlops/dog_clf
-    endpoint: acrconnection
+    endpoint: acr-connection
   # pipelines:
   # - pipeline: model-train-ci
   #   source: Model-Train-Register-CI # Name of the triggering pipeline
