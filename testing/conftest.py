@@ -1,8 +1,16 @@
+# Import libraries
 import pytest
 
-def pytest_addoption(parser):
-    parser.addoption("--endpoint_url", action="store", default="")
+# Import created modules
+from src.utils.data_utils import load_data, load_unnormalized_train_data
+
+# Define test fixtures
+@pytest.fixture
+def get_unnormalized_dataloader():
+    unnormalized_dataloader, _, _ = load_unnormalized_train_data("data")
+    return unnormalized_dataloader
 
 @pytest.fixture
-def endpoint_url(pytestconfig):
-    return pytestconfig.getoption("endpoint_url")
+def get_dataloaders():
+    dataloaders, _, _ = load_data("data")
+    return dataloaders

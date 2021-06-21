@@ -3,13 +3,16 @@ import pytest
 import torch
 
 # Import created modules
-from src.utils.data_utils import get_mean_std, load_unnormalized_train_data
+from src.utils.data_utils import get_mean_std
 
-# Define test fixtures
-@pytest.fixture
-def get_unnormalized_dataloader():
-    unnormalized_dataloader, _, _ = load_unnormalized_train_data("data")
-    return unnormalized_dataloader
+# # Import created modules
+# from src.utils.data_utils import get_mean_std, load_unnormalized_train_data
+
+# # Define test fixtures
+# @pytest.fixture
+# def get_unnormalized_dataloader():
+#     unnormalized_dataloader, _, _ = load_unnormalized_train_data("data")
+#     return unnormalized_dataloader
 
 # Define integration tests
 @pytest.mark.integration
