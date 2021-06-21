@@ -28,5 +28,5 @@ steps:
       tags: |
        ${{format('build-{0}', '$(Build.BuildNumber)')}}
        latest
-      buildContext: '$(Build.SourcesDirectory)' 
+      buildContext: '$(Build.SourcesDirectory)/environments/docker/mlops_pipeline_image' 
       dockerFile: '$(Build.SourcesDirectory)/environments/docker/mlops_pipeline_image/Dockerfile'
