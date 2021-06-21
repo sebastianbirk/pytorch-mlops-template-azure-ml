@@ -1,0 +1,32 @@
+
+resources:
+- repo: self
+
+pool: 
+  vmImage: 'ubuntu-latest'
+
+trigger:
+  branches:
+    include:
+    - main
+
+  paths:
+    include:
+    - docker/mlops_pipeline_image
+
+variables:
+  containerRegistry: $[coalesce(variables['acrServiceConnection'], 'acr-connection')]
+  imageName: $[coalesce(variables['agentImageName'], 'mlops/dog_clf')]
+        
+steps:
+  - task: Docker@2
+    displayName: Build and Push
+    inputs:
+      command: buildAndPush
+      containerRegistry: '$(containerRegistry)'
+      repository: '$(imageName)'
+      tags: |
+       ${{format('build-{0}', '$(Build.BuildNumber)')}}
+       latest
+      buildContext: '$(Build.SourcesDirectory)' 
+      dockerFile: '$(Build.SourcesDirectory)/environments/docker/mlops_pipeline_image/Dockerfile'

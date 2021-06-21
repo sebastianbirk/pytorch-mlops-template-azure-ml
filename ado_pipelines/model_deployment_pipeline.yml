@@ -18,7 +18,8 @@ trigger: none
 resources:
   containers:
   - container: mlops
-    image: mcr.microsoft.com/mlops/python:latest
+    image: mlops/dog_clf
+    endpoint: acrconnection
   # pipelines:
   # - pipeline: model-train-ci
   #   source: Model-Train-Register-CI # Name of the triggering pipeline
