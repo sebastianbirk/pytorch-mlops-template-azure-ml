@@ -29,14 +29,18 @@ stages:
 
         - bash: |          
             conda init bash
+          displayName: 'Initialize Conda in Bash'
+          condition: succeeded()
+
+        - bash: |          
             conda env create --file $(paramCondaDevEnvFilePath)
-            source activate $(paramCondaDevEnvName)
+            conda activate $(paramCondaDevEnvName)
             conda deactivate
           displayName: 'Create Conda Dev Environment'
           condition: succeeded()
         
         - bash: |
-            source activate $(paramCondaDevEnvName)
+            conda activate $(paramCondaDevEnvName)
             python -m pytest --junitxml=junit/unit-results.xml --doctest-modules $(paramUnitTestingFolderPath) || true
             conda deactivate
           condition: eq(variables.paramUnitTestingFlag, true)
@@ -44,7 +48,7 @@ stages:
           displayName: 'Run Unit Tests'
           
         - bash: |
-            source activate $(paramCondaDevEnvName)
+            conda activate $(paramCondaDevEnvName)
             python -m pytest --junitxml=junit/integration-results.xml --doctest-modules $(paramIntegrationTestingFolderPath) || true
             conda deactivate
           condition: eq(variables.paramIntegrationTestingFlag, true)
