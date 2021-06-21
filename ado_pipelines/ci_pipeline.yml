@@ -37,14 +37,14 @@ stages:
         
         - bash: |
             source activate $(paramCondaDevEnvName)
-            python -m pytest --junitxml=junit/unit-testing-results.xml
+            python -m pytest --junitxml=junit/unit-testing-results.xml --doctest-modules $(paramUnitTestingFolderPath) || true
           condition: eq(variables.paramUnitTestingFlag, true)
           failOnStderr: 'true'
           displayName: 'Run Unit Tests'
           
         - bash: |
             source activate $(paramCondaDevEnvName)
-            python -m pytest --junitxml=junit/integration-testing-results.xml
+            python -m pytest --junitxml=junit/integration-testing-results.xml --doctest-modules $(paramIntegrationTestingFolderPath) || true
           condition: eq(variables.paramIntegrationTestingFlag, true)
           failOnStderr: 'true'
           displayName: 'Run Integration Tests'

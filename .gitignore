@@ -1,6 +1,14 @@
-data
-dataset
-.ipynb_checkpoints
-__pycache__
-misc
+# Data (unignore all data except for some example images)
+data/*
+!data/test/n02085620-Chihuahua/n02085620_588.jpg
+!data/train/n02085620-Chihuahua/n02085620_199.jpg
+!data/val/n02085620-Chihuahua/n02085620_1152.jpg
+
+# Environment variables file
 # .env
+ 
+# Byte-compiled / optimized / DLL files
+__pycache__
+ 
+# Jupyter notebook checkpoints
+.ipynb_checkpoints
