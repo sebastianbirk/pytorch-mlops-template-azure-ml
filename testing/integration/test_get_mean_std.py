@@ -1,5 +1,4 @@
 # Import libraries
-import os
 import pytest
 import torch
 
