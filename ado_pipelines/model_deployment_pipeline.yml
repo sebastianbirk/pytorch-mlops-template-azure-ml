@@ -18,7 +18,7 @@ trigger: none
 resources:
   containers:
   - container: mlops
-    image: mlops/dog_clf
+    image: mlops/dog_clf:latest
     endpoint: acr-connection
   # pipelines:
   # - pipeline: model-train-ci
