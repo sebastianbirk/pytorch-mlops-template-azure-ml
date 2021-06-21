@@ -22,35 +22,27 @@ stages:
         steps:
 
         - bash: |
-            echo "##vso[task.prependpath]/home/sys_prd_f1ado/anaconda3/bin"
+            echo "##vso[task.prependpath]$CONDA/bin"
           displayName: Add Conda to PATH
           condition: succeeded()
           enabled: true
 
         - bash: |          
-            conda init bash
-          displayName: 'Initialize Conda in Bash'
-          condition: succeeded()
-
-        - bash: |          
             conda env create --file $(paramCondaDevEnvFilePath)
-            conda activate $(paramCondaDevEnvName)
-            conda deactivate
+            source activate $(paramCondaDevEnvName)
           displayName: 'Create Conda Dev Environment'
           condition: succeeded()
         
         - bash: |
-            conda activate $(paramCondaDevEnvName)
-            python -m pytest --junitxml=junit/unit-results.xml --doctest-modules $(paramUnitTestingFolderPath) || true
-            conda deactivate
+            source activate $(paramCondaDevEnvName)
+            python -m pytest --junitxml=junit/unit-testing-results.xml
           condition: eq(variables.paramUnitTestingFlag, true)
           failOnStderr: 'true'
           displayName: 'Run Unit Tests'
           
         - bash: |
-            conda activate $(paramCondaDevEnvName)
-            python -m pytest --junitxml=junit/integration-results.xml --doctest-modules $(paramIntegrationTestingFolderPath) || true
-            conda deactivate
+            source activate $(paramCondaDevEnvName)
+            python -m pytest --junitxml=junit/integration-testing-results.xml
           condition: eq(variables.paramIntegrationTestingFlag, true)
           failOnStderr: 'true'
           displayName: 'Run Integration Tests'
