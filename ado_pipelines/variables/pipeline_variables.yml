@@ -38,7 +38,7 @@ variables:
     value: amlbrikserg
 
   - name: paramAKSComputeTarget
-    value: aksrg11206
+    value: akscluster
 
 ## DevOps ##
 
