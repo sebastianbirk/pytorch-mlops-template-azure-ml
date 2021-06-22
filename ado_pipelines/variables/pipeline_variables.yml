@@ -1,6 +1,8 @@
 # Pipeline template that defines common runtime environment variables.
 variables:
 
+## Testing ##
+
   - name: paramUnitTestingFlag
     value: true
 
@@ -12,6 +14,8 @@ variables:
 
   - name: paramIntegrationTestingFolderPath
     value: testing/integration/
+
+## Environments ##
 
   - name: paramCondaDevEnvFilePath
     value: environments/conda/development_environment.yml
@@ -25,11 +29,18 @@ variables:
   - name: paramCondaTrainEnvName
     value: dogs_clf_train_env
 
-  - name: paramWorkspaceName
-    value: amlbriksews
+## Infrastructure ##
 
+  - name: paramWorkspaceName
+    value: 
+    
   - name: paramResourceGroupName
-    value: amlbrikserg
+    value: 
+
+  - name: paramAKSComputeTarget
+    value: 
+
+## DevOps ##
 
   - name: paramWorkspaceServiceConnectionName
     value: aml-workspace-connection
@@ -40,11 +51,10 @@ variables:
   - name: paramAKSDeploymentName
     value: dog-classification-service-aks
 
-  - name: paramAKSComputeTarget
-    value: amlbrikseaks
-
   - name: paramTrainingPipelineExperimentName
     value: stanford_dogs_classifier_train
+
+## WORK IN PROGRESS ## 
 
   # Source Config
   # The directory containing the scripts for training, evaluating, and registering the model
@@ -97,7 +107,7 @@ variables:
 
   # The name for the (docker/webapp) scoring image
   - name: IMAGE_NAME
-    value: "diabetestrained"
+    value: ""
 
     # Optional. Used by a training pipeline with R on Databricks
   - name: DB_CLUSTER_ID
@@ -126,13 +136,13 @@ variables:
     value: "conda_dependencies_scorecopy.yml"
     # AML Compute Cluster Config for parallel batch scoring
   - name: AML_ENV_NAME_SCORING
-    value: diabetes_regression_scoring_env
+    value: ""
   - name: AML_ENV_NAME_SCORE_COPY
-    value: diabetes_regression_score_copy_env
+    value: ""
   - name: AML_COMPUTE_CLUSTER_CPU_SKU_SCORING
-    value: STANDARD_DS2_V2
+    value: ""
   - name: AML_COMPUTE_CLUSTER_NAME_SCORING
-    value: score-cluster
+    value: ""
   - name: AML_CLUSTER_MIN_NODES_SCORING
     value: 0
   - name: AML_CLUSTER_MAX_NODES_SCORING
@@ -159,17 +169,17 @@ variables:
     value: "input"
   # Blobname for the input data - include any applicable path in the string 
   - name: SCORING_DATASTORE_INPUT_FILENAME
-    value: "diabetes_scoring_input.csv"
+    value: ""
   # Blob container where the output data for scoring can be found
   - name: SCORING_DATASTORE_OUTPUT_CONTAINER
     value: "output"
   # Blobname for the output data - include any applicable path in the string 
   - name: SCORING_DATASTORE_OUTPUT_FILENAME
-    value: "diabetes_scoring_output.csv"
+    value: ""
   # Dataset name for input data for scoring
   - name: SCORING_DATASET_NAME
-    value: "diabetes_scoring_ds"
+    value: ""
   # Scoring pipeline name
   - name: SCORING_PIPELINE_NAME
-    value: "diabetes-scoring-pipeline"
+    value: ""
     
