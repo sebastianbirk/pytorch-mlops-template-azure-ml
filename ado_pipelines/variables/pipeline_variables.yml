@@ -1,6 +1,8 @@
 # Pipeline template that defines common runtime environment variables.
 variables:
 
+## Testing ##
+
   - name: paramUnitTestingFlag
     value: true
 
@@ -12,6 +14,8 @@ variables:
 
   - name: paramIntegrationTestingFolderPath
     value: testing/integration/
+
+## Environments ##
 
   - name: paramCondaDevEnvFilePath
     value: environments/conda/development_environment.yml
@@ -25,11 +29,18 @@ variables:
   - name: paramCondaTrainEnvName
     value: dogs_clf_train_env
 
+## Infrastructure ##
+
   - name: paramWorkspaceName
     value: amlbriksews
 
   - name: paramResourceGroupName
     value: amlbrikserg
+
+  - name: paramAKSComputeTarget
+    value: aksrg11206
+
+## DevOps ##
 
   - name: paramWorkspaceServiceConnectionName
     value: aml-workspace-connection
@@ -40,11 +51,10 @@ variables:
   - name: paramAKSDeploymentName
     value: dog-classification-service-aks
 
-  - name: paramAKSComputeTarget
-    value: amlbrikseaks
-
   - name: paramTrainingPipelineExperimentName
     value: stanford_dogs_classifier_train
+
+## WORK IN PROGRESS ## 
 
   # Source Config
   # The directory containing the scripts for training, evaluating, and registering the model
