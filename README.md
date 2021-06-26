@@ -5,6 +5,7 @@
 This repository contains an end-to-end implementation of an image classification model in Azure, leveraging Azure's MLOps capabilities. It is shown how to develop, train, deploy and serve models in the Azure ecosystem using different Azure services such as Azure Machine Learning, Azure DevOps, Azure Kubernetes Service, Azure App Service and more. The repository can be used as a template repository to quickly bootstrap similar modeling workloads from development to production.
 
 Specifically, the following aspects are covered in this template repository:
+-   Creating AML infrastructure via Terraform and following Infrastructure as Code (IaC) principles
 -	Creating a conda development environment and adding it as a Jupyter kernel as well as creating Azure Machine Learning environments for model development, training and deployment
 -	Downloading public data and uploading it to an Azure Blob Storage that is connected to the Azure Machine Learning workspace
 -	Training a Custom Vision model with Azure Cognitive Services to have a benchmark model

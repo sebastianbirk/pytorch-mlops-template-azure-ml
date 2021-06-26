@@ -5,6 +5,8 @@
 Run below from the project root folder:
 ```console
 $ cd infrastructure
+$ az login --tenant <TENANT_ID>
+$ az account set --subscription <SUBSCRIPTION_ID>
 $ terraform init
 $ terraform plan
 $ terraform apply

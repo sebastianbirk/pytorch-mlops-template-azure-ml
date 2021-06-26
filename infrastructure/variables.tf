@@ -8,12 +8,12 @@ variable "location" {
   default = "West Europe"
 }
 
-variable "aks_name" {
+variable "aks_cluster_name" {
   default = "aks-cluster"
 }
 
 ### Suffix for Azure Resource Names ###
 
 resource "random_id" "suffix" {
-  byte_length = 8
+  byte_length = 2
 }

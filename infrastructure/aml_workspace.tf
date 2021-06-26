@@ -21,7 +21,7 @@ resource "null_resource" "mlops_template_compute_targets" {
   }
 
   provisioner "local-exec" {
-    command="az ml computetarget create computeinstance --name mlopstemplateci${lower(random_id.suffix.hex)} --vm-size Standard_DS3_v2 --resource-group ${azurerm_machine_learning_workspace.mlops_template_rg.resource_group_name} --workspace-name ${azurerm_machine_learning_workspace.mlops_template_ws.name}"
+    command="az ml computetarget create computeinstance --name mlopstemplateci${lower(random_id.suffix.hex)} --vm-size Standard_DS3_v2 --resource-group ${azurerm_machine_learning_workspace.mlops_template_ws.resource_group_name} --workspace-name ${azurerm_machine_learning_workspace.mlops_template_ws.name}"
   }
  
   depends_on = [azurerm_machine_learning_workspace.mlops_template_ws]

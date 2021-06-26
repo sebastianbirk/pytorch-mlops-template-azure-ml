@@ -4,5 +4,5 @@ resource_group = "mlopstemplaterg"
 # Deployment location
 location = "West Europe"
 
-# AKS name
-aks_name = "aks-cluster"
+# AKS cluster name
+aks_cluster_name = "aks-cluster"

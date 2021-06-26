@@ -1,10 +1,9 @@
 ### Create AKS Cluster & Attach it to AML Workspace ###
 
 resource "azurerm_kubernetes_cluster" "mlops_template_aks" {
-  count               = 1
   name                = "mlopstemplaterg${lower(random_id.suffix.hex)}"
-  location            = azurerm_resource_group.mlops_rg.location
-  resource_group_name = azurerm_resource_group.mlops_rg.name
+  location            = azurerm_resource_group.mlops_template_rg.location
+  resource_group_name = azurerm_resource_group.mlops_template_rg.name
   dns_prefix          = "aks"
 
   default_node_pool {
@@ -18,7 +17,7 @@ resource "azurerm_kubernetes_cluster" "mlops_template_aks" {
   }
   
   provisioner "local-exec" {
-    command = "az ml computetarget attach aks -n ${var.aks_cluster} -i ${azurerm_kubernetes_cluster.mlops_template_aks.id} -g ${azurerm_resource_group.mlops_template_rg.name} -w ${azurerm_machine_learning_workspace.mlops_template_ws.name}"
+    command = "az ml computetarget attach aks -n ${var.aks_cluster_name} -i ${azurerm_kubernetes_cluster.mlops_template_aks.id} -g ${azurerm_resource_group.mlops_template_rg.name} -w ${azurerm_machine_learning_workspace.mlops_template_ws.name}"
   }
   
   depends_on = [azurerm_machine_learning_workspace.mlops_template_ws]
