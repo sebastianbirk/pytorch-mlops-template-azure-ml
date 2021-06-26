@@ -19,6 +19,10 @@ data/val/n02085620-Chihuahua/*
 !data/train/n02085620-Chihuahua/n02085620_199.jpg
 !data/val/n02085620-Chihuahua/n02085620_1152.jpg
 
+# Terraform
+.terraform
+.terraform.lock.hcl
+
 # Environment variables file
 # .env
  
