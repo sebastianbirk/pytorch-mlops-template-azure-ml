@@ -20,8 +20,11 @@ data/val/n02085620-Chihuahua/*
 !data/val/n02085620-Chihuahua/n02085620_1152.jpg
 
 # Terraform
+terraform.tfvars
 .terraform
 .terraform.lock.hcl
+*.tfstate
+*.tfstate.*
 
 # Environment variables file
 # .env
