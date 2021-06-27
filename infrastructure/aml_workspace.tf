@@ -17,11 +17,15 @@ resource "azurerm_machine_learning_workspace" "mlops_template_ws" {
 
 resource "null_resource" "mlops_template_compute_targets" {
   triggers = {
-    aml_workspace_name = "${azurerm_machine_learning_workspace.mlops_template_ws.name}"
+    aml_workspace_name = "${azurerm_machine_learning_workspace.mlops_template_ws.id}"
   }
 
   provisioner "local-exec" {
-    command="az ml computetarget create amlcompute --max-nodes 1 --min-nodes 0 --name cpu-cluster --vm-size Standard_DS3_v2 --idle-seconds-before-scaledown 600 --assign-identity [system] --resource-group ${azurerm_machine_learning_workspace.mlops_template_ws.resource_group_name} --workspace-name ${azurerm_machine_learning_workspace.mlops_template_ws.name}"
+    command="az ml computetarget create amlcompute --max-nodes 2 --min-nodes 0 --name cpu-cluster --vm-size Standard_DS3_v2 --idle-seconds-before-scaledown 300 --assign-identity [system] --resource-group ${azurerm_machine_learning_workspace.mlops_template_ws.resource_group_name} --workspace-name ${azurerm_machine_learning_workspace.mlops_template_ws.name}"
+  }
+
+  provisioner "local-exec" {
+    command="az ml computetarget create amlcompute --max-nodes 2 --min-nodes 0 --name gpu-cluster --vm-size Standard_NC6 --idle-seconds-before-scaledown 300 --assign-identity [system] --resource-group ${azurerm_machine_learning_workspace.mlops_template_ws.resource_group_name} --workspace-name ${azurerm_machine_learning_workspace.mlops_template_ws.name}"
   }
 
   provisioner "local-exec" {
