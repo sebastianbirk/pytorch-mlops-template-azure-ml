@@ -10,8 +10,5 @@ dependencies:
 - pytorch::torchvision=0.8.1
 - scipy=1.6.0
 - pip:
-    - azure-cli
-    - azureml-core==1.20.0
-    - azureml-defaults
-    - azureml-sdk
-    - azureml-widgets
+    - azure-cli==2.3.1
+    - azureml-core[defaults, sdk, widgets]==1.20.0
