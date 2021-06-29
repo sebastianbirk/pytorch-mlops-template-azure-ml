@@ -10,6 +10,7 @@ sys.path.append(str(Path(__file__).resolve().parents[1]))
 # Import libraries
 import argparse
 import json
+import numpy as np
 import os
 import sys
 import torch
@@ -80,7 +81,7 @@ def main():
     for property in register_args["model_properties"]:
         try:
             # Get evaluation metrics from parent run and tag them to model
-            mproperty = run.parent.get_metrics()[property]
+            mproperty = np.round(run.parent.get_metrics()[property], 4) * 100
             model_properties[property] = mproperty
         except KeyError:
             print(f"Could not find {property} metric on parent run.")

@@ -10,6 +10,7 @@ sys.path.append(str(Path(__file__).resolve().parents[1]))
 # Import libraries
 import argparse
 import json
+import numpy as np
 import traceback
 from azureml.core import Dataset, Datastore, Experiment, Workspace
 from azureml.core.run import Run
@@ -92,14 +93,14 @@ def main():
                           aml_workspace=ws)
     
         if (model is not None):
-            # Initialize production model accuracy
-            production_model_accuracy = 0.50
+            # Initialize production model accuracy (in percent)
+            production_model_accuracy = 50.00
             # Get production model accuracy from model properties
             if (metric_eval in model.properties):
                 production_model_accuracy = float(model.properties[metric_eval])
                 print(run.parent.get_metrics().get(metric_eval))
             # Get new model accuracy
-            new_model_accuracy = float(run.parent.get_metrics().get(metric_eval))
+            new_model_accuracy = np.round(float(run.parent.get_metrics().get(metric_eval)), 4) * 100
             if (production_model_accuracy is None or new_model_accuracy is None):
                 print("Unable to find", metric_eval, "metrics, "
                       "exiting evaluation")
