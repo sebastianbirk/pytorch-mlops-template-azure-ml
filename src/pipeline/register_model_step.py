@@ -81,7 +81,7 @@ def main():
     for property in register_args["model_properties"]:
         try:
             # Get evaluation metrics from parent run and tag them to model
-            mproperty = np.round(run.parent.get_metrics()[property], 4) * 100
+            mproperty = np.round(float(run.parent.get_metrics()[property]) * 100, 2)
             model_properties[property] = mproperty
         except KeyError:
             print(f"Could not find {property} metric on parent run.")
