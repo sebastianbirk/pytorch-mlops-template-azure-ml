@@ -1,7 +1,7 @@
 {
     "training":
     {
-        "num_epochs": 36,
+        "num_epochs": 3,
         "batch_size": 8,
         "learning_rate": 0.01,
         "momentum": 0.9,

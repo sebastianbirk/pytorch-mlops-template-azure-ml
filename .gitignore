@@ -27,7 +27,7 @@ terraform.tfvars
 *.tfstate.*
 
 # Environment variables file
-# .env
+.env
  
 # Byte-compiled / optimized / DLL files
 __pycache__
