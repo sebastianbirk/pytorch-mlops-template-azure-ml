@@ -87,8 +87,8 @@ Then make sure to store the created token, e.g. in a textfile.
 #### 1.2 Deliver Infrastructure as Code with Terraform
 First, set up the two below environment variables based on the previous step.
 ```console
-export TF_VAR_ado_org_service_url="https://dev.azure.com/<ADO_ORG_NAME>"
-export TF_VAR_ado_personal_access_token=<ADO_PAT>
+$ export TF_VAR_ado_org_service_url="https://dev.azure.com/<ADO_ORG_NAME>"
+$ export TF_VAR_ado_personal_access_token=<ADO_PAT>
 ```
 
 From the template root folder, navigate to the "infrastructure" folder, where all Terraform configuration files are stored:
@@ -98,7 +98,7 @@ $ cd infrastructure
 
 If you have not yet installed the Azure CLI on your compute, install it as per the link given in the "Resources" section below. You can check whether you have the Azure CLI installed with the command:
 ```console
-az --help
+$ az --help
 ```
 
 Once the Azure CLI is installed, log in to your Azure tenant, set the subscription and install the Azure Machine Learning CLI extension. Terraform uses the credentials stored by the Azure CLI to access the Azure Resource Manager API and the Azure DevOps Service API:
@@ -110,7 +110,7 @@ $ az extension add -n azure-cli-ml
 
 If you have not yet installed the Terraform CLI on your compute, install it as per the link given in the "Resources" section below. You can check whether you have the Terraform CLI installed with the command:
 ```console
-terraform -help
+$ terraform -help
 ```
 
 Execute the Terraform initialization command to prepare the current working directory for use with Terraform:
