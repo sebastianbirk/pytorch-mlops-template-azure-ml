@@ -80,7 +80,7 @@ Within your new Azure DevOps organization, create a Personal Access Token with "
 
 Click on "Personal access token", then click on "New Token" and create a new Personal Access Token called `terraform_pat`:
 
-<img src="docs/images/create_pat.png" alt="create_pat" width="400"/>   
+<img src="docs/images/create_pat.png" alt="create_pat" width="600"/>   
 
 Then make sure to store the created token, e.g. in a textfile.
 
@@ -130,7 +130,7 @@ $ terraform apply
 
 Your Azure environment should now be provisioned (you will have a different suffix):
 
-<img src="docs/images/azure_rg_overview.png" alt="azure_rg_overview" width="400"/>   
+<img src="docs/images/azure_rg_overview.png" alt="azure_rg_overview" width="800"/>   
 
 ### Resources
 Installing the Azure CLI:
