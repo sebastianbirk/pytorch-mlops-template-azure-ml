@@ -1,4 +1,4 @@
-# PyTorch MLOps Template Azure ML
+# PyTorch MLOps Template for Azure ML
 <img src="docs/images/pytorch_mlops_template_azure_ml_banner.png" alt="pytorch_mlops_template_azure_ml_banner" width="800"/> 
 
 ## Description
