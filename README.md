@@ -89,7 +89,7 @@ Click on "Personal access token", then click on "New Token" and create a new Per
 First, set up the two below environment variables based on the previous step.
 ```console
 $ export TF_VAR_ado_org_service_url="https://dev.azure.com/<ADO_ORG_NAME>"
-$ export TF_VAR_ado_personal_access_token=<ADO_PAT>
+$ export TF_VAR_ado_personal_access_token="<ADO_PAT>"
 ```
 
 From the template root folder, navigate to the "infrastructure" folder, where all Terraform configuration files are stored:
