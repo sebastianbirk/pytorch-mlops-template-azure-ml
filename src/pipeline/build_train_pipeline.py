@@ -60,8 +60,8 @@ def main():
     run_config.environment.environment_variables["DATASTORE_NAME"] = datastore_name  # NOQA: E501
 
     # Define pipeline parameters
-    model_name_param = PipelineParameter(name="model_name",
-                                         default_value=env_variables.model_name)
+    caller_run_id_param = PipelineParameter(name="caller_run_id",
+                                            default_value="none")
 
     dataset_version_param = PipelineParameter(name="dataset_version",
                                               default_value=env_variables.dataset_version)
@@ -69,8 +69,8 @@ def main():
     data_file_path_param = PipelineParameter(name="data_file_path",
                                              default_value="none")
 
-    caller_run_id_param = PipelineParameter(name="caller_run_id",
-                                            default_value="none")
+    model_name_param = PipelineParameter(name="model_name",
+                                         default_value=env_variables.model_name)                            
 
     # Get dataset name
     dataset_name = env_variables.dataset_name
@@ -112,12 +112,12 @@ def main():
                                   compute_target=compute_target,
                                   source_directory=Path(__file__).resolve().parents[2] / env_variables.src_dir,
                                   outputs=[pipeline_data],
-                                  arguments=["--model_name", model_name_param,
-                                             "--step_output", pipeline_data,
+                                  arguments=["--caller_run_id", caller_run_id_param,
+                                             "--dataset_name", dataset_name,
                                              "--dataset_version", dataset_version_param,
                                              "--data_file_path", data_file_path_param,
-                                             "--caller_run_id", caller_run_id_param,
-                                             "--dataset_name", dataset_name],
+                                             "--model_name", model_name_param,
+                                             "--step_output", pipeline_data],
                                   runconfig=run_config,
                                   allow_reuse=False)
     print("Training step has been created.")

@@ -1,4 +1,4 @@
-### Create AKS Cluster & Attach it to AML Workspace ###
+### AKS Cluster attached to AML Workspace ###
 
 resource "azurerm_kubernetes_cluster" "mlops_template_aks" {
   name                = "mlopstemplateaks${lower(random_id.suffix.hex)}"
