@@ -64,3 +64,94 @@ Specifically, the following aspects are covered in this template repository:
 ├── .gitignore                              <- Contains all artifacts that should not be checked into the git repo
 ├── README.md                               <- This README file (overview over the repository and documentation)
 ```
+
+## Template Project Setup
+
+**Note**: Below setup steps and commands assume that bash is used as terminal shell.
+Some commands will deviate if alternatives, such as powershell, are used instead.
+
+### 1. Azure DevOps & Azure Resources Provisioning
+Before we can dive into building the end-to-end ML solution, we need to set up
+our Azure environment. Our Azure environment will consist of an Azure DevOps 
+project and the necessary Azure infrastructure. This template project leverages 
+the open-source infrastructure as code software tool terraform to provision our
+Azure environment in an automated, robust and reproducible way using declarative
+configuration files written in the human-readable HashiCorp Configuration Language
+(HCL). All terraform configuration files are stored in the `<PROJECT_ROOT/infrastructure>`
+directory. For more information on terraform, check https://www.terraform.io/.
+
+#### 1.1 Set up an Azure DevOps Organization & Personal Access Token (PAT)
+First, we need to set up an Azure DevOps Organization and create a PAT that can
+be used by terraform to interact with the Azure DevOps API. For this purpose,
+go to https://dev.azure.com and sign in to Azure DevOps with your account. Then 
+click on "New organization" and create a new Azure DevOps organization with your 
+desired name. We don't need to create an Azure DevOps Project as this will be 
+taken care of by our terraform configuration files.
+
+Within your new Azure DevOps organization, create a Personal Access Token with 
+"Full Access" as follows:
+
+<img src="docs/images/ado_pat_ui.png" alt="ado_pat_ui" width="400"/>   
+
+Click on "Personal access token", then click on "New Token" and create a new 
+Personal Access Token called `terraform_pat`.
+
+<img src="docs/images/create_pat.png" alt="create_pat" width="400"/>   
+
+Then make sure to store the created token, e.g. in a textfile.
+
+#### 1.2 Deliver Infrastructure as Code with Terraform
+
+First, set up the two below environment variables that are needed by terraform to 
+interact with the Azure DevOps API: the Azure DevOps organization URL and the PAT
+that you have created in the previous step.
+```console
+export TF_VAR_ado_org_service_url="https://dev.azure.com/<ADO_ORG_NAME>"
+export TF_VAR_ado_personal_access_token=<ADO_PAT>
+```
+
+From the template root folder, navigate to the "infrastructure" folder, where
+all Terraform configuration files are stored:
+```console
+$ cd infrastructure
+```
+
+Log in to your Azure tenant, set the subscription and install the Azure Machine 
+Learning CLI extension:
+```console
+$ az login --tenant <TENANT_ID>
+$ az account set --subscription <SUBSCRIPTION_ID>
+$ az extension add -n azure-cli-ml
+```
+
+```console
+$ terraform init
+$ terraform plan
+$ terraform apply
+```
+
+
+
+#### Resources
+Installing the Azure Machine Learning CLI:
+https://docs.microsoft.com/en-us/azure/machine-learning/reference-azure-machine-learning-cli
+
+Installing Terraform:
+https://learn.hashicorp.com/tutorials/terraform/install-cli
+
+Azure DevOps Provider Terraform 
+https://registry.terraform.io/providers/microsoft/azuredevops/latest/docs/guides/authenticating_using_the_personal_access_token
+https://www.microsoft.com/de-de/techwiese/cloud-native-community-blog/einfuehrung-in-den-azure-devops-terraform-provider.aspx
+
+Rolling out an AML enterprise environment via Terraform (Private Link Setup):
+https://github.com/csiebler/azure-machine-learning-terraform
+
+Provisioning an AML Workspace via Terraform:
+https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/machine_learning_workspace
+
+Attaching an AKS Cluster to the AML Workspace:
+https://docs.microsoft.com/en-us/azure/machine-learning/how-to-create-attach-kubernetes?tabs=azure-cli
+
+It's important to know that terraform uses credentials stored by the Azure CLI to access the Azure resource manager.
+
+https://fizzylogic.nl/2019/1/30/deploying-resources-on-azure-with-terraform
