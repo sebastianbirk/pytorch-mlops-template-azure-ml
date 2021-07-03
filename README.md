@@ -65,7 +65,7 @@ Specifically, the following aspects are covered in this template repository:
 ```
 
 ## Template Walkthrough
-This section gives a detailed walkthrough of the template in a tutorial-like manner. It covers all the aspects mentioned in the [Summary](summary) section above in chronological order and has the objective to enable the reader to set up the template and understand all aspects of it. 
+This section gives a detailed walkthrough of the template in a tutorial-like manner. It covers all the aspects mentioned in the [Summary](https://github.com/sebastianbirk/pytorch-mlops-template-azure-ml/blob/develop/README.md#summary) section above in chronological order and has the objective to enable the reader to set up the template and understand all aspects of it. 
 
 ### 1. Azure DevOps & Azure Resources Provisioning
 **Note**: Below setup steps and commands are based on the Bash Unix shell. Some commands will deviate if alternative command-line shells, such as PowerShell, are used instead.
