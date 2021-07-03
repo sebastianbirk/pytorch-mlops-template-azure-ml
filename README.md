@@ -70,7 +70,7 @@ This section gives a detailed walkthrough of the template in a tutorial-like man
 ### 1. Azure DevOps & Azure Resources Provisioning
 **Note**: Below setup steps and commands are based on the Bash Unix shell. Some commands will deviate if alternative command-line shells, such as PowerShell, are used instead.
 
-Before we can dive into building the end-to-end ML solution, we need to set up our Azure environment. Our Azure environment will consist of an Azure DevOps project and the necessary Azure infrastructure. This template project leverages the open-source infrastructure as code software tool Terraform to provision our Azure environment in an automated, robust and reproducible way using declarative configuration files written in the human-readable HashiCorp Configuration Language (HCL). All Terraform configuration files are stored in the `<PROJECT_ROOT/infrastructure>` directory. For more information on Terraform, check https://www.terraform.io/.
+Before we can dive into building the end-to-end ML solution, we need to set up our Azure environment. Our Azure environment will consist of an Azure DevOps project and the necessary Azure infrastructure. This template project leverages the open-source infrastructure as code software tool Terraform to provision our Azure environment in an automated, robust and reproducible way using declarative configuration files written in the human-readable HashiCorp Configuration Language (HCL). All Terraform configuration files are stored in the `<TEMPLATE_ROOT>/infrastructure` directory. For more information on Terraform, check https://www.terraform.io/.
 
 #### 1.1 Set up an Azure DevOps Organization & Personal Access Token (PAT)
 First, we need to set up an Azure DevOps Organization and create a PAT that can be used by Terraform to interact with the Azure DevOps Service API. For this purpose, go to https://dev.azure.com and sign in to Azure DevOps with your account. Then click on "New organization" and create a new Azure DevOps organization with your desired name. We don't need to create an Azure DevOps Project as this will be taken care of by our Terraform configuration files.
@@ -92,7 +92,7 @@ $ export TF_VAR_ado_org_service_url="https://dev.azure.com/<ADO_ORG_NAME>"
 $ export TF_VAR_ado_personal_access_token="<ADO_PAT>"
 ```
 
-From the template root folder, navigate to the "infrastructure" folder, where all Terraform configuration files are stored:
+From the template root directory, navigate to the `infrastructure` directory, where all Terraform configuration files are stored:
 ```console
 $ cd infrastructure
 ```
