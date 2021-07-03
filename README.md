@@ -83,7 +83,7 @@ Click on "Personal access token", then click on "New Token" and create a new Per
 
 <img src="docs/images/create_pat.png" alt="create_pat" width="600"/>   
 
-Then make sure to store the created token, e.g. in a textfile.
+**Note**: Make sure to store the created token, e.g. in a textfile.
 
 #### 1.2 Deliver Infrastructure as Code with Terraform
 First, set up the two below environment variables based on the previous step.
