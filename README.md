@@ -132,7 +132,7 @@ Your Azure environment should now be provisioned (you will have a different suff
 
 <img src="docs/images/azure_rg_overview.png" alt="azure_rg_overview" width="400"/>   
 
-#### Resources
+### Resources
 Installing the Azure CLI:
 https://docs.microsoft.com/en-us/cli/azure/install-azure-cli
 
