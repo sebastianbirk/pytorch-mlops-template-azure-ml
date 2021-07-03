@@ -21,9 +21,9 @@ resource "random_id" "suffix" {
 ### Azure DevOps Variables (these should be specified as env variables) ###
 
 variable "ado_org_service_url" {
-  default = "https://dev.azure.com/<ORG_NAME>"
+  default = "https://dev.azure.com/<ADO_ORG_NAME>" # This needs to be defined as env variable
 }
 
 variable "ado_personal_access_token" {
-  default = "<PERSONAL_ACCESS_TOKEN>"
+  default = "<ADO_PAT>" # This needs to be defined as env variable
 }
