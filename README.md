@@ -1,11 +1,11 @@
 # PyTorch MLOps Template for Azure ML
 <img src="docs/images/pytorch_mlops_template_azure_ml_banner.png" alt="pytorch_mlops_template_azure_ml_banner" width="800"/> 
 
-## Description
+## Summary
 This repository contains an end-to-end implementation of an image classification model in Azure, leveraging Azure's MLOps capabilities. It is shown how to develop, train, deploy and serve models in the Azure ecosystem using different Azure services such as Azure Machine Learning, Azure DevOps, Azure Kubernetes Service, Azure App Service and more. The repository can be used as a template repository to quickly bootstrap similar modeling workloads from development to production.
 
 Specifically, the following aspects are covered in this template repository:
--   Creating AML infrastructure via Terraform and following Infrastructure as Code (IaC) principles
+- Creating AML infrastructure via Terraform and following Infrastructure as Code (IaC) principles
 -	Creating a conda development environment and adding it as a Jupyter kernel as well as creating Azure Machine Learning environments for model development, training and deployment
 -	Downloading public data and uploading it to an Azure Blob Storage that is connected to the Azure Machine Learning workspace
 -	Training a Custom Vision model with Azure Cognitive Services to have a benchmark model
@@ -17,7 +17,7 @@ Specifically, the following aspects are covered in this template repository:
 -	Building CI/CD pipelines in Azure DevOps for unit and integration testing, automated model training, automated model deployment, building and pushing images to an Azure Container Registry and automated deployment of the Flask frontend
 -	Running CI/CD pipelines within a docker container on Azure Pipelines Agents
 
-## Repository Folder Structure
+## Template Folder Structure
 ```
 ├── ado_pipelines                           <- ADO pipeline .yml files and other artifacts related to ADO pipelines
 │   ├── templates                           <- Pipeline template modules that are used within other ADO pipelines
@@ -64,11 +64,12 @@ Specifically, the following aspects are covered in this template repository:
 ├── README.md                               <- This README file (overview over the repository and documentation)
 ```
 
-## Template Project Setup
-
-**Note**: Below setup steps and commands are based on the Bash Unix shell. Some commands will deviate if alternative command-line shells, such as PowerShell, are used instead.
+## Template Walkthrough
+This section gives a detailed walkthrough of the template in a tutorial-like manner. It covers all the aspects mentioned in the "Summary" section above in chronological order and has the objective to enable the reader to setup the template and understand all aspects of it. 
 
 ### 1. Azure DevOps & Azure Resources Provisioning
+**Note**: Below setup steps and commands are based on the Bash Unix shell. Some commands will deviate if alternative command-line shells, such as PowerShell, are used instead.
+
 Before we can dive into building the end-to-end ML solution, we need to set up our Azure environment. Our Azure environment will consist of an Azure DevOps project and the necessary Azure infrastructure. This template project leverages the open-source infrastructure as code software tool Terraform to provision our Azure environment in an automated, robust and reproducible way using declarative configuration files written in the human-readable HashiCorp Configuration Language (HCL). All Terraform configuration files are stored in the `<PROJECT_ROOT/infrastructure>` directory. For more information on Terraform, check https://www.terraform.io/.
 
 #### 1.1 Set up an Azure DevOps Organization & Personal Access Token (PAT)
