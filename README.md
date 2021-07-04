@@ -86,21 +86,16 @@ Make sure to store the created token, e.g. in a textfile. It will have to be sto
 #### 1.2 Deliver Infrastructure as Code with Terraform
 **Note**: Below setup steps and commands are based on the Bash Unix shell. Some commands will deviate if alternative command-line shells, such as PowerShell, are used instead.
 
-Now that we have created our Azure DevOps Organization and Personal Access Token, we will provision the rest of our Azure environment using Terraform. Open a terminal on your local workstation and clone this template repository. Then, navigate to the template root folder:
+Now that we have created our Azure DevOps Organization and Personal Access Token, we will provision the rest of our Azure environment using Terraform. Open a terminal on your local workstation and clone this template repository. Then, navigate to the  `infrastructure` directory of the template repository where all Terraform configuration files are stored:
 ```console
 $ git clone https://github.com/sebastianbirk/pytorch-mlops-template-azure-ml.git
-$ cd <TEMPLATE_ROOT>
+$ cd <TEMPLATE_ROOT>/infrastructure
 ```
 
 Next, set up the two below environment variables and replace `<ADO_ORG_NAME>` and `<ADO_PAT>` with the name of your Azure DevOps Organization and the PAT token that you have stored respectively.
 ```console
 $ export TF_VAR_ado_org_service_url="https://dev.azure.com/<ADO_ORG_NAME>"
 $ export TF_VAR_ado_personal_access_token="<ADO_PAT>"
-```
-
-From the template root directory, navigate to the `infrastructure` directory, where all Terraform configuration files are stored:
-```console
-$ cd infrastructure
 ```
 
 If you have not yet installed the Azure CLI on your compute, install it as per the link given in the [Resources](https://github.com/sebastianbirk/pytorch-mlops-template-azure-ml/blob/develop/README.md#resources) section below. You can check whether you have the Azure CLI installed with the command:
