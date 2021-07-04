@@ -92,7 +92,7 @@ $ git clone https://github.com/sebastianbirk/pytorch-mlops-template-azure-ml.git
 $ cd <TEMPLATE_ROOT>
 ```
 
-Next, set up the two below environment variables and replace <ADO_ORG_NAME> and <ADO_PAT> with the name of your Azure DevOps Organization and the PAT token that you have stored respectively.
+Next, set up the two below environment variables and replace `<ADO_ORG_NAME>` and `<ADO_PAT>` with the name of your Azure DevOps Organization and the PAT token that you have stored respectively.
 ```console
 $ export TF_VAR_ado_org_service_url="https://dev.azure.com/<ADO_ORG_NAME>"
 $ export TF_VAR_ado_personal_access_token="<ADO_PAT>"
