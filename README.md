@@ -98,7 +98,7 @@ $ export TF_VAR_ado_org_service_url="https://dev.azure.com/<ADO_ORG_NAME>"
 $ export TF_VAR_ado_personal_access_token="<ADO_PAT>"
 ```
 
-If you have not yet installed the Azure CLI on your compute, install it as per the link given in the [Resources](https://github.com/sebastianbirk/pytorch-mlops-template-azure-ml/blob/develop/README.md#resources) section below. You can check whether you have the Azure CLI installed with the command:
+If you have not yet installed the Azure CLI on your local workstation, install it as per the link given in the [Resources](https://github.com/sebastianbirk/pytorch-mlops-template-azure-ml/blob/develop/README.md#resources) section below. You can check whether you have the Azure CLI installed with the command:
 ```console
 $ az --help
 ```
@@ -110,7 +110,7 @@ $ az account set --subscription <SUBSCRIPTION_ID>
 $ az extension add -n azure-cli-ml
 ```
 
-If you have not yet installed the Terraform CLI on your compute, install it as per the link given in the [Resources](https://github.com/sebastianbirk/pytorch-mlops-template-azure-ml/blob/develop/README.md#resources) section below. You can check whether you have the Terraform CLI installed with the command:
+If you have not yet installed the Terraform CLI on your local workstation, install it as per the link given in the [Resources](https://github.com/sebastianbirk/pytorch-mlops-template-azure-ml/blob/develop/README.md#resources) section below. You can check whether you have the Terraform CLI installed with the command:
 ```console
 $ terraform -help
 ```
