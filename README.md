@@ -86,7 +86,7 @@ Make sure to store the created token, e.g. in a textfile. It will have to be sto
 #### 1.2 Deliver Infrastructure as Code with Terraform
 **Note**: Below setup steps and commands are based on the Bash Unix shell. Some commands will deviate if alternative command-line shells, such as PowerShell, are used instead.
 
-Now that we have created our Azure DevOps Organization and Personal Access Token, we will provision the rest of our Azure environment using Terraform. Open a terminal on your local workstation and clone this template repository. Then, navigate to the  `infrastructure` directory of the template repository where all Terraform configuration files are stored (Replace `<TEMPLATE_ROOT>` with the path to your cloned repository):
+Now that we have created our Azure DevOps Organization and Personal Access Token, we will provision the rest of our Azure environment using Terraform. Open a terminal on your local workstation and clone this template repository. Then, navigate to the  `infrastructure` directory of the template repository where all Terraform configuration files are stored (replace `<TEMPLATE_ROOT>` with the path to your cloned repository):
 ```console
 $ git clone https://github.com/sebastianbirk/pytorch-mlops-template-azure-ml.git
 $ cd <TEMPLATE_ROOT>/infrastructure
