@@ -115,6 +115,7 @@ If you have not yet installed the Terraform CLI on your local workstation, insta
 $ terraform -help
 ```
 
+Once you have the Terraform CLI installed, we can start with the provisioning of the Azure environment.
 Execute the Terraform initialization command to prepare the current working directory for use with Terraform:
 ```console
 $ terraform init
