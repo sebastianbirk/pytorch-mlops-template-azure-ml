@@ -131,7 +131,7 @@ Run the Terraform apply command to reach the desired state of the configuration 
 $ terraform apply
 ```
 
-Your Azure environment should now be provisioned (you will have a different suffix):
+Your Azure environment should now be provisioned (you will have a different resource name suffix):
 
 <img src="docs/images/azure_rg_overview.png" alt="azure_rg_overview" width="800"/>   
 
