@@ -81,12 +81,15 @@ Click on "Personal access token", then click on "New Token" and create a new Per
 
 <img src="docs/images/create_pat.png" alt="create_pat" width="600"/>   
 
-**Note**: Make sure to store the created token, e.g. in a textfile. It will have to be stored inside an environment variable in the next step.
+Make sure to store the created token, e.g. in a textfile. It will have to be stored inside an environment variable in the next step.
 
 #### 1.2 Deliver Infrastructure as Code with Terraform
-Now that we have created our Azure DevOps Organization and Personal Access Token, we will provision the rest of our Azure environment using Terraform. With this goal in mind, first clone the template repository to your local workstation and open a terminal.
-
 **Note**: Below setup steps and commands are based on the Bash Unix shell. Some commands will deviate if alternative command-line shells, such as PowerShell, are used instead.
+
+Now that we have created our Azure DevOps Organization and Personal Access Token, we will provision the rest of our Azure environment using Terraform. Open a terminal on your local workstation and clone this template repository:
+```console
+$ git clone https://github.com/sebastianbirk/pytorch-mlops-template-azure-ml.git
+```
 
 Next, set up the two below environment variables based on the previous step.
 ```console
