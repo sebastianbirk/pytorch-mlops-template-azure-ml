@@ -5,7 +5,7 @@
 This repository contains an end-to-end implementation of an image classification model in Azure, leveraging Azure's MLOps capabilities. It is shown how to develop, train, deploy and serve models in the Azure ecosystem using different Azure services such as Azure Machine Learning, Azure DevOps, Azure Kubernetes Service, Azure App Service and more. The repository can be used as a template repository to quickly bootstrap similar modeling workloads from development to production.
 
 Specifically, the following aspects are covered in this template repository:
-- Creating AML infrastructure via Terraform and following Infrastructure as Code (IaC) principles
+-   Provisioning the Azure environment (Azure DevOps & Azure Infrastructure) with Terraform and following Infrastructure as Code (IaC) principles
 -	Creating a conda development environment and adding it as a Jupyter kernel as well as creating Azure Machine Learning environments for model development, training and deployment
 -	Downloading public data and uploading it to an Azure Blob Storage that is connected to the Azure Machine Learning workspace
 -	Training a Custom Vision model with Azure Cognitive Services to have a benchmark model
@@ -68,36 +68,37 @@ Specifically, the following aspects are covered in this template repository:
 This section gives a detailed walkthrough of the template in a tutorial-like manner. It covers all the aspects mentioned in the [Summary](https://github.com/sebastianbirk/pytorch-mlops-template-azure-ml/blob/develop/README.md#summary) section above in chronological order and has the objective to enable the reader to set up the template and understand all aspects of it. 
 
 ### 1. Azure DevOps & Azure Resources Provisioning
-**Note**: Below setup steps and commands are based on the Bash Unix shell. Some commands will deviate if alternative command-line shells, such as PowerShell, are used instead.
-
-Before we can dive into building the end-to-end ML solution, we need to set up our Azure environment. Our Azure environment will consist of an Azure DevOps project and the necessary Azure infrastructure. This template project leverages the open-source infrastructure as code software tool Terraform to provision our Azure environment in an automated, robust and reproducible way using declarative configuration files written in the human-readable HashiCorp Configuration Language (HCL). All Terraform configuration files are stored in the `<TEMPLATE_ROOT>/infrastructure` directory. For more information on Terraform, check https://www.terraform.io/.
+Before we can dive into building the end-to-end ML solution, we need to set up our Azure environment. Our Azure environment will consist of an Azure DevOps project and the necessary Azure infrastructure. This template leverages the open-source infrastructure as code software tool Terraform to provision our Azure environment in an automated, robust and reproducible way using declarative configuration files written in the human-readable HashiCorp Configuration Language (HCL). All Terraform configuration files are stored in the `<TEMPLATE_ROOT>/infrastructure` directory. For more information on Terraform, check https://www.terraform.io/.
 
 #### 1.1 Set up an Azure DevOps Organization & Personal Access Token (PAT)
-First, we need to set up an Azure DevOps Organization and create a PAT that can be used by Terraform to interact with the Azure DevOps Service API. For this purpose, go to https://dev.azure.com and sign in to Azure DevOps with your account. Then click on "New organization" and create a new Azure DevOps organization with your desired name. We don't need to create an Azure DevOps Project as this will be taken care of by our Terraform configuration files.
+First, we need to manually set up an Azure DevOps Organization and create a PAT that can be used by Terraform to interact with the Azure DevOps Service API. For this purpose, go to https://dev.azure.com and sign in to Azure DevOps with your account. Then click on "New organization" in the left side menu and create a new Azure DevOps organization with your desired name. We don't need to create an Azure DevOps Project as this will be taken care of by our Terraform configuration files.
 
-Within your new Azure DevOps organization, create a Personal Access Token with "Full Access" as follows:
+Within your new Azure DevOps organization, create a Personal Access Token as follows:
 
 <img src="docs/images/ado_pat_ui.png" alt="ado_pat_ui" width="400"/>   
 
-Click on "Personal access token", then click on "New Token" and create a new Personal Access Token called `terraform_pat`:
+Click on "Personal access token", then click on "New Token" and create a new Personal Access Token with "Full Access" called `terraform_pat`:
 
 <img src="docs/images/create_pat.png" alt="create_pat" width="600"/>   
 
-**Note**: Make sure to store the created token, e.g. in a textfile. It will have to be stored inside an environment variable in the next step.
+Make sure to store the created token, e.g. in a textfile. It will have to be stored inside an environment variable in the next step.
 
 #### 1.2 Deliver Infrastructure as Code with Terraform
-First, set up the two below environment variables based on the previous step.
+**Note**: Below setup steps and commands are based on the Bash Unix shell. Some commands will deviate if alternative command-line shells, such as PowerShell, are used instead.
+
+Now that we have created our Azure DevOps Organization and Personal Access Token, we will provision the rest of our Azure environment using Terraform. Open a terminal on your local workstation and clone this template repository. Then, navigate to the  `infrastructure` directory of the template repository where all Terraform configuration files are stored (replace `<TEMPLATE_ROOT>` with the path to your cloned repository):
+```console
+$ git clone https://github.com/sebastianbirk/pytorch-mlops-template-azure-ml.git
+$ cd <TEMPLATE_ROOT>/infrastructure
+```
+
+Next, set up the two below environment variables and replace `<ADO_ORG_NAME>` and `<ADO_PAT>` with the name of your Azure DevOps Organization and the PAT token that you have stored respectively.
 ```console
 $ export TF_VAR_ado_org_service_url="https://dev.azure.com/<ADO_ORG_NAME>"
 $ export TF_VAR_ado_personal_access_token="<ADO_PAT>"
 ```
 
-From the template root directory, navigate to the `infrastructure` directory, where all Terraform configuration files are stored:
-```console
-$ cd infrastructure
-```
-
-If you have not yet installed the Azure CLI on your compute, install it as per the link given in the "Resources" section below. You can check whether you have the Azure CLI installed with the command:
+If you have not yet installed the Azure CLI on your local workstation, install it as per the link given in the [Resources](https://github.com/sebastianbirk/pytorch-mlops-template-azure-ml/blob/develop/README.md#resources) section below. You can check whether you have the Azure CLI installed with the command:
 ```console
 $ az --help
 ```
@@ -109,11 +110,12 @@ $ az account set --subscription <SUBSCRIPTION_ID>
 $ az extension add -n azure-cli-ml
 ```
 
-If you have not yet installed the Terraform CLI on your compute, install it as per the link given in the "Resources" section below. You can check whether you have the Terraform CLI installed with the command:
+If you have not yet installed the Terraform CLI on your local workstation, install it as per the link given in the [Resources](https://github.com/sebastianbirk/pytorch-mlops-template-azure-ml/blob/develop/README.md#resources) section below. You can check whether you have the Terraform CLI installed with the command:
 ```console
 $ terraform -help
 ```
 
+Once you have the Terraform CLI installed, we can start with the provisioning of the Azure environment.
 Execute the Terraform initialization command to prepare the current working directory for use with Terraform:
 ```console
 $ terraform init
@@ -129,9 +131,16 @@ Run the Terraform apply command to reach the desired state of the configuration 
 $ terraform apply
 ```
 
-Your Azure environment should now be provisioned (you will have a different suffix):
+Your Azure environment should now be provisioned (you will have a different resource name suffix):
 
 <img src="docs/images/azure_rg_overview.png" alt="azure_rg_overview" width="800"/>   
+
+### 2. Model Development with the Azure Machine Learning Compute Instance (AML CI)
+As part of the infrastructure provisioning, an AML CI has been provisioned for you. Go to the created Azure Machine Learning workspace and navigate to the "Compute" tab to access your AML CI. You can use JupyterLab, Jupyter or VSCode. Using the terminal in the IDE of your choice, clone the template repository that has been created in your Azure DevOps Project to your AML CI:
+```console
+$ https://<ADO_ORG_NAME></ADO_ORG_NAME>@dev.azure.com/mlopstemplateorg1/mlopstemplateproject/_git/pytorch-mlops-template-azure-ml
+```
+
 
 ### Resources
 Installing the Azure CLI:
