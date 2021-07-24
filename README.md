@@ -141,6 +141,9 @@ As part of the infrastructure provisioning, an AML CI has been provisioned for y
 $ https://<ADO_ORG_NAME></ADO_ORG_NAME>@dev.azure.com/mlopstemplateorg1/mlopstemplateproject/_git/pytorch-mlops-template-azure-ml
 ```
 
+<img src="docs/images/azure_aml_workspace.png.png" alt="azure_aml_workspace" width="800"/>   
+<img src="docs/images/aml_workspace_compute_instance.png" alt="aml_workspace_compute_instance" width="800"/>   
+<img src="docs/images/jupyterlab_terminal.png" alt="jupyterlab_terminal" width="800"/>   
 
 ### Resources
 Installing the Azure CLI:
