@@ -148,6 +148,7 @@ $ https://<ADO_ORG_NAME></ADO_ORG_NAME>@dev.azure.com/mlopstemplateorg1/mlopstem
 <img src="docs/images/conda_development_environment_yaml.png" alt="conda_development_environment_yaml" width="800"/>   
 <img src="docs/images/aml_workspace_compute_instance_2.png" alt="aml_workspace_compute_instance_2" width="800"/>  
 <img src="docs/images/docker_base_image_definition.png" alt="docker_base_image_definition" width="800"/>
+<img src="docs/images/aml_environment_creation.png" alt="aml_environment_creation" width="800"/>
 
 ### Resources
 Installing the Azure CLI:
