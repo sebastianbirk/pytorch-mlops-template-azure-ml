@@ -15,6 +15,3 @@ dependencies:
 - pip:
     - azure-cli==2.3.1
     - azureml-core==1.20.0
-    - azureml-defaults
-    - azureml-sdk
-    - azureml-widgets
