@@ -149,6 +149,9 @@ $ https://<ADO_ORG_NAME></ADO_ORG_NAME>@dev.azure.com/mlopstemplateorg1/mlopstem
 <img src="docs/images/aml_workspace_compute_instance_2.png" alt="aml_workspace_compute_instance_2" width="800"/>  
 <img src="docs/images/docker_base_image_definition.png" alt="docker_base_image_definition" width="800"/>
 <img src="docs/images/aml_environment_creation.png" alt="aml_environment_creation" width="800"/>
+<img src="docs/images/aml_file_share.png" alt="aml_file_share" width="800"/>
+<img src="docs/images/aml_datastore.png" alt="aml_datastore" width="800"/>
+<img src="docs/images/aml_dataset.png" alt="aml_dataset" width="800"/>
 
 ### Resources
 Installing the Azure CLI:
