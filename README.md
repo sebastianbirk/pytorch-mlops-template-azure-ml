@@ -155,7 +155,8 @@ $ https://<ADO_ORG_NAME></ADO_ORG_NAME>@dev.azure.com/mlopstemplateorg1/mlopstem
 <img src="docs/images/dataset_notebook_kernel.png" alt="dataset_notebook_kernel" width="800"/>
 <img src="docs/images/compute_instance_terminal_path.png" alt="compute_instance_terminal_path" width="800"/>
 <img src="docs/images/template_repo_folder_structure.png" alt="template_repo_folder_structure"/>
-<img src="docs/images/aml_datastores_default_blob_store.png" alt="aml_datastores_default_blob_store"/>
+<img src="docs/images/custom_vision_settings_resources.png" alt="custom_vision_settings_resources"/>
+<img src="docs/images/environment_variables_custom_vision.png" alt="environment_variables_custom_vision"/>
 
 
 ### Resources
