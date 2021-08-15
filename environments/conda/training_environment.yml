@@ -14,4 +14,5 @@ dependencies:
 - tqdm=4.38.0
 - pip:
     - azure-cli==2.3.1
-    - azureml-core==1.20.0
+    - azureml-core==1.26.0
+    - azureml-sdk==1.26.0
