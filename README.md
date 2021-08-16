@@ -159,6 +159,7 @@ $ https://<ADO_ORG_NAME></ADO_ORG_NAME>@dev.azure.com/mlopstemplateorg1/mlopstem
 <img src="docs/images/environment_variables_custom_vision.png" alt="environment_variables_custom_vision"/>
 <img src="docs/images/custom_vision_notebook_kernel.png" alt="custom_vision_notebook_kernel"/>
 <img src="docs/images/stanford_dogs_custom_vision_project.png" alt="stanford_dogs_custom_vision_project"/>
+<img src="docs/images/aml_workspace_compute_instance_3.png" alt="aml_workspace_compute_instance_3"/>
 
 
 ### Resources
