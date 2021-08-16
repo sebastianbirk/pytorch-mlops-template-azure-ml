@@ -141,6 +141,27 @@ As part of the infrastructure provisioning, an AML CI has been provisioned for y
 $ https://<ADO_ORG_NAME></ADO_ORG_NAME>@dev.azure.com/mlopstemplateorg1/mlopstemplateproject/_git/pytorch-mlops-template-azure-ml
 ```
 
+<img src="docs/images/azure_aml_workspace.png" alt="azure_aml_workspace" width="800"/>   
+<img src="docs/images/aml_workspace_compute_instance.png" alt="aml_workspace_compute_instance" width="800"/>   
+<img src="docs/images/jupyterlab_terminal.png" alt="jupyterlab_terminal" width="800"/>   
+<img src="docs/images/ado_project_repo_clone.png" alt="ado_project_repo_clone" width="800"/>   
+<img src="docs/images/conda_development_environment_yaml.png" alt="conda_development_environment_yaml" width="800"/>   
+<img src="docs/images/aml_workspace_compute_instance_2.png" alt="aml_workspace_compute_instance_2" width="800"/>  
+<img src="docs/images/docker_base_image_definition.png" alt="docker_base_image_definition" width="800"/>
+<img src="docs/images/aml_environment_creation.png" alt="aml_environment_creation" width="800"/>
+<img src="docs/images/aml_file_share.png" alt="aml_file_share" width="800"/>
+<img src="docs/images/aml_datastore.png" alt="aml_datastore" width="800"/>
+<img src="docs/images/aml_dataset.png" alt="aml_dataset" width="800"/>
+<img src="docs/images/dataset_notebook_kernel.png" alt="dataset_notebook_kernel" width="800"/>
+<img src="docs/images/compute_instance_terminal_path.png" alt="compute_instance_terminal_path" width="800"/>
+<img src="docs/images/template_repo_folder_structure.png" alt="template_repo_folder_structure"/>
+<img src="docs/images/custom_vision_resources.png" alt="custom_vision_resources"/>
+<img src="docs/images/environment_variables_custom_vision.png" alt="environment_variables_custom_vision"/>
+<img src="docs/images/custom_vision_notebook_kernel.png" alt="custom_vision_notebook_kernel"/>
+<img src="docs/images/stanford_dogs_custom_vision_project.png" alt="stanford_dogs_custom_vision_project"/>
+<img src="docs/images/aml_workspace_compute_instance_3.png" alt="aml_workspace_compute_instance_3"/>
+<img src="docs/images/vscode_dotenv_file.png" alt="vscode_dotenv_file"/>
+
 
 ### Resources
 Installing the Azure CLI:
