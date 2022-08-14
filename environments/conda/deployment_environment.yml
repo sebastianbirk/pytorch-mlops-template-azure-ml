@@ -11,3 +11,4 @@ dependencies:
 - scipy=1.6.0
 - pip:
     - azureml-core==1.43.0
+    - azureml-defaults==1.43.0
