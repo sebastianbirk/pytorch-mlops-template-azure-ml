@@ -143,6 +143,10 @@ As part of the infrastructure provisioning, an AML CI has been provisioned for y
 $ https://<ADO_ORG_NAME></ADO_ORG_NAME>@dev.azure.com/mlopstemplateorg1/mlopstemplateproject/_git/pytorch-mlops-template-azure-ml
 ```
 
+### Notebooks
+
+- Rename the ".env.example" file into ".env". Insert the Custom Vision variables from the Custom Vision website.
+
 ### Azure DevOps Pipelines
 
 #### Flask App Deployment Pipeline 
