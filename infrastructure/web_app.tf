@@ -1,3 +1,5 @@
+### Web App for Flask App Deployment ###
+
 resource "azurerm_service_plan" "mlops_template_sp" {
   name                = "mlopstemplatesp${lower(random_id.suffix.hex)}"
   resource_group_name = azurerm_resource_group.mlops_template_rg.name
