@@ -109,10 +109,20 @@ resource "azuredevops_build_definition" "mlops_template_model_training_pipeline"
 
 ### Azure DevOps Service Connections ###
 
-resource "azuredevops_serviceendpoint_azurerm" "mlops_template_azurerm_serviceendpoint" {
+resource "azuredevops_serviceendpoint_azurerm" "mlops_template_serviceendpoint_azurerm" {
   project_id                = azuredevops_project.mlops_template_project.id
   service_endpoint_name     = "azure-resource-connection"
   azurerm_spn_tenantid      = var.tenant_id
   azurerm_subscription_id   = var.subscription_id
   azurerm_subscription_name = var.subscription_name
+}
+
+resource "azuredevops_serviceendpoint_azurecr" "mlops_template_serviceendpoint_azurecr" {
+  project_id                = azuredevops_project.mlops_template_project.id
+  service_endpoint_name     = "acr-connection"
+  resource_group            = azurerm_resource_group.mlops_template_rg.name
+  azurecr_spn_tenantid      = var.tenant_id
+  azurecr_name              = azurerm_container_registry.mlops_template_cr.name
+  azurecr_subscription_id   = var.subscription_id
+  azurecr_subscription_name = var.subscription_name
 }
