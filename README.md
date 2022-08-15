@@ -160,6 +160,7 @@ $ https://<ADO_ORG_NAME></ADO_ORG_NAME>@dev.azure.com/mlopstemplateorg1/mlopstem
 - Service principal needs to be added to IAM permissions of Web App.
 - Docker credentials and IAM need to be changed for App service: https://stackoverflow.com/questions/60163440/docker-fails-to-pull-the-image-from-within-azure-app-service
 - Resource not found Microsoft bug
+- WEBSITES_PORT app config does not seem to be necessary
 
 <img src="docs/images/azure_aml_workspace.png" alt="azure_aml_workspace" width="800"/>   
 <img src="docs/images/aml_workspace_compute_instance.png" alt="aml_workspace_compute_instance" width="800"/>   
