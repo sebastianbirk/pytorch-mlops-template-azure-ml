@@ -42,6 +42,9 @@ variables:
     
   - name: paramACRName
     value: 
+    
+  - name: paramWebAppName
+    value:
 
 ## DevOps ##
 
