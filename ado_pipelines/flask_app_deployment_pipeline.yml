@@ -33,7 +33,7 @@ jobs:
     displayName: "Deploy Image to Azure Web App"
     inputs:
       azureSubscription: 'azure-resource-connection'
-      appName: 'amlbriksewebapp'
-      containers: '3d5545b15c4c49548d3823156fa90536.azurecr.io/dog_clf_flask_app:$(Build.BuildId)'
+      appName: '$(paramWebAppName)'
+      containers: '$(paramACRName).azurecr.io/dog_clf_flask_app:$(Build.BuildId)'
   
   
