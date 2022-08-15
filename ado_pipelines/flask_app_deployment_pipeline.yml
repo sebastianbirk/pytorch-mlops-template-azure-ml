@@ -28,7 +28,7 @@ jobs:
       containerRegistry: 'acr-connection'
       repository: 'dog_clf_flask_app'
       command: 'buildAndPush'
-      Dockerfile: 'src/flask-app/Dockerfile'
+      Dockerfile: 'src/flask_app/Dockerfile'
   - task: AzureWebAppContainer@1
     displayName: "Deploy Image to Azure Web App"
     inputs:
