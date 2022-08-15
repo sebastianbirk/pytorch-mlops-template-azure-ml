@@ -39,6 +39,9 @@ variables:
 
   - name: paramAKSComputeTarget
     value: 
+    
+  - name: paramACRName
+    value: 
 
 ## DevOps ##
 
