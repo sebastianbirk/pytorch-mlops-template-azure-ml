@@ -112,7 +112,7 @@ resource "azuredevops_build_definition" "mlops_template_model_training_pipeline"
 resource "azuredevops_serviceendpoint_azurerm" "mlops_template_azurerm_serviceendpoint" {
   project_id                = azuredevops_project.mlops_template_project.id
   service_endpoint_name     = "azure-resource-connection"
-  azurerm_spn_tenantid      = "00000000-0000-0000-0000-000000000000"
-  azurerm_subscription_id   = "00000000-0000-0000-0000-000000000000"
-  azurerm_subscription_name = "Example Subscription Name"
+  azurerm_spn_tenantid      = var.tenant_id
+  azurerm_subscription_id   = var.subscription_id
+  azurerm_subscription_name = var.subscription_name
 }
