@@ -7,6 +7,7 @@ resource "azurerm_machine_learning_workspace" "mlops_template_ws" {
   application_insights_id = azurerm_application_insights.mlops_template_ai.id
   key_vault_id            = azurerm_key_vault.mlops_template_kv.id
   storage_account_id      = azurerm_storage_account.mlops_template_sa.id
+  container_registry_id   = azurerm_container_registry.mlops_template_cr.id
 
   identity {
     type = "SystemAssigned"
