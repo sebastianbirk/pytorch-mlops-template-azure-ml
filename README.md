@@ -156,8 +156,9 @@ $ https://<ADO_ORG_NAME></ADO_ORG_NAME>@dev.azure.com/mlopstemplateorg1/mlopstem
 - Insert the ACI scoring uri into app.py.
 - Docker container registry service connection needs to be manually created at the moment.
 - Azure resource manager service connection needs to be manually created at the moment.
-- Azure container registry name needs to be manually changed in the pipeline .yaml file
+- Azure container registry name needs to be manually changed in the pipeline variables .yaml file
 - Service principal needs to be added to IAM permissions of Web App.
+- Docker credentials and IAM need to be changed for App service: https://stackoverflow.com/questions/60163440/docker-fails-to-pull-the-image-from-within-azure-app-service
 
 <img src="docs/images/azure_aml_workspace.png" alt="azure_aml_workspace" width="800"/>   
 <img src="docs/images/aml_workspace_compute_instance.png" alt="aml_workspace_compute_instance" width="800"/>   
