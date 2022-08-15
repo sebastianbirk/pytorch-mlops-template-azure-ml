@@ -16,22 +16,45 @@ resource "azurerm_machine_learning_workspace" "mlops_template_ws" {
 
 ### Azure Machine Learning Computes ###
 
-resource "null_resource" "mlops_template_compute_targets" {
-  triggers = {
-    aml_workspace_name = "${azurerm_machine_learning_workspace.mlops_template_ws.id}"
+resource "azurerm_machine_learning_compute_instance" "mlops_template_ci" {
+  name                          = "mlopstemplateci${lower(random_id.suffix.hex)}"
+  location                      = azurerm_resource_group.mlops_template_rg.location
+  machine_learning_workspace_id = azurerm_machine_learning_workspace.mlops_template_ws.id
+  virtual_machine_size          = "STANDARD_DS3_V2"
+}
+
+resource "azurerm_machine_learning_compute_cluster" "mlops_template_cc_cpu" {
+  name                          = "cpu-cluster"
+  location                      = azurerm_resource_group.mlops_template_rg.location
+  machine_learning_workspace_id = azurerm_machine_learning_workspace.mlops_template_ws.id
+  vm_priority                   = "Dedicated"
+  vm_size                       = "Standard_DS3_v2"
+
+  identity {
+    type = "SystemAssigned"
   }
 
-  provisioner "local-exec" {
-    command="az ml computetarget create amlcompute --max-nodes 2 --min-nodes 0 --name cpu-cluster --vm-size Standard_DS3_v2 --idle-seconds-before-scaledown 300 --assign-identity [system] --resource-group ${azurerm_machine_learning_workspace.mlops_template_ws.resource_group_name} --workspace-name ${azurerm_machine_learning_workspace.mlops_template_ws.name}"
+  scale_settings {
+    min_node_count                       = 0
+    max_node_count                       = 2
+    scale_down_nodes_after_idle_duration = "PT15M" # 15 minutes
+  }
+}
+  
+resource "azurerm_machine_learning_compute_cluster" "mlops_template_cc_gpu" {
+  name                          = "cpu-cluster"
+  location                      = azurerm_resource_group.mlops_template_rg.location
+  machine_learning_workspace_id = azurerm_machine_learning_workspace.mlops_template_ws.id
+  vm_priority                   = "Dedicated"
+  vm_size                       = "Standard_NC6"
+
+  identity {
+    type = "SystemAssigned"
   }
 
-  provisioner "local-exec" {
-    command="az ml computetarget create amlcompute --max-nodes 2 --min-nodes 0 --name gpu-cluster --vm-size Standard_NC6 --idle-seconds-before-scaledown 300 --assign-identity [system] --resource-group ${azurerm_machine_learning_workspace.mlops_template_ws.resource_group_name} --workspace-name ${azurerm_machine_learning_workspace.mlops_template_ws.name}"
+  scale_settings {
+    min_node_count                       = 0
+    max_node_count                       = 2
+    scale_down_nodes_after_idle_duration = "PT15M" # 15 minutes
   }
-
-  provisioner "local-exec" {
-    command="az ml computetarget create computeinstance --name mlopstemplateci${lower(random_id.suffix.hex)} --vm-size Standard_DS3_v2 --resource-group ${azurerm_machine_learning_workspace.mlops_template_ws.resource_group_name} --workspace-name ${azurerm_machine_learning_workspace.mlops_template_ws.name}"
-  }
- 
-  depends_on = [azurerm_machine_learning_workspace.mlops_template_ws]
 }
