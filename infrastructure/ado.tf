@@ -106,3 +106,13 @@ resource "azuredevops_build_definition" "mlops_template_model_training_pipeline"
     yml_path    = "ado_pipelines/model_training_pipeline.yml"
   }
 }
+
+### Azure DevOps Service Connections ###
+
+resource "azuredevops_serviceendpoint_azurerm" "mlops_template_azurerm_serviceendpoint" {
+  project_id                = azuredevops_project.mlops_template_project.id
+  service_endpoint_name     = "azure-resource-connection"
+  azurerm_spn_tenantid      = "00000000-0000-0000-0000-000000000000"
+  azurerm_subscription_id   = "00000000-0000-0000-0000-000000000000"
+  azurerm_subscription_name = "Example Subscription Name"
+}
