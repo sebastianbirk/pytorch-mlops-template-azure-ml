@@ -27,3 +27,15 @@ variable "ado_org_service_url" {
 variable "ado_personal_access_token" {
   default = "<ADO_PAT>" # This needs to be defined as env variable
 }
+
+variable "tenant_id" {
+  default = "<TENANT_ID>" # This needs to be defined as env variable
+}
+
+variable "subscription_id" {
+  default = "<SUBSCRIPTION_ID>" # This needs to be defined as env variable
+}
+
+variable "subscription_name" {
+  default = "<SUBSCRIPTION_NAME>" # This needs to be defined as env variable
+}
