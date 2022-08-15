@@ -94,10 +94,13 @@ $ git clone https://github.com/sebastianbirk/pytorch-mlops-template-azure-ml.git
 $ cd <TEMPLATE_ROOT>/infrastructure
 ```
 
-Next, set up the two below environment variables and replace `<ADO_ORG_NAME>` and `<ADO_PAT>` with the name of your Azure DevOps Organization and the PAT token that you have stored respectively.
+Next, set up the below environment variables and replace `<ADO_ORG_NAME>`, `<ADO_PAT>`, `<TENANT_ID>`, `<SUBSCRIPTION_ID>`, `<SUBSCRIPTION_NAME>` with the name of your Azure DevOps Organization, the PAT token that you have stored, your Azure tenant ID, your Azure subscription ID and you Azure subscription name respectively.
 ```console
 $ export TF_VAR_ado_org_service_url="https://dev.azure.com/<ADO_ORG_NAME>"
 $ export TF_VAR_ado_personal_access_token="<ADO_PAT>"
+$ export TF_VAR_tenant_id="<TENANT_ID>"
+$ export TF_VAR_subscription_id="<SUBSCRIPTION_ID>"
+$ export TF_VAR_subscription_name="<SUBSCRIPTION_NAME>"
 ```
 
 If you have not yet installed the Azure CLI on your local workstation, install it as per the link given in the [Resources](https://github.com/sebastianbirk/pytorch-mlops-template-azure-ml/blob/develop/README.md#resources) section below. You can check whether you have the Azure CLI installed with the command:
