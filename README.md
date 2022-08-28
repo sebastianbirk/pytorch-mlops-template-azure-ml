@@ -146,9 +146,9 @@ Your Azure environment should now be provisioned (you will have a different reso
 <img src="docs/images/azure_rg_overview.png" alt="azure_rg_overview" width="800"/>   
 
 ### 2. Model Development with the Azure Machine Learning Compute Instance (AML CI)
-As part of the infrastructure provisioning, an AML CI has been provisioned for you. Go to the created Azure Machine Learning workspace and navigate to the "Compute" tab to access your AML CI. You can use JupyterLab, Jupyter or VSCode. Using the terminal in the IDE of your choice, clone the template repository that has been created in your Azure DevOps Project to your AML CI:
+As part of the infrastructure provisioning, an AML CI has been provisioned for you. Go to the created Azure Machine Learning workspace and navigate to the "Compute" tab to access your AML CI. You can use JupyterLab, Jupyter or VSCode. Using the terminal in the IDE of your choice, clone the template repository that has been created in your Azure DevOps Project to your AML CI (you can use the `terraform_pat` Personal Access Token as password to authenticate):
 ```console
-$ https://<ADO_ORG_NAME></ADO_ORG_NAME>@dev.azure.com/mlopstemplateorg1/mlopstemplateproject/_git/pytorch-mlops-template-azure-ml
+$ git clone https://<ADO_ORG_NAME></ADO_ORG_NAME>@dev.azure.com/mlopstemplateorg1/mlopstemplateproject/_git/pytorch-mlops-template-azure-ml
 ```
 
 ### Notebooks
