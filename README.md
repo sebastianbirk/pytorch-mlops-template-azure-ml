@@ -67,7 +67,7 @@ Specifically, the following aspects are covered in this template repository:
 ## Template Walkthrough
 This section gives a detailed walkthrough of the template in a tutorial-like manner. It covers all the aspects mentioned in the [Summary](https://github.com/sebastianbirk/pytorch-mlops-template-azure-ml/blob/develop/README.md#summary) section above in chronological order and has the objective to enable the reader to set up the template and understand all aspects of it. 
 
-**Note**: You need to have permissions to create Azure Active Directory services in your Azure subscription!
+**Note**: You need to have permissions to create Azure Active Directory services in your Azure tenant!
 
 ### 1. Azure DevOps & Azure Resources Provisioning
 Before we can dive into building the end-to-end ML solution, we need to set up our Azure environment. Our Azure environment will consist of an Azure DevOps project and the necessary Azure infrastructure. This template leverages the open-source infrastructure as code software tool Terraform to provision our Azure environment in an automated, robust and reproducible way using declarative configuration files written in the human-readable HashiCorp Configuration Language (HCL). All Terraform configuration files are stored in the `<TEMPLATE_ROOT>/infrastructure` directory. For more information on Terraform, check https://www.terraform.io/.
