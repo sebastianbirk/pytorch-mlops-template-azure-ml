@@ -155,6 +155,10 @@ $ git clone https://<ADO_ORG_NAME></ADO_ORG_NAME>@dev.azure.com/mlopstemplateorg
 - Before starting to run the IPython notebooks in the `notebooks` folder of this repository, which contain all the code to train and initially deploy the model, we will have to complete some manual configuration steps:
     - First, rename the `.env.example` file in the root of this repository into `.env`. You will have to use an IDE where you can see hidden files for this (e.g. VSCode) or do it directly from the terminal with an editor such as vim or nano.
     - Next, go to the Custom Vision website (either by clicking on the link in the Azure Portal under the Custom Vision resource or by directly navigating to `customvision.ai`). Then click on `settings` to get all required variables that need to be inserted into the `.env` file and insert them.
+        - Get the Custom Vision resource keys, endpoint and id from the Custom Vision portal (customvision.ai)
+          <img src="docs/images/custom_vision_resources.png" alt="custom_vision_resources"/>
+        - Update the environment variables in the env. file.
+          <img src="docs/images/environment_variables_custom_vision.png" alt="environment_variables_custom_vision"/>
 - Open the `notebooks` folder in the IDE of your choice and run the notebooks sequentally as indicated by the numbers in their names. All notebooks contain an overview, a description of their purpose, and detailed instructions in Markdown cells.
 - To run the `00_environment_setup` notebook, use the default Python 3 Jupyter kernel.
 - Starting from the `01_dataset_setup` notebook, we will use the newly created `dogs_clf_dev_env` Jupyter kernel (you might have to open your IDE again to see the kernel in the kernel selection).
@@ -186,14 +190,6 @@ $ git clone https://<ADO_ORG_NAME></ADO_ORG_NAME>@dev.azure.com/mlopstemplateorg
 <img src="docs/images/aml_dataset.png" alt="aml_dataset" width="800"/>
 <img src="docs/images/compute_instance_terminal_path.png" alt="compute_instance_terminal_path" width="800"/>
 <img src="docs/images/template_repo_folder_structure.png" alt="template_repo_folder_structure"/>
-
-Get the Custom Vision resource keys, endpoint and id from the Custom Vision portal (customvision.ai)
-
-<img src="docs/images/custom_vision_resources.png" alt="custom_vision_resources"/>
-
-Update the environment variables in the env. file.
-
-<img src="docs/images/environment_variables_custom_vision.png" alt="environment_variables_custom_vision"/>
 <img src="docs/images/custom_vision_notebook_kernel.png" alt="custom_vision_notebook_kernel"/>
 <img src="docs/images/stanford_dogs_custom_vision_project.png" alt="stanford_dogs_custom_vision_project"/>
 <img src="docs/images/aml_workspace_compute_instance_3.png" alt="aml_workspace_compute_instance_3"/>
