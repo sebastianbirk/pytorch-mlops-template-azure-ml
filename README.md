@@ -138,7 +138,7 @@ $ terraform apply
 
 In order to debug Terraform deployments, we can turn on the Terraform logging by setting the respective environment variable:
 ```console
-$ export TF_LOG = "TRACE"
+$ export TF_LOG="TRACE"
 ```
 
 Your Azure environment should now be provisioned (you will have a different resource name suffix):
