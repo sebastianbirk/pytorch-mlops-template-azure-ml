@@ -159,7 +159,7 @@ $ git clone https://<ADO_ORG_NAME></ADO_ORG_NAME>@dev.azure.com/mlopstemplateorg
           <img src="docs/images/custom_vision_resources.png" alt="custom_vision_resources"/>
         - Update the environment variables in the env. file. <br>
           <img src="docs/images/environment_variables_custom_vision.png" alt="environment_variables_custom_vision"/>
-- Open the `notebooks` folder in the IDE of your choice and run the notebooks sequentally as indicated by the numbers in their names. All notebooks contain an overview, a description of their purpose, and detailed instructions in Markdown cells.
+- Open the `notebooks` folder in the AML Notebooks IDE (or an IDE of your choice) and run the notebooks sequentally as indicated by the numbers in their names. All notebooks contain an overview, a description of their purpose, and detailed instructions in Markdown cells.
 - To run the `00_environment_setup` notebook, use the default Python 3 Jupyter kernel.
 - Starting from the `01_dataset_setup` notebook, we will use the newly created `dogs_clf_dev_env` Jupyter kernel (you might have to open your IDE again to see the kernel in the kernel selection).
 <img src="docs/images/dataset_notebook_kernel.png" alt="dataset_notebook_kernel" width="800"/>
