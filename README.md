@@ -94,7 +94,7 @@ $ git clone https://github.com/sebastianbirk/pytorch-mlops-template-azure-ml.git
 $ cd <TEMPLATE_ROOT>/infrastructure
 ```
 
-Next, set up the below environment variables and replace `<ADO_ORG_NAME>`, `<ADO_PAT>`, `<TENANT_ID>`, `<SUBSCRIPTION_ID>`, `<SUBSCRIPTION_NAME>` with the name of your Azure DevOps Organization, the PAT token that you have stored, your Azure tenant ID, your Azure subscription ID and you Azure subscription name respectively.
+Next, set up the below environment variables and replace `<ADO_ORG_NAME>`, `<ADO_PAT>`, `<TENANT_ID>`, `<SUBSCRIPTION_ID>`, `<SUBSCRIPTION_NAME>` with the name of your Azure DevOps Organization, the PAT token that you have stored, your Azure tenant ID (directory ID), your Azure subscription ID and you Azure subscription name respectively.
 ```console
 $ export TF_VAR_ado_org_service_url="https://dev.azure.com/<ADO_ORG_NAME>"
 $ export TF_VAR_ado_personal_access_token="<ADO_PAT>"
