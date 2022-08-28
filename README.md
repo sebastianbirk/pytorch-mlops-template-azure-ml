@@ -152,11 +152,14 @@ $ git clone https://<ADO_ORG_NAME></ADO_ORG_NAME>@dev.azure.com/mlopstemplateorg
 ```
 
 #### 2.1 Going through the Repository Notebooks
+- Before starting to run the IPython notebooks in the `notebooks` folder of this repository, which contain all the code to train and initially deploy the model, we will have to complete some manual configuration steps:
+    - First, rename the `.env.example` file in the root of this repository into `.env`. You will have to use an IDE where you can see hidden files for this (e.g. VSCode) or do it directly from the terminal with an editor such as vim or nano.
+    - Next, go to the Custom Vision website (either by clicking on the link in the Azure Portal under the Custom Vision resource or by directly navigating to `customvision.ai`). Then click on `settings` to get all required variables that need to be inserted into the `.env` file and insert them.
 - Open the `notebooks` folder in the IDE of your choice and run the notebooks sequentally as indicated by the numbers in their names. All notebooks contain an overview, a description of their purpose, and detailed instructions in Markdown cells.
 - To run the `00_environment_setup` notebook, use the default Python 3 Jupyter kernel.
 - Starting from the `01_dataset_setup` notebook, we will use the newly created `dogs_clf_dev_env` Jupyter kernel (you might have to open your IDE again to see the kernel in the kernel selection).
 <img src="docs/images/dataset_notebook_kernel.png" alt="dataset_notebook_kernel" width="800"/>
-- Rename the ".env.example" file into ".env". Insert the Custom Vision variables from the Custom Vision website.
+
 
 ### Azure DevOps Pipelines
 
