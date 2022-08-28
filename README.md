@@ -155,6 +155,7 @@ $ git clone https://<ADO_ORG_NAME></ADO_ORG_NAME>@dev.azure.com/mlopstemplateorg
 - Open the `notebooks` folder in the IDE of your choice and run the notebooks sequentally as indicated by the numbers in their names. All notebooks contain an overview, a description of their purpose, and detailed instructions in Markdown cells.
 - To run the `00_environment_setup` notebook, use the default Python 3 Jupyter kernel.
 - Starting from the `01_dataset_setup` notebook, we will use the newly created `dogs_clf_dev_env` Jupyter kernel (you might have to open your IDE again to see the kernel in the kernel selection).
+<img src="docs/images/dataset_notebook_kernel.png" alt="dataset_notebook_kernel" width="800"/>
 - Rename the ".env.example" file into ".env". Insert the Custom Vision variables from the Custom Vision website.
 
 ### Azure DevOps Pipelines
@@ -180,7 +181,6 @@ $ git clone https://<ADO_ORG_NAME></ADO_ORG_NAME>@dev.azure.com/mlopstemplateorg
 <img src="docs/images/aml_file_share.png" alt="aml_file_share" width="800"/>
 <img src="docs/images/aml_datastore.png" alt="aml_datastore" width="800"/>
 <img src="docs/images/aml_dataset.png" alt="aml_dataset" width="800"/>
-<img src="docs/images/dataset_notebook_kernel.png" alt="dataset_notebook_kernel" width="800"/>
 <img src="docs/images/compute_instance_terminal_path.png" alt="compute_instance_terminal_path" width="800"/>
 <img src="docs/images/template_repo_folder_structure.png" alt="template_repo_folder_structure"/>
 
