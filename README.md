@@ -151,7 +151,7 @@ As part of the infrastructure provisioning, an AML CI has been provisioned for y
 $ git clone https://<ADO_ORG_NAME></ADO_ORG_NAME>@dev.azure.com/mlopstemplateorg1/mlopstemplateproject/_git/pytorch-mlops-template-azure-ml
 ```
 
-#### Going through the Repository Notebooks
+#### 2.1 Going through the Repository Notebooks
 - Open the `notebooks` folder in the IDE of your choice and run the notebooks sequentally as indicated by the numbers in their names. All notebooks contain an overview, a description of their purpose, and detailed instructions in Markdown cells.
 - To run the `00_environment_setup` notebook, use the default Python 3 Jupyter kernel.
 - Starting from the `01_dataset_setup` notebook, we will use the newly created `dogs_clf_dev_env` Jupyter kernel (you might have to open your IDE again to see the kernel in the kernel selection).
