@@ -28,7 +28,7 @@ resource "azurerm_machine_learning_compute_cluster" "mlops_template_cc_cpu" {
   location                      = azurerm_resource_group.mlops_template_rg.location
   machine_learning_workspace_id = azurerm_machine_learning_workspace.mlops_template_ws.id
   vm_priority                   = "Dedicated"
-  vm_size                       = "Standard_DS3_V2"
+  vm_size                       = "STANDARD_DS3_V2"
 
   identity {
     type = "SystemAssigned"
@@ -46,7 +46,7 @@ resource "azurerm_machine_learning_compute_cluster" "mlops_template_cc_gpu" {
   location                      = azurerm_resource_group.mlops_template_rg.location
   machine_learning_workspace_id = azurerm_machine_learning_workspace.mlops_template_ws.id
   vm_priority                   = "Dedicated"
-  vm_size                       = "Standard_NC6"
+  vm_size                       = "STANDARD_NC6"
 
   identity {
     type = "SystemAssigned"
