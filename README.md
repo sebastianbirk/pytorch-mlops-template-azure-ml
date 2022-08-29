@@ -174,6 +174,7 @@ $ git clone https://<ADO_ORG_NAME></ADO_ORG_NAME>@dev.azure.com/mlopstemplateorg
     - First, retrieve the ACI scoring URI from the `05_model_deployment` notebook in the `ACI Webservice Testing` section.
     - Insert the ACI scoring URI into the app.py file located in `<TEMPLATE_ROOT>/src/flask_app/` in your Azure DevOps repository.
 - Go to `<TEMPLATE_ROOT>/ado_pipelines/variables/pipeline_variables.yml` and fill `paramACRName` and `paramWebAppName` with the values from your deployment.
+- The pipeline needs to be granted permission to access the Docker container registry service connection and Azure resource manager service connection.
 - Service principal needs to be added to IAM permissions of Web App.
 - Docker credentials and IAM need to be changed for App service: https://stackoverflow.com/questions/60163440/docker-fails-to-pull-the-image-from-within-azure-app-service
 - Resource not found Microsoft bug
