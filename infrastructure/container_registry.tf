@@ -8,8 +8,10 @@ resource "azurerm_container_registry" "mlops_template_cr" {
   admin_enabled       = true
 }
 
+/*
 resource "azurerm_role_assignment" "mlops_template_cr_uami_ra" {
   scope                = azurerm_container_registry.mlops_template_cr.id
   role_definition_name = "ACR Pull"
   principal_id         = azurerm_user_assigned_identity.mlops_template_user_assigned_mi.id
 }
+*/
