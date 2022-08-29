@@ -175,11 +175,8 @@ $ git clone https://<ADO_ORG_NAME></ADO_ORG_NAME>@dev.azure.com/mlopstemplateorg
     - Insert the ACI scoring URI into the app.py file located in `<TEMPLATE_ROOT>/src/flask_app/` in your Azure DevOps repository.
 - Go to `<TEMPLATE_ROOT>/ado_pipelines/variables/pipeline_variables.yml` and fill `paramACRName` and `paramWebAppName` with the values from your deployment.
 - The pipeline needs to be granted permission to access the Docker container registry service connection and Azure resource manager service connection.
-- The terraform Web App deployment does not work at the moment, so manual creation of an App Service is necessary.
-- Service principal needs to be added to IAM permissions of Web App.
-- Docker credentials and IAM need to be changed for App service: https://stackoverflow.com/questions/60163440/docker-fails-to-pull-the-image-from-within-azure-app-service
-- Resource not found Microsoft bug
-- WEBSITES_PORT app config does not seem to be necessary
+- The system assigned managed identity of the Azure Web App Service needs to be added to the IAM permissions (`ACR Pull` role) of the Azure Container Registry in order to be able to pull the image (https://stackoverflow.com/questions/60163440/docker-fails-to-pull-the-image-from-within-azure-app-service).
+- The `paramACRAdminPassword` in `<TEMPLATE_ROOT>/ado_pipelines/variables/pipeline_variables.yml` needs to be updated before running the pipeline.
 
 <img src="docs/images/azure_aml_workspace.png" alt="azure_aml_workspace" width="800"/>   
 <img src="docs/images/aml_workspace_compute_instance.png" alt="aml_workspace_compute_instance" width="800"/>   
