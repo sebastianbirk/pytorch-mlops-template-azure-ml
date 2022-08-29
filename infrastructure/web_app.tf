@@ -15,7 +15,7 @@ resource "azurerm_linux_web_app" "mlops_template_wa" {
   service_plan_id     = azurerm_service_plan.mlops_template_sp.id
   
   identity {
-    type = "UserAssigned",
+    type = "UserAssigned"
     identity_ids = [azurerm_user_assigned_identity.mlops_template_user_assigned_mi.id]
   }
   
