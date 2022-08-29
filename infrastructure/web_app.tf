@@ -30,4 +30,5 @@ resource "azurerm_linux_web_app" "mlops_template_wa" {
       docker_image     = ""
       docker_image_tag = ""
     }
+  }
 }
