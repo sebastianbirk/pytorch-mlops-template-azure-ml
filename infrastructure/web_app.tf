@@ -27,8 +27,8 @@ resource "azurerm_linux_web_app" "mlops_template_wa" {
 
   site_config {
     application_stack {
-      docker_image     = ""
-      docker_image_tag = ""
+      docker_image     = "mcr.microsoft.com/appsvc/staticsite"
+      docker_image_tag = "latest"
     }
   }
 }
