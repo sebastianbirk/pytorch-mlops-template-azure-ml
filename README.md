@@ -167,13 +167,13 @@ $ git clone https://<ADO_ORG_NAME></ADO_ORG_NAME>@dev.azure.com/mlopstemplateorg
 
 #### 2.2 CI/CD with Azure DevOps Pipelines
 
+- The Azure DevOps Docker container registry service connection and Azure resource manager service connection have been created automatically by the Terraform IaS deployment completed earlier.
+
 ##### Flask App Deployment Pipeline 
 - After running the `05_model_deployment` notebook, our model has been deployed to Azure Container Instances (ACI). We will now create a Web App that provides a UI for users to send their requests to our ACI model service:
     - First, retrieve the ACI scoring URI from the `05_model_deployment` notebook in the `ACI Webservice Testing` section.
     - Insert the ACI scoring URI into the app.py file located in `<TEMPLATE_ROOT>/src/flask_app/` in your Azure DevOps repository.
-- Docker container registry service connection needs to be manually created at the moment.
-- Azure resource manager service connection needs to be manually created at the moment.
-- Azure container registry name needs to be manually changed in the pipeline variables .yaml file
+- Go to `<TEMPLATE_ROOT>/ado_pipelines/variables/pipeline_variables.yml` and fill `paramACRName` and `paramWebAppName` with the values from your deployment.
 - Service principal needs to be added to IAM permissions of Web App.
 - Docker credentials and IAM need to be changed for App service: https://stackoverflow.com/questions/60163440/docker-fails-to-pull-the-image-from-within-azure-app-service
 - Resource not found Microsoft bug
