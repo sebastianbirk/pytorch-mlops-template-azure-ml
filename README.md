@@ -165,10 +165,12 @@ $ git clone https://<ADO_ORG_NAME></ADO_ORG_NAME>@dev.azure.com/mlopstemplateorg
 <img src="docs/images/dataset_notebook_kernel.png" alt="dataset_notebook_kernel" width="800"/>
 
 
-### Azure DevOps Pipelines
+#### 2.2 CI/CD with Azure DevOps Pipelines
 
-#### Flask App Deployment Pipeline 
-- Insert the ACI scoring uri into app.py.
+##### Flask App Deployment Pipeline 
+- After running the `05_model_deployment` notebook, our model has been deployed to Azure Container Instances (ACI). We will now create a Web App that provides a UI for users to send their requests to our ACI model service:
+    - First, retrieve the ACI scoring URI from the `05_model_deployment` notebook in the `ACI Webservice Testing` section.
+    - Insert the ACI scoring URI into the app.py file located in `<TEMPLATE_ROOT>/src/flask_app/` in your Azure DevOps repository.
 - Docker container registry service connection needs to be manually created at the moment.
 - Azure resource manager service connection needs to be manually created at the moment.
 - Azure container registry name needs to be manually changed in the pipeline variables .yaml file
