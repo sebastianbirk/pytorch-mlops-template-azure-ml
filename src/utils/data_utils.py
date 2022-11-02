@@ -92,7 +92,26 @@ def extract_stanford_dogs_archives(archive_dir: str = os.path.join(Path(__file__
 
     # Extract lists.tar archive
     with tarfile.open(os.path.join(list_dir, "lists.tar"), "r") as lists_tar:
-        lists_tar.extractall(path=target_dir)
+        def is_within_directory(directory, target):
+            
+            abs_directory = os.path.abspath(directory)
+            abs_target = os.path.abspath(target)
+        
+            prefix = os.path.commonprefix([abs_directory, abs_target])
+            
+            return prefix == abs_directory
+        
+        def safe_extract(tar, path=".", members=None, *, numeric_owner=False):
+        
+            for member in tar.getmembers():
+                member_path = os.path.join(path, member.name)
+                if not is_within_directory(path, member_path):
+                    raise Exception("Attempted Path Traversal in Tar File")
+        
+            tar.extractall(path, members, numeric_owner=numeric_owner) 
+            
+        
+        safe_extract(lists_tar, path=target_dir)
                              
     print("Lists.tar archive has been extracted successfully.")
     
